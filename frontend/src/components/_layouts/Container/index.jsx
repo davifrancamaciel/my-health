@@ -1,5 +1,5 @@
 import React from 'react'
-import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types'
 
 import { Container } from './styles'
@@ -10,7 +10,7 @@ function WrapperContainer ({ loading = false, children, title }) {
     <Container loading={_loading ? _loading.toString() : undefined}>
       {title && <h1>{title}</h1>}
       <div className='as-loading'>
-        <AiOutlineLoading3Quarters size={90} />
+        <CircularProgress size={90} />
       </div>
       {children}
     </Container>

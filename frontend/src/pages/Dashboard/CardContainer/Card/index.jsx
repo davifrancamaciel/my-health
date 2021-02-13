@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { Container } from './styles'
 
@@ -25,7 +25,7 @@ function Card ({
           {icon}
         </header>
         <h2>
-          {loaded ? principal_text : <AiOutlineLoading3Quarters size={26} />}
+          {loaded ? principal_text : <CircularProgress size={26} />}
         </h2>
         {loaded && <p>{secondary_text}</p>}
       </Container>

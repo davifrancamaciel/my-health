@@ -1,4 +1,4 @@
-import * as Yup from 'yup'
+import * as Yup from 'yup';
 
 export default async (req, res, next) => {
   try {
@@ -28,6 +28,9 @@ export default async (req, res, next) => {
       rg: Yup.string()
         .optional()
         .max(20, 'Máximo 20 caracteres'),
+      crm: Yup.string()
+        .optional()
+        .max(20, 'Máximo 20 caracteres'),
       birth_date: Yup.date().optional(),
       street: Yup.string()
         .optional()
@@ -41,7 +44,6 @@ export default async (req, res, next) => {
       state: Yup.string()
         .max(2, 'Máximo 2 caracteres')
         .optional(),
-      company_id: Yup.number().required(),
       latitude: Yup.number().optional(),
       longitude: Yup.number().optional(),
       provider: Yup.boolean().optional(),
@@ -53,17 +55,17 @@ export default async (req, res, next) => {
           oldPassword ? field.required() : field
         ),
       confirmPassword: Yup.string().when('password', (password, field) => {
-        password ? field.required().oneOf([Yup.ref('password')]) : field
+        password ? field.required().oneOf([Yup.ref('password')]) : field;
       }),
-    })
+    });
 
     await schema.validate(req.body, {
       abortEarly: false,
-    })
-    return next()
+    });
+    return next();
   } catch (err) {
     return res
       .status(400)
-      .json({ error: 'A validação falhou', messages: err.inner })
+      .json({ error: 'A validação falhou', messages: err.inner });
   }
-}
+};

@@ -9,7 +9,7 @@ import Drawer from '../Drawer'
 import ProfileMenu from './ProfileMenu'
 import ContractsMenu from './ContractsMenu'
 
-import logo from '../../assets/logoupish.png'
+import logo from '../../assets/logoupish-branco.png'
 import getImage from '../../Utils/getImage'
 import { Container, Content, Profile } from './styles'
 
@@ -20,36 +20,36 @@ const itensMenu = [
     provider: 'false|true',
     icon: <AiFillDashboard size={26} size={26} />
   },
-  {
-    path: 'company',
-    label: 'Lojas',
-    provider: 'true',
-    icon: <AiOutlineShop size={26} />
-  },
-  {
-    path: 'client',
-    label: 'Clientes',
-    provider: 'false',
-    icon: <FaUsers size={26} />
-  },
-  {
-    path: 'vehicle',
-    label: 'Veículos',
-    provider: 'false',
-    icon: <AiOutlineCar size={26} />
-  },
+  // {
+  //   path: 'company',
+  //   label: 'Lojas',
+  //   provider: 'true',
+  //   icon: <AiOutlineShop size={26} />
+  // },
+  // {
+  //   path: 'client',
+  //   label: 'Clientes',
+  //   provider: 'false',
+  //   icon: <FaUsers size={26} />
+  // },
+  // {
+  //   path: 'vehicle',
+  //   label: 'Veículos',
+  //   provider: 'false',
+  //   icon: <AiOutlineCar size={26} />
+  // },
   {
     path: 'user',
     label: 'Usuários',
-    provider: 'false|true',
+    provider: 'true',
     icon: <FaUsersCog size={26} />
   },
-  {
-    path: 'expense',
-    label: 'Despesas',
-    provider: 'false',
-    icon: <MdAttachMoney size={26} />
-  }
+  // {
+  //   path: 'expense',
+  //   label: 'Despesas',
+  //   provider: 'false',
+  //   icon: <MdAttachMoney size={26} />
+  // }
 ]
 
 const Header = () => {
@@ -64,7 +64,7 @@ const Header = () => {
   useEffect(() => {
     setItensMenuUser(
       itensMenu.filter(i =>
-        i.provider.includes(profile.company_provider.toString())
+        i.provider.includes(profile.provider.toString())
       )
     )
   }, [])
@@ -82,7 +82,7 @@ const Header = () => {
               {i.label}
             </Link>
           ))}
-          {!profile.company_provider && <ContractsMenu />}
+          {/* {!profile.provider && <ContractsMenu />} */}
         </nav>
         <aside>
           {/* <Notifications /> */}

@@ -4,6 +4,7 @@ import { MdCheckCircle, MdError, MdLink } from 'react-icons/md'
 import { CircularProgressbar } from 'react-circular-progressbar'
 
 import { Container, FileInfo, Preview } from './styles'
+import { SECONDARY_COLOR } from '../../constants/colors'
 
 function FileList ({ files, onDelete }) {
   return (
@@ -30,7 +31,7 @@ function FileList ({ files, onDelete }) {
               <CircularProgressbar
                 styles={{
                   root: { width: 50 },
-                  path: { stroke: '#002c82' }
+                  path: { stroke: `${SECONDARY_COLOR}` }
                 }}
                 strokeWidth={10}
                 value={uploadedFile.progress / 100}

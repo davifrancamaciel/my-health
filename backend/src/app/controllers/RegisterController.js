@@ -1,6 +1,4 @@
-import Company from '../models/Company';
 import User from '../models/User';
-import getExpireDate from '../utils/addDays'
 
 class RegisterController {
   async store(req, res) {
@@ -14,30 +12,14 @@ class RegisterController {
         .json({ error: 'Já existe um usuário com este email' });
     }
 
-    const company = await Company.create({
-      provider: false,
-      name: req.body.company_name,
-      latitude: req.body.latitude,
-      longitude: req.body.longitude,
-      whatsapp: req.body.whatsapp,
-      expires_at: getExpireDate(process.env.DAYS_EXPIRES)
-    });
-
-    if (!company.id) {
-      return res.status(400).json({ error: 'Oorreu um erro ao criar a loja' });
-    }
-
     const newUser = {
       ...req.body,
-      company_id: company.id,
-      provider: true,
+      provider: false,
     };
 
-    const { id, name, email, provider, whatsapp, city, state } = await User.create(
-      newUser
-    );
+    const { id, name, email, whatsapp } = await User.create(newUser);
 
-    return res.json({ id, name, email, provider, whatsapp, city, state });
+    return res.json({ id, name, email, whatsapp });
   }
 }
 

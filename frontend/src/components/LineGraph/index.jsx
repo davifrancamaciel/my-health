@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 import { formatPrice } from '../../Utils/formatPrice'
+import { SECONDARY_COLOR } from '../../constants/colors';
 
 const options = {
   legend: {
@@ -93,7 +94,7 @@ function LineGraph({ casesType = "cases", ...props }) {
             datasets: [
               {
                 backgroundColor: "rgb(47,135,191)",
-                borderColor: "#002c82",
+                borderColor: SECONDARY_COLOR,
                 data: data,
               },
             ],

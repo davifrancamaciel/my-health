@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import { darken, lighten } from 'polished';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../constants/colors';
 
 export const HeaderContainer = styled.section`
-  background: linear-gradient(-90deg, ${darken(0.15, '#93D408')}, #93d408);
+  background: linear-gradient(-90deg, ${darken(0.15, `${PRIMARY_COLOR}`)}, ${PRIMARY_COLOR});
   height: 250px;
   > div {
     width: 100%;
@@ -30,7 +31,7 @@ export const DashboardContainer = styled.section`
     height: 350px;
 
     h3 {
-      color: #002c82;
+      color:${SECONDARY_COLOR};
       margin-bottom: 20px;
     }
   }

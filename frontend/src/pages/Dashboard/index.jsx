@@ -27,7 +27,7 @@ const Dashboard = () => {
         getValidationErrors(error)
       }
     }
-    loadDashboard()
+    // loadDashboard()
   }, [])
 
   return (
@@ -51,7 +51,7 @@ const Dashboard = () => {
             loaded={loaded}
           />
 
-          <ExpenseLineGraph className='expense-graph'/>
+          {/* <ExpenseLineGraph className='expense-graph'/> */}
           
 
         </DashboardContainer>

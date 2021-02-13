@@ -7,13 +7,6 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      company_id: {
-        type: Sequelize.INTEGER,
-        references: { model: 'companies', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
-        allowNull: false,
-      },
       image: {
         type: Sequelize.STRING(100),
         allowNull: true,
@@ -43,6 +36,10 @@ module.exports = {
         type: Sequelize.STRING(20),
         allowNull: true,
       },
+      crm: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+      },
       email: {
         type: Sequelize.STRING(100),
         allowNull: false,
@@ -50,8 +47,7 @@ module.exports = {
       },
       profession: {
         type: Sequelize.STRING(100),
-        allowNull: false,
-        unique: true,
+        allowNull: true,
       },
       neighborhood: {
         type: Sequelize.STRING(100),

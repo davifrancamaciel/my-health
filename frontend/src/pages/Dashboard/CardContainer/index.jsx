@@ -29,7 +29,7 @@ function CardContainer ({ loaded, dashboard, company_provider }) {
         loaded={loaded}
         principal_text={loaded && dashboard.vehicles.principal_text}
         secondary_text={loaded && dashboard.vehicles.secondary_text}
-        title={'Veículos'}
+        title={'Consultas'}
         icon={<AiOutlineCar size={26} />}
       />
       <Card
@@ -37,7 +37,7 @@ function CardContainer ({ loaded, dashboard, company_provider }) {
         loaded={loaded}
         principal_text={loaded && dashboard.clients.principal_text}
         secondary_text={loaded && dashboard.clients.secondary_text}
-        title={'Clientes'}
+        title={'Consultas'}
         icon={<AiOutlineUsergroupDelete size={26} />}
         total={!!company_provider}
       />
@@ -49,7 +49,7 @@ function CardContainer ({ loaded, dashboard, company_provider }) {
           secondary_text={
             loaded && formatPrice(dashboard.expenses.secondary_text)
           }
-          title={'Despesas deste mês'}
+          title={'Consultas'}
           icon={<MdAttachMoney size={26} />}
           total
         />

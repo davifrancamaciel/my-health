@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2'
 import numeral from 'numeral'
 import { formatPrice } from '../../../Utils/formatPrice'
 import api from '../../../services/api'
+import { SECONDARY_COLOR } from '../../../constants/colors'
 
 const options = {
   legend: {
@@ -80,7 +81,7 @@ function LineGraph ({ ...props }) {
               datasets: [
                 {
                   backgroundColor: 'rgb(47,135,191)',
-                  borderColor: '#002c82',
+                  borderColor: `${SECONDARY_COLOR}`,
                   data: data
                 }
               ]

@@ -31,7 +31,7 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
       <p>
         {item.state} {item.city} {item.neighborhood} {item.street}
       </p>
-      <p>{item.company.name}</p>
+      <p>{item.crm}</p>
       <p>
         <span>
           {item.whatsapp && <FaWhatsapp size={20} />}

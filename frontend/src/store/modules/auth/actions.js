@@ -33,10 +33,10 @@ export function signOut () {
   }
 }
 
-export function signUpRequest (name, email, password, whatsapp, company_name) {
+export function signUpRequest (name, email, password, whatsapp) {
   return {
     type: AUTH_SIGN_UP_REQUEST,
-    payload: { name, email, password, whatsapp, company_name }
+    payload: { name, email, password, whatsapp }
   }
 }
 

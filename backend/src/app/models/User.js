@@ -5,7 +5,6 @@ class User extends Model {
   static init(sequelize) {
     super.init(
       {
-        company_id: Sequelize.NUMBER,
         name: Sequelize.STRING,
         image: Sequelize.STRING,
         email: Sequelize.STRING,
@@ -14,6 +13,7 @@ class User extends Model {
         cpf_cnpj: Sequelize.STRING,
         cnh: Sequelize.STRING,
         rg: Sequelize.STRING,
+        crm: Sequelize.STRING,
         profession: Sequelize.STRING,
         birth_date: Sequelize.DATE,
         zip_code: Sequelize.STRING,
@@ -38,10 +38,6 @@ class User extends Model {
     });
 
     return this;
-  }
-
-  static associate(models) {
-    this.belongsTo(models.Company, { foreignKey: 'company_id', as: 'company' });
   }
 
   checkPassword(password) {

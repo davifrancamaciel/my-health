@@ -1,4 +1,5 @@
 import styled, { keyframes, css } from 'styled-components'
+import { SECONDARY_COLOR } from '../../../../constants/colors'
 
 const rotate = keyframes`
 from {
@@ -9,7 +10,7 @@ to {
 }`
 
 export const Container = styled.div`
-  background: ${({ total }) => (total ? '#002c82' : '#fff')};
+  background: ${({ total }) => (total ? `${SECONDARY_COLOR}` : '#fff')};
   padding: 22px 32px;
   border-radius: 2px;
   color: ${({ total }) => (total ? '#fff' : '#363F5F')};

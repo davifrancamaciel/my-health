@@ -1,13 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-import { Wrapper, Content } from './styles'
+import { Wrapper, Content, Background } from './styles';
 
 const AuthLayout = ({ children }) => {
-  return (
-    <Wrapper>
-      <Content>{children}</Content>
-    </Wrapper>
-  )
-}
+	return <Wrapper>{children}</Wrapper>;
+};
 
-export default AuthLayout
+export default AuthLayout;

@@ -9,9 +9,9 @@ import history from '../../../services/browserhistory'
 
 export function * updateProfile ({ payload }) {
   try {
-    const { name, email, image, company_id, whatsapp, ...rest } = payload.data
+    const { name, email, image, whatsapp, ...rest } = payload.data
     const profile = Object.assign(
-      { name, email, image, company_id, whatsapp },
+      { name, email, image, whatsapp },
       rest.oldPassword ? rest : {}
     )
 
@@ -20,8 +20,7 @@ export function * updateProfile ({ payload }) {
     formData.append('name', profile.name)
     formData.append('email', profile.email)
     formData.append('whatsapp', profile.whatsapp)
-    formData.append('company_id', profile.company_id)
-
+    
     if (profile.oldPassword) {
       formData.append('oldPassword', profile.oldPassword)
       formData.append('password', profile.password)

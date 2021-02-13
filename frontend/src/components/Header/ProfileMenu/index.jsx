@@ -25,9 +25,9 @@ export default function SimpleMenu () {
       case 'logout':
         dispatch(signOut())
         break
-      case 'company':
-        history.push(`/company/edit/${profile.company_id}`)
-        break
+      // case 'company':
+      //   history.push(`/company/edit/${profile.company_id}`)
+      //   break
 
       default:
         break
@@ -51,9 +51,9 @@ export default function SimpleMenu () {
         onClose={() => handleClose('')}
       >
         <MenuItem onClick={() => handleClose('profile')}>Minha conta</MenuItem>
-        {!profile.company_provider && (
+        {/* {!profile.company_provider && (
           <MenuItem onClick={() => handleClose('company')}>Minha Loja</MenuItem>
-        )}
+        )} */}
         <MenuItem onClick={() => handleClose('logout')}>Sair</MenuItem>
       </Menu>
     </div>

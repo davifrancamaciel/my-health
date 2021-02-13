@@ -1,14 +1,15 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 
-import 'react-toastify/dist/ReactToastify.css'
-import 'react-circular-progressbar/dist/styles.css'
+import 'react-toastify/dist/ReactToastify.css';
+import 'react-circular-progressbar/dist/styles.css';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../constants/colors';
 
 export default createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
     
     :root {
-        --primary-color: #93D408;
-        --secondary-color: #002c82 ;
+        --primary-color:${PRIMARY_COLOR};
+        --secondary-color: ${SECONDARY_COLOR} ;
         --text-color: #6c6c80;
         --danger-color: #f04d5a;        
     }
@@ -111,4 +112,4 @@ export default createGlobalStyle`
           }
 
     }
-`
+`;

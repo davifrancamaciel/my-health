@@ -17,8 +17,7 @@ export default async (req, res, next) => {
     // incluido o userId na requisição sendo assim toda a requisição que que o usuario estiver autenticado vai conter o idntificador dele
     req.userId = decoded.id;
     req.userProvider = decoded.provider;
-    req.userCompanyId = decoded.company_id;
-    req.userCompanyProvider = decoded.company_provider;
+
 
     return next();
   } catch (error) {

@@ -1,5 +1,6 @@
-import styled, { keyframes, css } from 'styled-components'
-import { darken } from 'polished'
+import styled, { keyframes, css } from 'styled-components';
+import { darken } from 'polished';
+import { SECONDARY_COLOR, PRIMARY_COLOR } from '../../constants/colors';
 
 const rotate = keyframes`
 from {
@@ -7,64 +8,35 @@ from {
 }
 to {
     transform: rotate(360deg);
-}`
+}`;
 
 export const Button = styled.button`
-  width: 100%;
-  margin-top: 40px;
-  transition: background-color 0.2s;
-  cursor: pointer;
-  margin: 10px 0 0;
-  height: 44px;
-  background: #002c82;
-  font-weight: bold;
-  color: #fff;
-  border: 0;
-  border-radius: 4px;
-  font-size: 16px;
-  opacity: ${props => (props && props.loading ? 0.5 : 1)};
-  transition: background 0.2s;
-  &:hover {
-    background: ${darken(0.03, '#002c82')};
-  }
+	width: 100%;
+	margin-top: 40px;
+	transition: background-color 0.2s;
+	cursor: pointer;
+	margin: 10px 0 0;
+	height: 44px;
+	background: ${SECONDARY_COLOR};
+	font-weight: bold;
+	color: #fff;
+	border: 0;
+	border-radius: 4px;
+	font-size: 16px;
+	opacity: ${(props) => (props && props.loading ? 0.5 : 1)};
+	transition: background 0.2s;
+	&:hover {
+		background: ${darken(0.03, `${SECONDARY_COLOR}`)};
+	}
 
-  ${props =>
-    props &&
-    props.loading &&
-    css`
-      svg {
-        font-weight: bold;
-        animation: ${rotate} 2s linear infinite;
-      }
-    `}
-`
-
-export const Button2 = styled.button`
-  width: 100%;
-  margin-top: 40px;
-  transition: background-color 0.2s;
-  cursor: pointer;
-  margin: 10px 0 0;
-  height: 44px;
-  background: #002c82;
-  font-weight: bold;
-  color: #fff;
-  border: 0;
-  border-radius: 4px;
-  font-size: 16px;
-  opacity: ${props => (props && props.loading ? 0.5 : 1)};
-  transition: background 0.2s;
-  &:hover {
-    background: ${darken(0.03, '#002c82')};
-  }
-
-  ${props =>
-    props &&
-    props.loading &&
-    css`
-      svg {
-        font-weight: bold;
-        animation: ${rotate} 2s linear infinite;
-      }
-    `}
-`
+	${(props) =>
+		props &&
+		props.loading &&
+		css`
+			svg {
+				color: #fff;
+				font-weight: bold;
+				animation: ${rotate} 2s linear infinite;
+			}
+		`}
+`;

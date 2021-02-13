@@ -24,6 +24,10 @@ export const ProfileContainer = styled.div`
       width: 100%;
     }
   }
+  .leaflet-container {
+		width: 100%;
+		height: 100vh;
+	}
 `
 
 export const LogoutButton = styled.button`

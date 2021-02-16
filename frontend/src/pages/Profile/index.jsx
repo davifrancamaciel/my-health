@@ -1,140 +1,106 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Form } from '@rocketseat/unform';
-import * as Yup from 'yup';
+import React from 'react';
+import { FiUser, FiLock } from 'react-icons/fi';
+import { GrMapLocation } from 'react-icons/gr';
 
-import { signOut } from '../../store/modules/auth/actions';
-import { updateProfileRequest } from '../../store/modules/user/actions';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
-import Container from '../../components/_layouts/Container';
-import SubmitButton from '../../components/SubmitButton';
-import FormContainer from '../../components/_layouts/FormContainer';
-import Input from '../../components/Inputs/Input';
-import InputMask from '../../components/Inputs/InputMask';
-import Dropzone from '../../components/Inputs/Dropzone';
-import BackPage from '../../components/BackPage';
+import BackPage from 'components/BackPage';
+import Adress from './Tabs/Adress'
+import Password from './Tabs/Password'
+import PersonalData from './Tabs/PersonalData'
 
-import getImage from '../../Utils/getImage';
-import showToast from '../../Utils/showToast';
+import { Container, TabsContainer } from './styles';
 
-import { ProfileContainer, LogoutButton } from './styles';
-
-import Map from './Map';
-
-const schema = Yup.object().shape({
-	name: Yup.string().required('O nome é obrigatório'),
-	whatsapp: Yup.string().required('O whatsapp é obrigatório'),
-	email: Yup.string().email('Insira um email válido').required('O e-mail é obrigatório'),
-	oldPassword: Yup.string(),
-	password: Yup.string(),
-	confirmPassword: Yup.string(),
-});
-
-function Profile() {
-	const [selectedImage, setSelectedImage] = useState();
-	
-	const dispatch = useDispatch();
-	const profile = useSelector((state) => state.user.profile);
-	const profileFormated = {
-		...profile,
-		image: profile.image ? getImage(profile.image, profile.name) : null,
-	};
-	const loading = useSelector((state) => state.user.loading);
-
-
-
-	function handleSubmit(data) {
-		const user = {
-			...data,
-			company_id: profile.company_id,
-			image: selectedImage,
-		};
-		if (data.oldPassword && (!data.password || !data.confirmPassword)) {
-			showToast.error('Para alterar a sua senha preencha também os campos de nova senha e confirmação');
-			return;
-		}
-		if (data.password && data.password !== data.confirmPassword) {
-			showToast.error('As senhas informadas estão diferentes');
-			return;
-		}
-
-		dispatch(updateProfileRequest(user));
-	}
-
-	function handleSignOut() {
-		dispatch(signOut());
-	}
+function TabPanel(props) {
+	const { children, value, index, ...other } = props;
 
 	return (
-		<Container title="Minha conta">
-			<Map />
-			<FormContainer loading={loading} large>
-				<ProfileContainer>
-					<Form schema={schema} initialData={profileFormated} onSubmit={handleSubmit}>
-						<fieldset>
-							<legend>
-								<h2></h2>
-								<BackPage />
-							</legend>
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`scrollable-force-tabpanel-${index}`}
+			aria-labelledby={`scrollable-force-tab-${index}`}
+			{...other}
+		>
+			{value === index && (
+				<Box p={3}>
+					<Typography>{children}</Typography>
+				</Box>
+			)}
+		</div>
+	);
+}
 
-							<Dropzone onFileSelectedUpload={setSelectedImage} image={profileFormated.image} />
-						</fieldset>
+TabPanel.propTypes = {
+	children: PropTypes.node,
+	index: PropTypes.any.isRequired,
+	value: PropTypes.any.isRequired,
+};
 
-						<fieldset>
-							<legend>
-								<h2>Dados</h2>
-							</legend>
-							<div className="field">
-								<Input name="name" label="Nome" />
-							</div>
-							<div className="field-group">
-								<div className="field">
-									<Input name="email" type="email" label="Email" />
-								</div>
-								<div className="field">
-									<InputMask mask="(99) 99999-9999" name="whatsapp" type="tel" label="Whatsapp" />
-								</div>
-							</div>
-						</fieldset>
-						<fieldset>
-							<legend>
-								<h2>Credenciais</h2>
-							</legend>
-							<div className="field-group">
-								<div className="field">
-									<Input type="password" name="oldPassword" label="Sua senha atual" />
-								</div>
-								<div className="field">
-									<Input type="password" name="password" label="Nova senha" />
-								</div>
-								<div className="field">
-									<Input type="password" name="confirmPassword" label="Confirme a nova senha" />
-								</div>
-							</div>
-						</fieldset>
-						<fieldset>
-							<div className="field-group">
-								<div className="field">
-									<LogoutButton onClick={handleSignOut} type="button">
-										Sair
-									</LogoutButton>
-								</div>
-								<div className="field">
-									<SubmitButton loading={loading ? true : false} text={'Atualizar perfil'} />
-								</div>
-							</div>
-						</fieldset>
-						<fieldset>
-							<legend>
-								<h2>Endereço</h2>
-								<span>Selecione o endereço no mapa</span>
-							</legend>
+function a11yProps(index) {
+	return {
+		id: `scrollable-force-tab-${index}`,
+		'aria-controls': `scrollable-force-tabpanel-${index}`,
+	};
+}
 
-							
-						</fieldset>
-					</Form>
-				</ProfileContainer>
-			</FormContainer>
+const useStyles = makeStyles((theme) => ({
+	root: {
+		flexGrow: 1,
+		width: '100%',
+		backgroundColor: theme.palette.background.paper,
+	},
+}));
+
+function Profile() {
+	const classes = useStyles();
+	const [value, setValue] = React.useState(0);
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+
+	return (
+		<Container>
+			<div className="as-title">
+				<h1>Minha conta</h1>
+				<BackPage />
+			</div>
+			<TabsContainer>
+				<AppBar position="static" color="#fff" elevation={0}>
+					<Tabs
+						value={value}
+						onChange={handleChange}
+						variant="scrollable"
+						scrollButtons="on"
+						indicatorColor="primary"
+						textColor="primary"
+						variant="fullWidth"
+						aria-label="full width tabs example"
+					>
+						<Tab icon={<FiUser />} label="Dados pessoais" {...a11yProps(0)} />
+						<Tab icon={<GrMapLocation />} label="Endereço" {...a11yProps(1)} />
+						<Tab icon={<FiLock />} label="Senha" {...a11yProps(2)} />
+					</Tabs>
+				</AppBar>
+				<div className={classes.root}>
+					<TabPanel value={value} index={0}>
+						<PersonalData />
+					</TabPanel>
+					<TabPanel value={value} index={1}>
+						<Adress />
+					</TabPanel>
+					<TabPanel value={value} index={2}>
+						<Password />
+					</TabPanel>
+				</div>
+			</TabsContainer>
 		</Container>
 	);
 }

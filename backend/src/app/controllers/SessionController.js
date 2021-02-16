@@ -19,6 +19,22 @@ class SessionController {
         'active',
         'password_hash',
         'image',
+
+        'phone',
+        'cpf_cnpj',
+        'cnh',
+        'rg',
+        'crm',
+        'profession',
+        'birth_date',
+        'zip_code',
+        'state',
+        'city',
+        'neighborhood',
+        'street',
+        'complement',
+        'latitude',
+        'longitude',
       ],
     });
 
@@ -30,7 +46,29 @@ class SessionController {
       return res.status(401).json({ error: 'Senha invalida' });
     }
 
-    const { id, name, image, provider, active, whatsapp } = user;
+    const {
+      id,
+      name,
+      image,
+      provider,
+      active,
+      whatsapp,
+      phone,
+      cpf_cnpj,
+      cnh,
+      rg,
+      crm,
+      profession,
+      birth_date,
+      zip_code,
+      state,
+      city,
+      neighborhood,
+      street,
+      complement,
+      latitude,
+      longitude,
+    } = user;
 
     if (!active) {
       return res.status(401).json({ error: 'Usuario inativo', user });
@@ -44,7 +82,23 @@ class SessionController {
         email,
         provider,
         whatsapp,
+        phone,
+        cpf_cnpj,
+        cnh,
+        rg,
+        crm,
+        profession,
+        birth_date,
+        zip_code,
+        state,
+        city,
+        neighborhood,
+        street,
+        complement,
+        latitude,
+        longitude,
       },
+
       token: jwt.sign({ id, provider }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),

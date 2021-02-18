@@ -1,5 +1,6 @@
 import User from '../models/User';
 import removeFile from '../utils/removeFile';
+import propertyValidate from '../utils/propertyValidate';
 
 class ProfileController {
   async update(req, res) {
@@ -29,9 +30,42 @@ class ProfileController {
         removeFile(user.image);
       }
 
-      await user.update({ ...userUpdate, image });
+      const userUpdateFormated = {
+        ...userUpdate,
+        birth_date: propertyValidate(userUpdate.birth_date),
+        zip_code: propertyValidate(userUpdate.zip_code),
+        state: propertyValidate(userUpdate.state),
+        city: propertyValidate(userUpdate.city),
+        neighborhood: propertyValidate(userUpdate.neighborhood),
+        street: propertyValidate(userUpdate.street),
+        complement: propertyValidate(userUpdate.complement),
+        latitude: propertyValidate(userUpdate.latitude),
+        longitude: propertyValidate(userUpdate.longitude),
+      };
 
-      const { id, name, provider, whatsapp } = await User.findByPk(req.userId);
+      await user.update({ ...userUpdateFormated, image });
+
+      const {
+        id,
+        name,
+        provider,
+        whatsapp,
+        phone,
+        cpf_cnpj,
+        cnh,
+        rg,
+        crm,
+        profession,
+        birth_date,
+        zip_code,
+        state,
+        city,
+        neighborhood,
+        street,
+        complement,
+        latitude,
+        longitude,
+      } = await User.findByPk(req.userId);
 
       return res.json({
         id,
@@ -40,14 +74,31 @@ class ProfileController {
         email,
         provider,
         whatsapp,
+        phone,
+        cpf_cnpj,
+        cnh,
+        rg,
+        crm,
+        profession,
+        birth_date,
+        zip_code,
+        state,
+        city,
+        neighborhood,
+        street,
+        complement,
+        latitude,
+        longitude,
       });
     } catch (error) {
       if (req.file && req.file.filename) {
         removeFile(req.file.filename);
       }
-      return res
-        .status(500)
-        .json({ error: 'Ocoreu um erro interno', messages: error.inner });
+      return res.status(500).json({
+        error: 'Ocoreu um erro interno',
+        messages: error.inner,
+        serveError: error,
+      });
     }
   }
 }

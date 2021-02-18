@@ -11,44 +11,44 @@ export default async (req, res, next) => {
         .required()
         .max(100, 'Máximo 100 caracteres'),
       profession: Yup.string()
-        .optional()
+        .nullable()
         .max(100, 'Máximo 100 caracteres'),
       whatsapp: Yup.string()
         .required()
         .max(20, 'Máximo 20 caracteres'),
       phone: Yup.string()
-        .optional()
+        .nullable()
         .max(20, 'Máximo 20 caracteres'),
       cpf_cnpj: Yup.string()
-        .optional()
+        .nullable()
         .max(20, 'Máximo 20 caracteres'),
       cnh: Yup.string()
-        .optional()
+        .nullable()
         .max(20, 'Máximo 20 caracteres'),
       rg: Yup.string()
-        .optional()
+        .nullable()
         .max(20, 'Máximo 20 caracteres'),
       crm: Yup.string()
-        .optional()
+        .nullable()
         .max(20, 'Máximo 20 caracteres'),
-      birth_date: Yup.date().optional(),
+      birth_date: Yup.date().nullable(),
       street: Yup.string()
-        .optional()
+        .nullable()
         .max(250, 'Máximo 250 caracteres'),
       zip_code: Yup.string()
-        .optional()
+        .nullable()
         .max(10, 'Máximo 10 caracteres'),
       city: Yup.string()
-        .optional()
+        .nullable()
         .max(100, 'Máximo 100 caracteres'),
       state: Yup.string()
         .max(2, 'Máximo 2 caracteres')
-        .optional(),
+        .nullable(),
 
-      latitude: Yup.number().optional(),
+      latitude: Yup.number().nullable(),
       provider: Yup.boolean().required(),
       active: Yup.boolean().required(),
-      longitude: Yup.number().optional(),
+      longitude: Yup.number().nullable(),
       password: Yup.string()
         .min(6)
         .required(),

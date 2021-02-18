@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiUser, FiLock } from 'react-icons/fi';
 import { GrMapLocation } from 'react-icons/gr';
 
@@ -11,9 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import BackPage from 'components/BackPage';
-import Adress from './Tabs/Adress'
-import Password from './Tabs/Password'
-import PersonalData from './Tabs/PersonalData'
+import Adress from './Tabs/Adress';
+import Password from './Tabs/Password';
+import PersonalData from './Tabs/PersonalData';
 
 import { Container, TabsContainer } from './styles';
 
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Profile() {
 	const classes = useStyles();
-	const [value, setValue] = React.useState(0);
+	const [value, setValue] = useState(1);
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);

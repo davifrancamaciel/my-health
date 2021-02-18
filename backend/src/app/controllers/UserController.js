@@ -39,11 +39,11 @@ class UserController {
       return res.status(400).json({ error: 'Usuário não encontrado' });
     }
 
-    if (!userProvider) {
-      return res
-        .status(401)
-        .json({ error: 'Usuário não permissão ver este usuario' });
-    }
+    // if (!userProvider) {
+    //   return res
+    //     .status(401)
+    //     .json({ error: 'Usuário não permissão ver este usuario' });
+    // }
 
     return res.json(user);
   }

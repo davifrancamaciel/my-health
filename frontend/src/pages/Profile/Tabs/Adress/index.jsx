@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from '@rocketseat/unform';
-import * as Yup from 'yup';
 
 import { updateProfileRequest } from 'store/modules/user/actions';
 
@@ -11,23 +10,48 @@ import InputMask from 'components/Inputs/InputMask';
 
 import showToast from 'Utils/showToast';
 import getLocale from 'Utils/getLocale';
+import getCoordinates from 'Utils/getCoordinates';
 import Map from '../../Map';
+import validation from './validation';
 
 import { FormContainer } from '../../styles';
 
 function Adress() {
 	const dispatch = useDispatch();
 	const profile = useSelector((state) => state.user.profile);
-	const profileFormated = {
-		...profile,
-	};
 	const loading = useSelector((state) => state.user.loading);
+
+	const [userProvfile, setUserProvfile] = useState({ ...profile });
 	const [zipCodeChanged, setZipCodeChanged] = useState('');
+	const [selectedLocation, setSelectedLocation] = useState([profile.latitude || 0, profile.longitude || 0]);
+
+	useEffect(() => {
+		async function loadZipCode() {
+			const response = await getLocale(zipCodeChanged);
+			console.log(response);
+
+			if (response) {
+				const responseCoords = await getCoordinates(
+					`${response.state} ${response.city} ${response.neighborhood} ${response.street}`
+				);
+				console.log(responseCoords);
+			}
+			
+
+			setUserProvfile({
+				...userProvfile,
+				...response,
+			});
+		}
+		loadZipCode();
+	}, [zipCodeChanged]);
 
 	function handleSubmit(data) {
 		const user = {
+			...userProvfile,
 			...data,
-			company_id: profile.company_id,
+			latitude: selectedLocation[0],
+			longitude: selectedLocation[1],
 		};
 		if (data.oldPassword && (!data.password || !data.confirmPassword)) {
 			showToast.error('Para alterar a sua senha preencha também os campos de nova senha e confirmação');
@@ -43,7 +67,7 @@ function Adress() {
 
 	return (
 		<FormContainer loading={loading} large>
-			<Form initialData={profileFormated} onSubmit={handleSubmit}>
+			<Form schema={validation()} initialData={userProvfile} onSubmit={handleSubmit}>
 				<fieldset>
 					<legend>
 						<h2>Endereço</h2>
@@ -88,7 +112,7 @@ function Adress() {
 						<h2>Localização</h2>
 						<span>Selecione sua localização no mapa</span>
 					</legend>
-					<Map />
+					<Map selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
 					<div className="field">
 						<SubmitButton loading={loading ? true : false} text={'Atualizar endereço'} />
 					</div>

@@ -14,19 +14,32 @@ let DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-function Map() {
+function Map({ selectedLocation, setSelectedLocation }) {
 	const [isLoadedPosition, setIsLoadedPosition] = useState(false);
 	const [initialPosition, setInitialPosition] = useState([0, 0]);
 	const [selectedPosition, setSelectedPosition] = useState([0, 0]);
 
 	useEffect(() => {
-		navigator.geolocation.getCurrentPosition((postition) => {
-			const { latitude, longitude } = postition.coords;
-			setInitialPosition([latitude, longitude]);
-			setSelectedPosition([latitude, longitude]);
+		console.log(selectedLocation)
+		if (!!selectedLocation[0] && !!selectedLocation[1]) {
+			setInitialPosition([selectedLocation[0], selectedLocation[1]]);
+			setSelectedPosition([selectedLocation[0], selectedLocation[1]]);
 			setIsLoadedPosition(true);
-		});
+		} else {
+			navigator.geolocation.getCurrentPosition((postition) => {
+				const { latitude, longitude } = postition.coords;
+
+				setInitialPosition([latitude, longitude]);
+				setSelectedPosition([latitude, longitude]);
+
+				setIsLoadedPosition(true);
+			});
+		}
 	}, []);
+
+	useEffect(() => {
+		setSelectedLocation(selectedPosition);
+	}, [selectedPosition]);
 
 	function LocationMarker() {
 		const map = useMapEvents({

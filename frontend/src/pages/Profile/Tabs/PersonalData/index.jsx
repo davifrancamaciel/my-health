@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from '@rocketseat/unform';
-import * as Yup from 'yup';
+import { parseISO } from 'date-fns'
 
 import { updateProfileRequest } from 'store/modules/user/actions';
 
@@ -15,65 +15,46 @@ import getImage from 'Utils/getImage';
 import showToast from 'Utils/showToast';
 
 import { FormContainer } from '../../styles';
-
-const schema = Yup.object().shape({
-	
-	oldPassword: Yup.string(),
-	password: Yup.string(),
-	
-	confirmPassword: Yup.string(),
-
-	name: Yup.string()
-      .required('O Nome é obrigatório')
-      .max(250, 'Máximo 250 caracteres'),
-    email: Yup.string()
-      .email('Insira um email válido')
-      .required('O e-mail é obrigatório')
-      .max(100, 'Máximo 100 caracteres'),
-    profession: Yup.string()
-      .optional()
-      .max(100, 'Máximo 100 caracteres'),
-    phone: Yup.string().max(20, 'Máximo 20 caracteres'),
-    whatsapp: Yup.string()
-      .required('O whatsapp é obrigatório')
-      .max(20, 'Máximo 20 caracteres'),
-    cpf_cnpj: Yup.string().max(20, 'Máximo 20 caracteres'),
-    cnh: Yup.string().max(20, 'Máximo 20 caracteres'),
-    rg: Yup.string().max(20, 'Máximo 20 caracteres'),
-    birth_date: Yup.date(),
-    zip_code: Yup.string().max(9, 'O máximo são 9 caracteres'),
-    state: Yup.string().max(2, 'O máximo são 2 caracteres'),
-    city: Yup.string().max(100, 'Máximo 100 caracteres'),
-    neighborhood: Yup.string().max(100, 'Máximo 100 caracteres'),
-    street: Yup.string().max(250, 'Máximo 250 caracteres'),
-    complement: Yup.string().max(100, 'Máximo 100 caracteres')
-});
+import validation from './validation'
 
 function PersonalData() {
 	const dispatch = useDispatch();
 	const profile = useSelector((state) => state.user.profile);
-	const profileFormated = {
-		...profile,
-		image: profile.image ? getImage(profile.image, profile.name) : null,
-	};
+	const [userProfile, setUserProfile] = useState({});
+
 	const loading = useSelector((state) => state.user.loading);
 	const [selectedImage, setSelectedImage] = useState();
 	const [birthDate, setBirthDate] = useState();
 
+	useEffect(() => {
+		const profileFormated = {
+			...profile,
+			image: profile.image ? getImage(profile.image, profile.name) : null,
+		};
+		if (profile.birth_date) {
+			setBirthDate(parseISO(profile.birth_date));
+		}
+		setUserProfile(profileFormated);
+		console.log(profileFormated);
+	}, [profile]);
+
 	function handleSubmit(data) {
+		console.log(data);
 		const user = {
+			...userProfile,
 			...data,
-			company_id: profile.company_id,
 			image: selectedImage,
 		};
+
+		console.log(user);
 
 		dispatch(updateProfileRequest(user));
 	}
 	return (
 		<FormContainer loading={loading} large>
-			<Form schema={schema} initialData={profileFormated} onSubmit={handleSubmit}>
+			<Form schema={validation()} initialData={userProfile} onSubmit={handleSubmit}>
 				<fieldset>
-					<Dropzone onFileSelectedUpload={setSelectedImage} image={profileFormated.image} />
+					<Dropzone onFileSelectedUpload={setSelectedImage} image={userProfile.image} />
 				</fieldset>
 
 				<fieldset>

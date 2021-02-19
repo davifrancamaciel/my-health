@@ -12,11 +12,12 @@ import logo from '../../assets/logo.png';
 import { Content, BackgroundSignUp } from '../_layouts/auth/styles';
 
 const SignUp = () => {
+	
 	const dispatch = useDispatch();
 	const loading = useSelector((state) => state.auth.loading);
 
-	function handleSubmit({ name, email, password, whatsapp, company_name }) {
-		dispatch(signUpRequest(name, email, password, whatsapp, company_name));
+	function handleSubmit({ name, email, password, whatsapp }) {
+		dispatch(signUpRequest(name, email, password, whatsapp));
 	}
 
 	return (
@@ -26,16 +27,12 @@ const SignUp = () => {
 				<img src={logo} alt="UPIS Saúde" />
 				<Form schema={validation()} onSubmit={handleSubmit}>
 					<Input name="name" type="text" placeholder="Seu nome completo" />
-					<InputMask
-						mask="(99) 99999-9999"
-						name="whatsapp"
-						type="tel"
-						placeholder="Seu whatsapp ou da loja"
-					/>
+					<InputMask mask="(99) 99999-9999" name="whatsapp" type="tel" placeholder="Seu whatsapp" />
 					<Input name="email" type="email" placeholder="Seu email para acesso" />
 					<Input name="password" type="password" placeholder="Sua senha" />
 					<SubmitButton loading={loading} text={'Criar conta'} />
 					<Link to="/">Já tenho conta</Link>
+					<Link to="/forgot">Esqueci minha senha</Link>
 				</Form>
 			</Content>
 		</>

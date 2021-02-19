@@ -35,15 +35,16 @@ export function* signUp({ payload }) {
 	try {
 		const { name, email, password, whatsapp, company_name } = payload;
 
-		yield call(api.post, 'register', {
+		const response = yield call(api.post, 'register', {
 			name,
 			email,
 			password,
 			whatsapp,
 		});
-
-		history.push('/');
-		showToast.success('Sua conta foi criada com sucesso!');
+		console.log(response.data);
+		// history.push('/');
+		const { message } = response.data;
+		showToast.success(message);
 		yield put(signUpSuccess());
 	} catch (error) {
 		getValidationErrors(error);

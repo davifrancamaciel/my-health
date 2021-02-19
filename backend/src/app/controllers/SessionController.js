@@ -35,6 +35,7 @@ class SessionController {
         'complement',
         'latitude',
         'longitude',
+        'validated'
       ],
     });
 
@@ -68,7 +69,17 @@ class SessionController {
       complement,
       latitude,
       longitude,
+      validated,
     } = user;
+
+    if (!validated) {
+      return res
+        .status(401)
+        .json({
+          error: `Usuario ainda não foi validado no E-mail ${email}`,
+          user,
+        });
+    }
 
     if (!active) {
       return res.status(401).json({ error: 'Usuario inativo', user });

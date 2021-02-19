@@ -5,6 +5,6 @@
         "@/*":["*"]
       }
     },
-    "include": ["src"],
+    "include": ["src", "../backend/src/config/Mail.js", "../backend/src/app/lib"],
     "exclude": ["node_modules"]
   }

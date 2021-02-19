@@ -102,8 +102,17 @@ module.exports = {
         allowNull: false,
         defaultValue: true,
       },
+      validated: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       birth_date: {
         type: Sequelize.DATE,
+        allowNull: true,
+      },
+      token_reset: {
+        type: Sequelize.STRING(100),
         allowNull: true,
       },
       created_at: {
@@ -114,6 +123,7 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
+
     });
   },
 

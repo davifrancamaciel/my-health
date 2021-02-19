@@ -4,6 +4,8 @@ import Route from './Route'
 
 import SignUp from '../pages/SignUp'
 import SignIn from '../pages/SignIn'
+import Forgot from '../pages/Forgot'
+import Reset from '../pages/Reset'
 import Dashboard from '../pages/Dashboard'
 import CompanyList from '../pages/Company/List'
 import CompanyCreateEdit from '../pages/Company/CreateEdit'
@@ -29,6 +31,9 @@ const Routes = () => {
       <Route exact path='/' component={SignIn} />
       
       <Route exact path='/register' component={SignUp} />
+      
+      <Route exact path='/forgot' component={Forgot} />
+      <Route exact path='/reset' component={Reset} />
       
       <Route exact path='/dashboard' component={Dashboard} isPrivate />
       

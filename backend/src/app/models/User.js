@@ -28,6 +28,8 @@ class User extends Model {
         password_hash: Sequelize.STRING,
         provider: Sequelize.BOOLEAN,
         active: Sequelize.BOOLEAN,
+        token_reset: Sequelize.STRING,
+        validated: Sequelize.BOOLEAN,
       },
       { sequelize }
     );

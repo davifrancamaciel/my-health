@@ -4,7 +4,8 @@ import {
   AUTH_SIGN_UP_REQUEST,
   AUTH_SIGN_UP_SUCCESS,
   AUTH_SIGN_FAILURE,
-  AUTH_SIGN_OUT
+  AUTH_SIGN_OUT,
+  AUTH_CHANGE_PASSWORD_REQUEST
 } from '../../../constants/auth'
 
 export function signInRequest (email, password) {
@@ -18,6 +19,12 @@ export function signInSuccess (token, user) {
   return {
     type: AUTH_SIGN_IN_SUCCESS,
     payload: { token, user }
+  }
+}
+
+export function changePasswordRequest () {
+  return {
+    type: AUTH_CHANGE_PASSWORD_REQUEST
   }
 }
 

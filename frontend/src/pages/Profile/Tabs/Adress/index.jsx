@@ -10,7 +10,7 @@ import InputMask from 'components/Inputs/InputMask';
 
 import showToast from 'Utils/showToast';
 import getLocale from 'Utils/getLocale';
-import getCoordinates from 'Utils/getCoordinates';
+import { getCoordinates } from 'Utils/getCoordinates';
 import Map from '../../Map';
 import validation from './validation';
 
@@ -31,12 +31,12 @@ function Adress() {
 			console.log(response);
 
 			if (response) {
-				const responseCoords = await getCoordinates(
+				const { location } = await getCoordinates(
 					`${response.state} ${response.city} ${response.neighborhood} ${response.street}`
 				);
-				console.log(responseCoords);
+				console.log(location);
+				setSelectedLocation([location.lat, location.lng]);
 			}
-			
 
 			setUserProvfile({
 				...userProvfile,

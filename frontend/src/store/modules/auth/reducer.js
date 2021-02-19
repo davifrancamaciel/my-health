@@ -6,12 +6,15 @@ import {
   AUTH_SIGN_UP_REQUEST,
   AUTH_SIGN_UP_SUCCESS,
   AUTH_SIGN_FAILURE,
-  AUTH_SIGN_OUT
+  AUTH_SIGN_OUT,
+  AUTH_CHANGE_PASSWORD_REQUEST
 } from '../../../constants/auth'
 
 export default function auth (state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
+      
+      case AUTH_CHANGE_PASSWORD_REQUEST:
       case AUTH_SIGN_IN_REQUEST: {
         draft.loading = true
         break
@@ -30,7 +33,7 @@ export default function auth (state = INITIAL_STATE, action) {
       }
 
       case AUTH_SIGN_UP_SUCCESS: {
-        draft.token = action.payload.token
+        // draft.token = action.payload.token
         draft.loading = false
         break
       }

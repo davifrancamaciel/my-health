@@ -11,7 +11,7 @@ import {
 } from '../../../Utils/formatPrice'
 import { getSaleFinancial, getSaleOrigins } from '../../../Utils/saleConstants'
 import checkReport from '../../../Utils/checkReport'
-import ExpenseTypeEnum from '../../../enums/expenseTypes'
+import SpecialtyTypeEnum from '../../../enums/specialtyTypes'
 
 import ContractReport from '../../../components/Report/Sale'
 import Container from '../../../components/_layouts/Container'
@@ -20,8 +20,8 @@ const Contract = function () {
   const { id } = useParams()
   const [sale, setSale] = useState()
   const [loading, setLoading] = useState(false)
-  const [expensesList, setExpensesList] = useState([])
-  const [totalExpenseValue, setTotalExpenseValue] = useState(0)
+  const [specialtiesList, setSpecialtiesList] = useState([])
+  const [totalSpecialtyValue, setTotalSpecialtyValue] = useState(0)
 
   function handleGetSaleOrigin (originValue) {
     const orgin = getSaleOrigins().find(x => x.value === originValue)
@@ -87,44 +87,44 @@ const Contract = function () {
   }, [id])
 
   useEffect(() => {
-    async function loadExpenses () {
+    async function loadSpecialties () {
       try {
-        const response = await api.get('expenses', {
+        const response = await api.get('specialties', {
           params: {
             limit: 50,
             vehicle_id: sale.vehicle_id,
-            expense_type_id: [
-              ExpenseTypeEnum.MULTA_PAGA,
-              ExpenseTypeEnum.MULTA_NAO_PAGA
+            specialty_type_id: [
+              SpecialtyTypeEnum.MULTA_PAGA,
+              SpecialtyTypeEnum.MULTA_NAO_PAGA
             ]
           }
         })
 
-        const data = response.data.rows.map(expense => ({
-          ...expense,
-          value: formatPrice(expense.value)
+        const data = response.data.rows.map(specialty => ({
+          ...specialty,
+          value: formatPrice(specialty.value)
         }))
-        setExpensesList(data)
+        setSpecialtiesList(data)
       } catch (error) {}
     }
 
-    !!sale && loadExpenses()
+    !!sale && loadSpecialties()
   }, [sale])
 
   useEffect(() => {
-    const total = expensesList.reduce((totalSum, expense) => {
-      return Number(totalSum) + Number(expense.value)
+    const total = specialtiesList.reduce((totalSum, specialty) => {
+      return Number(totalSum) + Number(specialty.value)
     }, 0)
-    setTotalExpenseValue(formatPrice(total))
-  }, [expensesList])
+    setTotalSpecialtyValue(formatPrice(total))
+  }, [specialtiesList])
 
   return (
     <Container loading={loading ? Boolean(loading) : undefined}>
       {!!sale && (
         <ContractReport
           sale={sale}
-          expensesList={expensesList}
-          totalExpenseValue={totalExpenseValue}
+          specialtiesList={specialtiesList}
+          totalSpecialtyValue={totalSpecialtyValue}
         />
       )}
     </Container>

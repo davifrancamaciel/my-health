@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const ContainerExpenseVehicle = styled.div`
+export const ContainerSpecialtyVehicle = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;

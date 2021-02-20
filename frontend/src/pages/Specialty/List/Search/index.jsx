@@ -17,15 +17,15 @@ export default function Search ({ onSearch, setPage }) {
   const [endDate, setEndDate] = useState()
 
   useEffect(() => {
-    async function loadExpensesTypes () {
+    async function loadSpecialtiesTypes () {
       try {
-        const response = await api.get('expenses-types')
+        const response = await api.get('specialties-types')
         setOptions(response.data)
       } catch (error) {
         getValidationErrors(error)
       }
     }
-    loadExpensesTypes()
+    loadSpecialtiesTypes()
   }, [])
 
   function handleSubmit (data) {
@@ -42,7 +42,7 @@ export default function Search ({ onSearch, setPage }) {
       <Form onSubmit={handleSubmit}>
         <div className='field-group'>
           <div className='field'>
-            <Select label='Tipo' name='expense_type_id' options={options} />
+            <Select label='Tipo' name='specialty_type_id' options={options} />
           </div>
           <div className='field'>
             <Datepicker

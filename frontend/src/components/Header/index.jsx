@@ -8,6 +8,7 @@ import { MdAttachMoney } from 'react-icons/md'
 import Drawer from '../Drawer'
 import ProfileMenu from './ProfileMenu'
 import ContractsMenu from './ContractsMenu'
+import Notifications from '../Notifications'
 
 import logo from '../../assets/logoupish-branco.png'
 import getImage from '../../Utils/getImage'
@@ -38,16 +39,16 @@ const itensMenu = [
   //   provider: 'false',
   //   icon: <AiOutlineCar size={26} />
   // },
-  {
-    path: 'user',
-    label: 'Usuários',
-    provider: 'true',
-    icon: <FaUsersCog size={26} />
-  },
   // {
-  //   path: 'expense',
-  //   label: 'Despesas',
-  //   provider: 'false',
+  //   path: 'user',
+  //   label: 'Usuários',
+  //   provider: 'true',
+  //   icon: <FaUsersCog size={26} />
+  // },
+  // {
+  //   path: 'specialty',
+  //   label: 'Especialidades',
+  //   provider: 'true',
   //   icon: <MdAttachMoney size={26} />
   // }
 ]
@@ -67,7 +68,7 @@ const Header = () => {
         i.provider.includes(profile.provider.toString())
       )
     )
-  }, [])
+  }, [profile])
 
   return (
     <Container>
@@ -85,7 +86,7 @@ const Header = () => {
           {/* {!profile.provider && <ContractsMenu />} */}
         </nav>
         <aside>
-          {/* <Notifications /> */}
+          <Notifications />
           <Profile>
             <div>
               <strong>{profileFormated.name}</strong>

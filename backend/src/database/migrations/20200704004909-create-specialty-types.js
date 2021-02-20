@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('expense_types', {
+    return queryInterface.createTable('specialty_types', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -11,9 +11,10 @@ module.exports = {
         type: Sequelize.STRING(100),
         allowNull: false,
       },
-      constant: {
-        type: Sequelize.STRING(100),
+      active: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -27,6 +28,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('expense_types');
+    return queryInterface.dropTable('specialty_types');
   },
 };

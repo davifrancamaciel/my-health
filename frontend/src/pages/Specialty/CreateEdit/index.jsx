@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 import { Form } from '@rocketseat/unform'
 
 import Container from 'components/_layouts/Container'
@@ -18,30 +19,37 @@ import { priceToNumber } from 'Utils/formatPrice'
 
 import validation from './validation'
 
-const ExpenseCreateEdit = function () {
+const SpecialtyCreateEdit = function () {
+  const profile = useSelector((state) => state.user.profile);
+
   const { id } = useParams()
-  const [expense, setExpese] = useState({})
+  const [specialty, setExpese] = useState({})
   const [loading, setLoading] = useState(false)
   const [types, setTypes] = useState([])
 
   useEffect(() => {
-    async function loadExpensesTypes () {
+    if (!profile.provider){
+      history.goBack();
+      showToast.error('Para acessar esta as especialidades você precisa ser um Médico')
+    } 
+      
+    async function loadSpecialtiesTypes () {
       try {
-        const response = await api.get('expenses-types')
+        const response = await api.get('specialties-types')
         setTypes(response.data)
       } catch (error) {
         getValidationErrors(error)
       }
     }
-    loadExpensesTypes()
+    loadSpecialtiesTypes()
   }, [])
 
   useEffect(() => {
     if (id) {
-      async function loadExpense (id) {
+      async function loadSpecialty (id) {
         try {
           setLoading(true)
-          const response = await api.get(`expenses/${id}`)
+          const response = await api.get(`specialties/${id}`)
 
           setExpese(response.data)
           setLoading(false)
@@ -50,13 +58,13 @@ const ExpenseCreateEdit = function () {
           getValidationErrors(error)
         }
       }
-      loadExpense(id)
+      loadSpecialty(id)
     }
   }, [])
 
   async function handleSubmit (data) {
     try {
-      const saveExpense = {
+      const saveSpecialty = {
         ...data,
         value: priceToNumber(data.value),
         id: id ? Number(id) : 0
@@ -64,16 +72,16 @@ const ExpenseCreateEdit = function () {
 
       setLoading(true)
 
-      if (saveExpense.id) {
-        await api.put('expenses', saveExpense)
+      if (saveSpecialty.id) {
+        await api.put('specialties', saveSpecialty)
       } else {
-        await api.post('expenses', saveExpense)
+        await api.post('specialties', saveSpecialty)
       }
 
-      showToast.success(`Despesa salva com sucesso!`)
+      showToast.success(`Especialidade salva com sucesso!`)
 
       setLoading(false)
-      history.push(`/expense`)
+      history.push(`/specialty`)
     } catch (error) {
       getValidationErrors(error)
       setLoading(false)
@@ -81,12 +89,12 @@ const ExpenseCreateEdit = function () {
   }
 
   return (
-    <Container title={`Cadastro de despesas`}>
+    <Container title={`Cadastro de especialidades`}>
       <FormContainer loading={loading}>
         <Form
           schema={validation()}
           onSubmit={handleSubmit}
-          initialData={expense}
+          initialData={specialty}
         >
           <fieldset>
             <legend>
@@ -98,9 +106,9 @@ const ExpenseCreateEdit = function () {
               <div className='field'>
                 <Select
                   label='Tipo'
-                  name='expense_type_id'
+                  name='specialty_type_id'
                   options={types}
-                  isDisabled={expense.vehicle_id ? true : false}
+                  isDisabled={specialty.vehicle_id ? true : false}
                 />
               </div>
 
@@ -120,4 +128,4 @@ const ExpenseCreateEdit = function () {
   )
 }
 
-export default ExpenseCreateEdit
+export default SpecialtyCreateEdit

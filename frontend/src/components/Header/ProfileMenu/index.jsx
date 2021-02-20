@@ -4,8 +4,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Link from '@material-ui/core/Link'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { signOut } from '../../../store/modules/auth/actions'
-import history from '../../../services/browserhistory'
+import { signOut } from 'store/modules/auth/actions'
+import history from 'services/browserhistory'
 
 export default function SimpleMenu () {
   const profile = useSelector(state => state.user.profile)
@@ -25,9 +25,9 @@ export default function SimpleMenu () {
       case 'logout':
         dispatch(signOut())
         break
-      // case 'company':
-      //   history.push(`/company/edit/${profile.company_id}`)
-      //   break
+      case 'specialty':
+        history.push(`/specialty`)
+        break
 
       default:
         break
@@ -51,9 +51,9 @@ export default function SimpleMenu () {
         onClose={() => handleClose('')}
       >
         <MenuItem onClick={() => handleClose('profile')}>Minha conta</MenuItem>
-        {/* {!profile.company_provider && (
-          <MenuItem onClick={() => handleClose('company')}>Minha Loja</MenuItem>
-        )} */}
+        {profile.provider && (
+          <MenuItem onClick={() => handleClose('specialty')}>Especialidades</MenuItem>
+        )}
         <MenuItem onClick={() => handleClose('logout')}>Sair</MenuItem>
       </Menu>
     </div>

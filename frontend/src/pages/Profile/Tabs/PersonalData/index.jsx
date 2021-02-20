@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from '@rocketseat/unform';
-import { parseISO } from 'date-fns'
+import { parseISO } from 'date-fns';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import { updateProfileRequest } from 'store/modules/user/actions';
 
@@ -12,19 +14,19 @@ import InputMask from 'components/Inputs/InputMask';
 import Dropzone from 'components/Inputs/Dropzone';
 
 import getImage from 'Utils/getImage';
-import showToast from 'Utils/showToast';
 
 import { FormContainer } from '../../styles';
-import validation from './validation'
+import validation from './validation';
 
 function PersonalData() {
 	const dispatch = useDispatch();
 	const profile = useSelector((state) => state.user.profile);
-	const [userProfile, setUserProfile] = useState({});
-
 	const loading = useSelector((state) => state.user.loading);
+
+	const [userProfile, setUserProfile] = useState({});
 	const [selectedImage, setSelectedImage] = useState();
 	const [birthDate, setBirthDate] = useState();
+	const [isProvider, setIsProvider] = useState(false);
 
 	useEffect(() => {
 		const profileFormated = {
@@ -35,6 +37,7 @@ function PersonalData() {
 			setBirthDate(parseISO(profile.birth_date));
 		}
 		setUserProfile(profileFormated);
+		setIsProvider(profile.provider);
 		console.log(profileFormated);
 	}, [profile]);
 
@@ -44,6 +47,7 @@ function PersonalData() {
 			...userProfile,
 			...data,
 			image: selectedImage,
+			provider: isProvider,
 		};
 
 		console.log(user);
@@ -104,6 +108,20 @@ function PersonalData() {
 							/>
 						</div>
 						<div className="field"></div>
+					</div>
+					<div className="field">
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={isProvider}
+									onChange={() => {
+										setIsProvider(!isProvider);
+									}}
+									name="provider"
+								/>
+							}
+							label="Desejo realizar consultas (sou um médico)"
+						/>
 					</div>
 					<div className="field">
 						<SubmitButton loading={loading ? true : false} text={'Atualizar perfil'} />

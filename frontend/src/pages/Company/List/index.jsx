@@ -123,7 +123,7 @@ const CompanyList = () => {
     } catch (error) {
       setLoading(false)
       showToast.error(
-        'Verfique se a loja ainda está vinculada a usuarios, clientes, despesas e etc... '
+        'Verfique se a loja ainda está vinculada a usuarios, clientes, especialidades e etc... '
       )
       getValidationErrors(error)
     }

@@ -1,38 +1,35 @@
-import Expense from '../models/Expense'
-import ExpenseIndexService from '../services/expense/index'
+import Specialty from '../models/Specialty'
+import SpecialtyIndexService from '../services/specialty/index'
 
-class ExpenseController {
+class SpecialtyController {
   async index (req, res) {
-    const { userProvider, userCompanyId } = req
+    const { userProvider } = req
 
     if (!userProvider) {
       return res
         .status(401)
-        .json({ error: 'Usuário não tem permissão para listar os despesas' })
+        .json({ error: 'Usuário não tem permissão para listar os especialidades' })
     }
 
     const {
       description,
-      expense_type_id,
+      specialty_type_id,
       start_date,
       end_date,
       page = 1,
       orderBy,
       sorting,
-      vehicle_id,
       limit,
     } = req.query
 
-    const { count, rows } = await ExpenseIndexService.run({
+    const { count, rows } = await SpecialtyIndexService.run({
       description,
-      expense_type_id,
+      specialty_type_id,
       start_date,
       end_date,
       page,
       orderBy,
       sorting,
-      company_id: userCompanyId,
-      vehicle_id,
       limit,
     })
 
@@ -46,20 +43,20 @@ class ExpenseController {
 
     const { userCompanyId, userCompanyProvider } = req
 
-    const expense = await Expense.findByPk(id)
-    if (!expense) {
-      return res.status(400).json({ error: 'despesa não encontrada' })
+    const specialty = await Specialty.findByPk(id)
+    if (!specialty) {
+      return res.status(400).json({ error: 'especialidade não encontrada' })
     }
 
     if (!userCompanyProvider) {
-      if (expense.company_id != userCompanyId) {
+      if (specialty.company_id != userCompanyId) {
         return res
           .status(401)
-          .json({ error: 'Usuário não permissão ver esta despesa' })
+          .json({ error: 'Usuário não permissão ver esta especialidade' })
       }
     }
 
-    return res.json(expense)
+    return res.json(specialty)
   }
 
   async store (req, res) {
@@ -69,15 +66,15 @@ class ExpenseController {
       if (!userProvider) {
         return res
           .status(401)
-          .json({ error: 'Usuário não tem permissão criar despesas' })
+          .json({ error: 'Usuário não tem permissão criar especialidades' })
       }
 
-      const expense = await Expense.create({
+      const specialty = await Specialty.create({
         ...req.body,
         company_id: userCompanyId,
       })
 
-      return res.json(expense)
+      return res.json(specialty)
     } catch (error) {
       return res
         .status(500)
@@ -90,26 +87,26 @@ class ExpenseController {
       const { id } = req.body
       const { userCompanyProvider, userCompanyId } = req
 
-      const expense = await Expense.findByPk(id)
+      const specialty = await Specialty.findByPk(id)
 
-      if (!expense) {
-        return res.status(400).json({ error: 'despesa não encontrada' })
+      if (!specialty) {
+        return res.status(400).json({ error: 'especialidade não encontrada' })
       }
 
-      if (!userCompanyProvider && userCompanyId !== expense.company_id) {
+      if (!userCompanyProvider && userCompanyId !== specialty.company_id) {
         return res.status(401).json({
-          error: 'Você não possui permissão para alterar esta despesa',
+          error: 'Você não possui permissão para alterar esta especialidade',
         })
       }
 
-      await expense.update({
+      await specialty.update({
         ...req.body,
         company_id: userCompanyId,
       })
 
-      const expenseEdited = await Expense.findByPk(id)
+      const specialtyEdited = await Specialty.findByPk(id)
 
-      return res.json(expenseEdited)
+      return res.json(specialtyEdited)
     } catch (error) {
       return res
         .status(500)
@@ -123,24 +120,24 @@ class ExpenseController {
     if (!userProvider) {
       return res
         .status(401)
-        .json({ error: 'Usuário não tem permissão para deletar as despesas' })
+        .json({ error: 'Usuário não tem permissão para deletar as especialidades' })
     }
 
     const { id } = req.params
 
-    const expense = await Expense.findByPk(id)
+    const specialty = await Specialty.findByPk(id)
 
-    if (!expense) {
-      return res.status(400).json({ error: 'despesa não encontrada' })
+    if (!specialty) {
+      return res.status(400).json({ error: 'especialidade não encontrada' })
     }
 
-    if (!userCompanyProvider && userCompanyId !== expense.company_id) {
+    if (!userCompanyProvider && userCompanyId !== specialty.company_id) {
       return res.status(401).json({
         error: 'Não é possivel excluir um registro de outra loja',
       })
     }
 
-    await Expense.destroy({
+    await Specialty.destroy({
       where: { id },
     })
 
@@ -148,4 +145,4 @@ class ExpenseController {
   }
 }
 
-export default new ExpenseController()
+export default new SpecialtyController()

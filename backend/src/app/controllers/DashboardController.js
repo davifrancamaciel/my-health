@@ -12,8 +12,8 @@ import {
 import Company from '../models/Company'
 import User from '../models/User'
 import Vehicle from '../models/Vehicle'
-import Expense from '../models/Expense'
-import ExpenseTypeEnum from '../enums/expenseTypes'
+import Specialty from '../models/Specialty'
+import SpecialtyTypeEnum from '../enums/specialtyTypes'
 import Sale from '../models/Sale'
 
 class DashboardController {
@@ -25,7 +25,7 @@ class DashboardController {
       let companiesInactive = 0
       let companiesActive = 0
       let company = null
-      let expenses = null
+      let specialties = null
       let sales = null
 
       if (!userCompanyProvider) whereStatement.company_id = userCompanyId
@@ -52,14 +52,14 @@ class DashboardController {
           where: { id: userCompanyId },
           attributes: ['name', 'expires_at'],
         })
-        const { count, rows } = await Expense.findAndCountAll({
+        const { count, rows } = await Specialty.findAndCountAll({
           attributes: ['value'],
           where: {
             company_id: userCompanyId,
-            expense_type_id: {
+            specialty_type_id: {
               [Op.notIn]: [
-                ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
-                ExpenseTypeEnum.MULTA_NAO_PAGA,
+                SpecialtyTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+                SpecialtyTypeEnum.MULTA_NAO_PAGA,
               ],
             },
             createdAt: {
@@ -68,11 +68,11 @@ class DashboardController {
           },
         })
 
-        const total = rows.reduce((totalSum, expense) => {
-          return Number(totalSum) + Number(expense.value)
+        const total = rows.reduce((totalSum, specialty) => {
+          return Number(totalSum) + Number(specialty.value)
         }, 0)
 
-        expenses = {
+        specialties = {
           principal_text: count,
           secondary_text: total,
         }
@@ -94,7 +94,7 @@ class DashboardController {
       })
 
       const model = {
-        expenses,
+        specialties,
         company,
         companies: {
           principal_text: companiesActive + companiesInactive,
@@ -116,18 +116,18 @@ class DashboardController {
     }
   }
 
-  async getExpensesGraph (req, res) {
+  async getSpecialtiesGraph (req, res) {
     const { userCompanyId } = req
 
-    const rows = await Expense.findAll({
+    const rows = await Specialty.findAll({
       attributes: ['value', 'createdAt'],
       order: [['createdAt', 'ASC']],
       where: {
         company_id: userCompanyId,
-        expense_type_id: {
+        specialty_type_id: {
           [Op.notIn]: [
-            ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
-            ExpenseTypeEnum.MULTA_NAO_PAGA,
+            SpecialtyTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+            SpecialtyTypeEnum.MULTA_NAO_PAGA,
           ],
         },
         createdAt: {
@@ -136,19 +136,19 @@ class DashboardController {
       },
     })
 
-    const expenses = rows.map(expense => {
+    const specialties = rows.map(specialty => {
       const date = setMilliseconds(
-        setSeconds(setMinutes(setHours(expense.createdAt, 0), 0), 0),
+        setSeconds(setMinutes(setHours(specialty.createdAt, 0), 0), 0),
         0
       )
       return {
-        value: expense.value,
+        value: specialty.value,
         date,
       }
     })
 
     var result = []
-    expenses.reduce(function (res, value) {
+    specialties.reduce(function (res, value) {
       if (!res[value.date]) {
         res[value.date] = { date: value.date, value: 0 }
         result.push(res[value.date])
@@ -171,8 +171,8 @@ class DashboardController {
       },
     })
 
-    const total = rows.reduce((totalSum, expense) => {
-      return Number(totalSum) + Number(expense.value)
+    const total = rows.reduce((totalSum, specialty) => {
+      return Number(totalSum) + Number(specialty.value)
     }, 0)
 
     const sales = {

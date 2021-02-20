@@ -12,42 +12,42 @@ import api from '../../../services/api'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 import showToast from '../../../Utils/showToast'
 import { formatPrice } from '../../../Utils/formatPrice'
-import ExpenseTypeEnum from '../../../enums/expenseTypes'
+import SpecialtyTypeEnum from '../../../enums/specialtyTypes'
 
 import { Ul } from '../../../components/_layouts/ListContainer/styles'
 import { Main } from './styles'
 
-const ExpenseList = function ({ setExpensesList, setExpense, expensesList }) {
+const SpecialtyList = function ({ setSpecialtiesList, setSpecialty, specialtiesList }) {
   const { id } = useParams()
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    async function loadExpenses () {
+    async function loadSpecialties () {
       try {
         setLoading(true)
 
-        const response = await api.get('expenses', {
+        const response = await api.get('specialties', {
           params: {
             limit: 50,
             vehicle_id: id,
-            expense_type_id: [
-              ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
-              ExpenseTypeEnum.DESPESA_VEICULO_VENDIDO
+            specialty_type_id: [
+              SpecialtyTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+              SpecialtyTypeEnum.DESPESA_VEICULO_VENDIDO
             ]
           }
         })
 
-        const data = response.data.rows.map(expense => ({
-          ...expense,
-          valueFormated: formatPrice(expense.value),
+        const data = response.data.rows.map(specialty => ({
+          ...specialty,
+          valueFormated: formatPrice(specialty.value),
           createdAtFormatedDate: `Cadastrada no dia ${format(
-            parseISO(expense.createdAt),
+            parseISO(specialty.createdAt),
             "d 'de' MMMM",
             { locale: pt }
           )}`
         }))
 
-        setExpensesList(data)
+        setSpecialtiesList(data)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -55,13 +55,13 @@ const ExpenseList = function ({ setExpensesList, setExpense, expensesList }) {
       }
     }
 
-    loadExpenses()
+    loadSpecialties()
   }, [])
 
   async function handleDelete (item) {
     ShowConfirm(
       'Atenção',
-      `Confirma a remoção da despesa de ${formatPrice(item.value)}?`,
+      `Confirma a remoção da especialidade de ${formatPrice(item.value)}?`,
       () => handleDeleteConfirm(item.id)
     )
   }
@@ -69,11 +69,11 @@ const ExpenseList = function ({ setExpensesList, setExpense, expensesList }) {
   async function handleDeleteConfirm (id) {
     try {
       setLoading(true)
-      await api.delete(`expenses/${id}`)
+      await api.delete(`specialties/${id}`)
 
-      showToast.success('Despesa excluída com sucesso!')
-      const updateExpenses = expensesList.filter(c => c.id !== id)
-      setExpensesList(updateExpenses)
+      showToast.success('Especialidade excluída com sucesso!')
+      const updateSpecialties = specialtiesList.filter(c => c.id !== id)
+      setSpecialtiesList(updateSpecialties)
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -82,18 +82,18 @@ const ExpenseList = function ({ setExpensesList, setExpense, expensesList }) {
   }
 
   function handleUpdate (id) {
-    const selectedExpense = expensesList.find(x => x.id == id)
-    setExpense(selectedExpense)
+    const selectedSpecialty = specialtiesList.find(x => x.id == id)
+    setSpecialty(selectedSpecialty)
   }
 
   return (
     <Container loading={loading ? Boolean(loading) : undefined}>
       <Main>
         <Ul>
-          {expensesList.map(expense => (
+          {specialtiesList.map(specialty => (
             <ListItem
-              item={expense}
-              key={expense.id}
+              item={specialty}
+              key={specialty.id}
               onUpdateClick={handleUpdate}
               onDeleteClick={handleDelete}
             />
@@ -104,4 +104,4 @@ const ExpenseList = function ({ setExpensesList, setExpense, expensesList }) {
   )
 }
 
-export default ExpenseList
+export default SpecialtyList

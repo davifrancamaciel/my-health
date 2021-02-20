@@ -1,11 +1,11 @@
 import { all, takeLatest, put, call } from 'redux-saga/effects';
 
-import { USER_UPDATE_PROFILE_REQUEST } from '../../../constants/user';
-import api from '../../../services/api';
+import { USER_UPDATE_PROFILE_REQUEST } from 'constants/user';
+import api from 'services/api';
 import { updateProfileFailure, updateProfileSuccess } from './actions';
-import getValidationErrors from '../../../Utils/getValidationErrors';
-import showToast from '../../../Utils/showToast';
-import history from '../../../services/browserhistory';
+import getValidationErrors from 'Utils/getValidationErrors';
+import showToast from 'Utils/showToast';
+import history from 'services/browserhistory';
 
 export function* updateProfile({ payload }) {
 	try {
@@ -24,8 +24,8 @@ export function* updateProfile({ payload }) {
 		formData.append('crm', profile.crm);
 		formData.append('profession', profile.profession);
 		formData.append('birth_date', profile.birth_date);
-    
-    formData.append('zip_code', profile.zip_code);
+
+		formData.append('zip_code', profile.zip_code);
 		formData.append('state', profile.state ? profile.state : '');
 		formData.append('city', profile.city);
 		formData.append('neighborhood', profile.neighborhood);
@@ -33,6 +33,7 @@ export function* updateProfile({ payload }) {
 		formData.append('complement', profile.complement);
 		formData.append('latitude', profile.latitude);
 		formData.append('longitude', profile.longitude);
+		formData.append('provider', profile.provider);
 
 		if (profile.oldPassword) {
 			formData.append('oldPassword', profile.oldPassword);

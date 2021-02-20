@@ -26,11 +26,11 @@ import VehicleController from './app/controllers/VehicleController';
 import validateVehicleStore from './app/validators/Vehicle/store';
 import validateVehicleUpdate from './app/validators/Vehicle/update';
 
-import ExpenseController from './app/controllers/ExpenseController';
-import validateExpenseStore from './app/validators/Expense/store';
-import validateExpenseUpdate from './app/validators/Expense/update';
+import SpecialtyController from './app/controllers/SpecialtyController';
+import validateSpecialtyStore from './app/validators/Specialty/store';
+import validateSpecialtyUpdate from './app/validators/Specialty/update';
 
-import ExpenseTypeController from './app/controllers/ExpenseTypeController';
+import SpecialtyTypeController from './app/controllers/SpecialtyTypeController';
 
 import FileController from './app/controllers/FileController';
 
@@ -57,7 +57,7 @@ routes.put('/forgot', ForgotController.update);
 routes.use(authMiddleware);
 
 routes.get('/dashboard', DashboardController.index);
-routes.get('/dashboard-expenses-graph', DashboardController.getExpensesGraph);
+routes.get('/dashboard-specialties-graph', DashboardController.getSpecialtiesGraph);
 
 routes.post(
   '/companies',
@@ -97,13 +97,13 @@ routes.get('/vehicles/:id', VehicleController.find);
 routes.delete('/vehicles/:id', VehicleController.delete);
 routes.get('/vehicles-list', VehicleController.list);
 
-routes.post('/expenses', validateExpenseStore, ExpenseController.store);
-routes.put('/expenses', validateExpenseUpdate, ExpenseController.update);
-routes.get('/expenses', ExpenseController.index);
-routes.get('/expenses/:id', ExpenseController.find);
-routes.delete('/expenses/:id', ExpenseController.delete);
+routes.post('/specialties', validateSpecialtyStore, SpecialtyController.store);
+routes.put('/specialties', validateSpecialtyUpdate, SpecialtyController.update);
+routes.get('/specialties', SpecialtyController.index);
+routes.get('/specialties/:id', SpecialtyController.find);
+routes.delete('/specialties/:id', SpecialtyController.delete);
 
-routes.get('/expenses-types', ExpenseTypeController.index);
+routes.get('/specialties-types', SpecialtyTypeController.index);
 
 routes.get('/files/:id', FileController.index);
 routes.post('/files', upload.single('file'), FileController.store);

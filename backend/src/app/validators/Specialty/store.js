@@ -3,8 +3,7 @@ import * as Yup from 'yup'
 export default async (req, res, next) => {
   try {
     const schema = Yup.object().shape({
-      id: Yup.number().required(),
-      expense_type_id: Yup.number().required(),
+      specialty_type_id: Yup.number().required(),
       description: Yup.string()
         .required()
         .max(1000, 'Máximo 1000 caracteres'),

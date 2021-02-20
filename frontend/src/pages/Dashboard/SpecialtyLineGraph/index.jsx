@@ -61,21 +61,21 @@ function LineGraph ({ ...props }) {
   const [data, setData] = useState({})
 
   useEffect(() => {
-    async function loadExpenses () {
-      const response = await api.get('dashboard-expenses-graph')
+    async function loadSpecialties () {
+      const response = await api.get('dashboard-specialties-graph')
       let dataFormated = buildChartData(response.data)
 
       setData(dataFormated)
     }
 
-    loadExpenses()
+    loadSpecialties()
   }, [])
 
   return (
     <div>
       {data?.length > 0 && (
         <div className={props.className}>
-          <h3>Despesas</h3>
+          <h3>Especialidades</h3>
           <Line
             data={{
               datasets: [

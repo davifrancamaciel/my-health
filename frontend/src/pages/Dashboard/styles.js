@@ -27,7 +27,7 @@ export const HeaderContainer = styled.section`
 `
 export const DashboardContainer = styled.section`
   margin-top: -120px;
-  .expense-graph {
+  .specialty-graph {
     height: 350px;
 
     h3 {

@@ -10,28 +10,28 @@ import api from '../../services/api'
 import history from '../../services/browserhistory'
 import { formatPrice } from '../../Utils/formatPrice'
 
-import { ContainerExpenseVehicle } from './styles'
+import { ContainerSpecialtyVehicle } from './styles'
 
-const ExpenseVehicleList = function () {
+const SpecialtyVehicleList = function () {
   const { id } = useParams()
   const [vehicle, setVehicle] = useState({})
   const [title, setTitle] = useState()
-  const [expense, setExpense] = useState({})
-  const [expensesList, setExpensesList] = useState([])
+  const [specialty, setSpecialty] = useState({})
+  const [specialtiesList, setSpecialtiesList] = useState([])
   const [totalValue, setTotalValue] = useState()
 
   useEffect(() => {
-    const total = expensesList.reduce((totalSum, expense) => {
-      return Number(totalSum) + Number(expense.value)
+    const total = specialtiesList.reduce((totalSum, specialty) => {
+      return Number(totalSum) + Number(specialty.value)
     }, 0)
     setTotalValue(total)
-  }, [expensesList])
+  }, [specialtiesList])
 
   useEffect(() => {
     const complement = vehicle.brand
       ? `${vehicle.brand} ${vehicle.model}`
       : vehicle.model
-    vehicle.model && setTitle(`Despesas do veículo ${complement}`)
+    vehicle.model && setTitle(`Especialidades do veículo ${complement}`)
   }, [vehicle])
 
   useEffect(() => {
@@ -53,22 +53,22 @@ const ExpenseVehicleList = function () {
 
   return (
     <Container title={title}>
-      <span>Total de despesas {formatPrice(totalValue)}</span>
-      <ContainerExpenseVehicle>
+      <span>Total de especialidades {formatPrice(totalValue)}</span>
+      <ContainerSpecialtyVehicle>
         <CreateEdit
-          expense={expense}
-          setExpensesList={setExpensesList}
-          expensesList={expensesList}
-          setExpense={setExpense}
+          specialty={specialty}
+          setSpecialtiesList={setSpecialtiesList}
+          specialtiesList={specialtiesList}
+          setSpecialty={setSpecialty}
         />
         <List
-          setExpensesList={setExpensesList}
-          setExpense={setExpense}
-          expensesList={expensesList}
+          setSpecialtiesList={setSpecialtiesList}
+          setSpecialty={setSpecialty}
+          specialtiesList={specialtiesList}
         />
-      </ContainerExpenseVehicle>
+      </ContainerSpecialtyVehicle>
     </Container>
   )
 }
 
-export default ExpenseVehicleList
+export default SpecialtyVehicleList

@@ -223,7 +223,7 @@ class VehicleController {
 
       files.map(x => removeFile(x.path))
 
-      await Expense.destroy({
+      await Specialty.destroy({
         where: { vehicle_id: vehicle.id },
       })
     }

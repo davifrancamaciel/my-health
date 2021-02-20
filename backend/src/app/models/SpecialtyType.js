@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class ExpenseType extends Model {
+class SpecialtyType extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -14,4 +14,4 @@ class ExpenseType extends Model {
   }
 }
 
-export default ExpenseType;
+export default SpecialtyType;

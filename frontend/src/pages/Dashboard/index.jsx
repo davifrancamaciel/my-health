@@ -6,7 +6,7 @@ import api from '../../services/api'
 import Container from '../../components/_layouts/Container'
 import SignatureControl from './SignatureControl'
 import CardContainer from './CardContainer'
-import ExpenseLineGraph from './ExpenseLineGraph'
+import SpecialtyLineGraph from './SpecialtyLineGraph'
 
 import { HeaderContainer, DashboardContainer } from './styles'
 import getValidationErrors from '../../Utils/getValidationErrors'
@@ -51,7 +51,7 @@ const Dashboard = () => {
             loaded={loaded}
           />
 
-          {/* <ExpenseLineGraph className='expense-graph'/> */}
+          {/* <SpecialtyLineGraph className='specialty-graph'/> */}
           
 
         </DashboardContainer>

@@ -21,9 +21,9 @@ class ProfileController {
         return res.status(401).json({ error: 'A Senha antiga está icorreta' });
       }
       const userUpdate = req.body;
-      if (!userProvider) {
-        userUpdate.provider = false;
-      }
+      // if (!userProvider) {
+      //   userUpdate.provider = false;
+      // }
 
       const image = (req.file && req.file.filename) || user.image;
       if (image !== user.image) {

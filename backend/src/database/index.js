@@ -1,19 +1,21 @@
 import Sequelize from 'sequelize'
+import mongoose from 'mongoose'
 
 import databaseConfig from '../config/database'
 import Company from '../app/models/Company'
 import User from '../app/models/User'
 import Vehicle from '../app/models/Vehicle'
-import Expense from '../app/models/Expense'
-import ExpenseType from '../app/models/ExpenseType'
+import Specialty from '../app/models/Specialty'
+import SpecialtyType from '../app/models/SpecialtyType'
 import File from '../app/models/File'
 import Sale from '../app/models/Sale'
 
-const models = [Company, User, Vehicle, Expense, ExpenseType, File, Sale]
+const models = [Company, User, Vehicle, Specialty, SpecialtyType, File, Sale]
 
 class Database {
   constructor () {
     this.init()
+    this.mongo()
   }
 
   init () {
@@ -23,6 +25,14 @@ class Database {
       .map(model => model.init(this.connection))
       .map(model => model.associate && model.associate(this.connection.models))
   }
+
+  mongo () {
+    this.mongooseConnection = mongoose.connect(process.env.MONGO_URL, {
+        useNewUrlParser: true,
+        useFindAndModify: true,
+        useUnifiedTopology: true
+    })
+}
 }
 
 export default new Database()

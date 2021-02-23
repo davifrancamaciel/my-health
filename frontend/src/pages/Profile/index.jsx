@@ -73,7 +73,7 @@ function Profile() {
 				<BackPage />
 			</div>
 			<TabsContainer>
-				<AppBar position="static" color="#fff" elevation={0}>
+				<AppBar position="static" color='inherit' elevation={0}>
 					<Tabs
 						value={value}
 						onChange={handleChange}

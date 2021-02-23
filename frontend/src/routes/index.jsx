@@ -14,14 +14,14 @@ import UserCreateEdit from '../pages/User/CreateEdit'
 import ClientCreateEdit from '../pages/Client/CreateEdit'
 // import VehicleList from '../pages/Vehicle/List'
 // import VehicleCreateEdit from '../pages/Vehicle/CreateEdit'
-import SpecialtyList from '../pages/Specialty/List'
-import SpecialtyCreateEdit from '../pages/Specialty/CreateEdit'
-// import SpecialtyVehicle from '../pages/SpecialtyVehicle'
-// import SpecialtyVehicleTrafficTicket from '../pages/SpecialtyVehicleTrafficTicket'
+import SpecialityList from '../pages/Speciality/List'
+import SpecialityCreateEdit from '../pages/Speciality/CreateEdit'
+// import SpecialityVehicle from '../pages/SpecialityVehicle'
+// import SpecialityVehicleTrafficTicket from '../pages/SpecialityVehicleTrafficTicket'
 // import FilesVehicle from '../pages/Vehicle/Files'
 // import SaleList from '../pages/Sale/List'
 // import SaleCreateEdit from '../pages/Sale/CreateEdit'
-// import SaleContract from '../pages/Sale/Contract'
+import Appointment from '../pages/Appointment'
 
 import Profile from '../pages/Profile'
 
@@ -36,6 +36,9 @@ const Routes = () => {
       <Route exact path='/reset' component={Reset} />
       
       <Route exact path='/dashboard' component={Dashboard} isPrivate />
+
+      <Route exact path='/appointment' component={Appointment} isPrivate />
+      
       
       <Route exact path='/company' component={CompanyList} isPrivate />
       <Route exact path='/company/create' component={CompanyCreateEdit} isPrivate />
@@ -54,13 +57,13 @@ const Routes = () => {
       {/* <Route exact path='/vehicle' component={VehicleList} isPrivate />
       <Route exact path='/vehicle/create' component={VehicleCreateEdit} isPrivate />
       <Route exact path='/vehicle/edit/:id' component={VehicleCreateEdit} isPrivate />
-      <Route exact path='/vehicle/:id/specialty' component={SpecialtyVehicle} isPrivate />
+      <Route exact path='/vehicle/:id/speciality' component={SpecialityVehicle} isPrivate />
       <Route exact path='/vehicle/:id/files' component={FilesVehicle} isPrivate />
-      <Route exact path='/vehicle/:id/traffic-ticket' component={SpecialtyVehicleTrafficTicket} isPrivate /> */}
+      <Route exact path='/vehicle/:id/traffic-ticket' component={SpecialityVehicleTrafficTicket} isPrivate /> */}
 
-      <Route exact path='/specialty' component={SpecialtyList} isPrivate />
-      <Route exact path='/specialty/create' component={SpecialtyCreateEdit} isPrivate />
-      <Route exact path='/specialty/edit/:id' component={SpecialtyCreateEdit} isPrivate />
+      <Route exact path='/speciality' component={SpecialityList} isPrivate />
+      <Route exact path='/speciality/create' component={SpecialityCreateEdit} isPrivate />
+      <Route exact path='/speciality/edit/:id' component={SpecialityCreateEdit} isPrivate />
 {/* 
       <Route exact path='/sale' component={SaleList} isPrivate />
       <Route exact path='/sale/create' component={SaleCreateEdit} isPrivate />

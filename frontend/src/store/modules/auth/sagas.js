@@ -13,6 +13,15 @@ export function* signIn({ payload }) {
 	try {
 		const { email, password } = payload;
 
+		// if (email === 'davifrancamaciel@gmail.com') {
+		// 	const { token, user } = dataUser;
+		// 	api.defaults.headers['Authorization'] = `Bearer ${token}`;
+
+		// 	yield put(signInSuccess(token, user));
+		// 	history.push('/dashboard');
+		// 	return;
+		// }
+
 		const response = yield call(api.post, '/sessions', {
 			email,
 			password,
@@ -70,3 +79,31 @@ export default all([
 	takeLatest(AUTH_SIGN_UP_REQUEST, signUp),
 	takeLatest(AUTH_SIGN_OUT, signOut),
 ]);
+
+const dataUser = {
+	user: {
+		id: 1,
+		name: 'Davi França Maciel',
+		image: null,
+		email: 'davifrancamaciel@gmail.com',
+		provider: true,
+		whatsapp: '(66) 66666-6666',
+		phone: '',
+		cpf_cnpj: '',
+		cnh: '',
+		rg: '',
+		crm: '',
+		profession: '',
+		birth_date: null,
+		zip_code: null,
+		state: '',
+		city: null,
+		neighborhood: null,
+		street: null,
+		complement: null,
+		latitude: null,
+		longitude: null,
+	},
+	token:
+		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHJvdmlkZXIiOnRydWUsImlhdCI6MTYxMzgyMzQ1OSwiZXhwIjoxNjE0NDI4MjU5fQ.GnNKbHtUbZySv1Q0ec4fsHys6ORQ1Ez2ld33REgXxhc',
+};

@@ -1,4 +1,4 @@
-const SpecialtyType = {
+const SpecialityType = {
   DESPESAS: 1,
   FOLHA: 2,
   IMPOSTOS: 3,
@@ -11,4 +11,4 @@ const SpecialtyType = {
   MULTA_NAO_PAGA: 10,
 }
 
-export default SpecialtyType
+export default SpecialityType

@@ -7,6 +7,8 @@ import authMiddleware from './app/middlewares/auth';
 
 import DashboardController from './app/controllers/DashboardController';
 
+import AppointmentController from './app/controllers/AppointmentController';
+
 import CompanyController from './app/controllers/CompanyController';
 import validateCompanyStore from './app/validators/Company/store';
 import validateCompanyUpdate from './app/validators/Company/update';
@@ -26,11 +28,11 @@ import VehicleController from './app/controllers/VehicleController';
 import validateVehicleStore from './app/validators/Vehicle/store';
 import validateVehicleUpdate from './app/validators/Vehicle/update';
 
-import SpecialtyController from './app/controllers/SpecialtyController';
-import validateSpecialtyStore from './app/validators/Specialty/store';
-import validateSpecialtyUpdate from './app/validators/Specialty/update';
+import SpecialityController from './app/controllers/SpecialityController';
+import validateSpecialityStore from './app/validators/Speciality/store';
+import validateSpecialityUpdate from './app/validators/Speciality/update';
 
-import SpecialtyTypeController from './app/controllers/SpecialtyTypeController';
+import SpecialityTypeController from './app/controllers/SpecialityTypeController';
 
 import FileController from './app/controllers/FileController';
 
@@ -57,7 +59,7 @@ routes.put('/forgot', ForgotController.update);
 routes.use(authMiddleware);
 
 routes.get('/dashboard', DashboardController.index);
-routes.get('/dashboard-specialties-graph', DashboardController.getSpecialtiesGraph);
+routes.get('/dashboard-specialities-graph', DashboardController.getSpecialitiesGraph);
 
 routes.post(
   '/companies',
@@ -75,6 +77,8 @@ routes.get('/companies', CompanyController.index);
 routes.get('/companies/list', CompanyController.list);
 routes.get('/companies/:id', CompanyController.find);
 routes.delete('/companies/:id', CompanyController.delete);
+
+routes.get('/appointments', AppointmentController.index);
 
 routes.post('/users', validateUserStore, UserController.store);
 routes.put('/users', validateUserUpdate, UserController.update);
@@ -97,13 +101,13 @@ routes.get('/vehicles/:id', VehicleController.find);
 routes.delete('/vehicles/:id', VehicleController.delete);
 routes.get('/vehicles-list', VehicleController.list);
 
-routes.post('/specialties', validateSpecialtyStore, SpecialtyController.store);
-routes.put('/specialties', validateSpecialtyUpdate, SpecialtyController.update);
-routes.get('/specialties', SpecialtyController.index);
-routes.get('/specialties/:id', SpecialtyController.find);
-routes.delete('/specialties/:id', SpecialtyController.delete);
+routes.post('/specialities', validateSpecialityStore, SpecialityController.store);
+routes.put('/specialities', validateSpecialityUpdate, SpecialityController.update);
+routes.get('/specialities', SpecialityController.index);
+routes.get('/specialities/:id', SpecialityController.find);
+routes.delete('/specialities/:id', SpecialityController.delete);
 
-routes.get('/specialties-types', SpecialtyTypeController.index);
+routes.get('/specialities-types', SpecialityTypeController.index);
 
 routes.get('/files/:id', FileController.index);
 routes.post('/files', upload.single('file'), FileController.store);

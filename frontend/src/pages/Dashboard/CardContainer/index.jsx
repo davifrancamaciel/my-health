@@ -43,11 +43,11 @@ function CardContainer ({ loaded, dashboard, company_provider }) {
       />
       {!company_provider && (
         <Card
-          route={'specialty'}
+          route={'speciality'}
           loaded={loaded}
-          principal_text={loaded && dashboard.specialties.principal_text}
+          principal_text={loaded && dashboard.specialities.principal_text}
           secondary_text={
-            loaded && formatPrice(dashboard.specialties.secondary_text)
+            loaded && formatPrice(dashboard.specialities.secondary_text)
           }
           title={'Consultas'}
           icon={<MdAttachMoney size={26} />}

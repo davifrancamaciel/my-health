@@ -24,13 +24,13 @@ import { Main, Ul } from 'components/_layouts/ListContainer/styles';
 
 const orderByOptions = [{ value: 'value', label: 'Valor' }];
 
-const SpecialtyList = function () {
+const SpecialityList = function () {
 	const profile = useSelector((state) => state.user.profile);
 
 	const [loading, setLoading] = useState(false);
 	const [search, setSearch] = useState();
 	const [noData, setNoData] = useState(false);
-	const [specialties, setSpecialties] = useState([]);
+	const [specialities, setSpecialities] = useState([]);
 	const [total, setTotal] = useState(0);
 	const [page, setPage] = useState(1);
 	const [onChangeOrder, setOnChangeOrder] = useState();
@@ -40,24 +40,24 @@ const SpecialtyList = function () {
 			history.goBack();
 			showToast.error('Para acessar esta as especialidades você precisa ser um Médico');
 		}
-		async function loadSpecialties() {
+		async function loadSpecialities() {
 			try {
 				setLoading(true);
 
-				const response = await api.get('specialties', {
+				const response = await api.get('specialities', {
 					params: { ...search, page, ...onChangeOrder },
 				});
 
-				const data = response.data.rows.map((specialty) => ({
-					...specialty,
-					valueFormated: formatPrice(specialty.value),
-					createdAtFormatedDate: `Cadastrada no dia ${format(parseISO(specialty.createdAt), "d 'de' MMMM", {
+				const data = response.data.rows.map((speciality) => ({
+					...speciality,
+					valueFormated: formatPrice(speciality.value),
+					createdAtFormatedDate: `Cadastrada no dia ${format(parseISO(speciality.createdAt), "d 'de' MMMM", {
 						locale: pt,
 					})}`,
 				}));
 
-				if (page > 1) setSpecialties([...specialties, ...data]);
-				else setSpecialties(data);
+				if (page > 1) setSpecialities([...specialities, ...data]);
+				else setSpecialities(data);
 
 				setTotal(response.data.count);
 				setNoData(data.length == 0);
@@ -68,7 +68,7 @@ const SpecialtyList = function () {
 			}
 		}
 
-		loadSpecialties();
+		loadSpecialities();
 	}, [search, page, onChangeOrder]);
 
 	async function handleDelete(item) {
@@ -80,12 +80,12 @@ const SpecialtyList = function () {
 	async function handleDeleteConfirm(id) {
 		try {
 			setLoading(true);
-			await api.delete(`specialties/${id}`);
+			await api.delete(`specialities/${id}`);
 
 			showToast.success('Especialidade excluída com sucesso!');
-			const updateSpecialties = specialties.filter((c) => c.id !== id);
+			const updateSpecialities = specialities.filter((c) => c.id !== id);
 			setTotal(total - 1);
-			setSpecialties(updateSpecialties);
+			setSpecialities(updateSpecialities);
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
@@ -94,7 +94,7 @@ const SpecialtyList = function () {
 	}
 
 	function handleUpdate(id) {
-		history.push(`/specialty/edit/${id}`);
+		history.push(`/speciality/edit/${id}`);
 	}
 
 	return (
@@ -102,7 +102,7 @@ const SpecialtyList = function () {
 			<Search onSearch={setSearch} setPage={setPage} />
 			<span>
 				<span>{total > 0 && <span>Total {total}</span>}</span>
-				<Link to="/specialty/create">
+				<Link to="/speciality/create">
 					<FiPlus size={20} /> Cadastrar
 				</Link>
 			</span>
@@ -110,10 +110,10 @@ const SpecialtyList = function () {
 			{noData && <NoData text={`Não há dados para exibir :(`} />}
 			<Main>
 				<Ul>
-					{specialties.map((specialty) => (
+					{specialities.map((speciality) => (
 						<ListItem
-							item={specialty}
-							key={specialty.id}
+							item={speciality}
+							key={speciality.id}
 							onUpdateClick={handleUpdate}
 							onDeleteClick={handleDelete}
 						/>
@@ -121,9 +121,9 @@ const SpecialtyList = function () {
 				</Ul>
 			</Main>
 
-			<LoadMore onClick={() => setPage(page + 1)} total={total} loadedItens={specialties.length} />
+			<LoadMore onClick={() => setPage(page + 1)} total={total} loadedItens={specialities.length} />
 		</Container>
 	);
 };
 
-export default SpecialtyList;
+export default SpecialityList;

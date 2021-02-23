@@ -21,12 +21,12 @@ const itensMenu = [
     provider: 'false|true',
     icon: <AiFillDashboard size={26} size={26} />
   },
-  // {
-  //   path: 'company',
-  //   label: 'Lojas',
-  //   provider: 'true',
-  //   icon: <AiOutlineShop size={26} />
-  // },
+  {
+    path: 'appointment',
+    label: 'Agendar',
+    provider: 'false|true',
+    icon: <AiOutlineShop size={26} />
+  },
   // {
   //   path: 'client',
   //   label: 'Clientes',
@@ -46,7 +46,7 @@ const itensMenu = [
   //   icon: <FaUsersCog size={26} />
   // },
   // {
-  //   path: 'specialty',
+  //   path: 'speciality',
   //   label: 'Especialidades',
   //   provider: 'true',
   //   icon: <MdAttachMoney size={26} />

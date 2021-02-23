@@ -11,7 +11,9 @@ import SubmitButton from 'components/SubmitButton';
 import Input from 'components/Inputs/Input';
 import Datepicker from 'components/Inputs/Datepicker';
 import InputMask from 'components/Inputs/InputMask';
+import InputMaskPhone from 'components/Inputs/InputMaskPhone';
 import Dropzone from 'components/Inputs/Dropzone';
+import { SECONDARY_COLOR } from 'constants/colors';
 
 import getImage from 'Utils/getImage';
 
@@ -97,7 +99,7 @@ function PersonalData() {
 							<InputMask mask="(99) 99999-9999" name="whatsapp" type="tel" label="Whatsapp" />
 						</div>
 						<div className="field">
-							<InputMask mask="(99) 99999-9999" name="phone" type="tel" label="Telefone" />
+							<InputMaskPhone mask="(99) 99999-9999" name="phone" type="tel" label="Telefone" />
 						</div>
 						<div className="field">
 							<Datepicker
@@ -109,20 +111,21 @@ function PersonalData() {
 						</div>
 						<div className="field"></div>
 					</div>
-					<div className="field">
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={isProvider}
-									onChange={() => {
-										setIsProvider(!isProvider);
-									}}
-									name="provider"
-								/>
-							}
-							label="Desejo realizar consultas (sou um médico)"
-						/>
-					</div>
+
+					<FormControlLabel
+						control={
+							<Checkbox
+								color="primary"
+								checked={isProvider}
+								onChange={() => {
+									setIsProvider(!isProvider);
+								}}
+								name="provider"
+							/>
+						}
+						label="Desejo realizar consultas (sou um médico)"
+					/>
+
 					<div className="field">
 						<SubmitButton loading={loading ? true : false} text={'Atualizar perfil'} />
 					</div>

@@ -27,7 +27,7 @@ export const HeaderContainer = styled.section`
 `
 export const DashboardContainer = styled.section`
   margin-top: -120px;
-  .specialty-graph {
+  .speciality-graph {
     height: 350px;
 
     h3 {

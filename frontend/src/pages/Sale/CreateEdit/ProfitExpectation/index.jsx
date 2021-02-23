@@ -1,35 +1,35 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../../../services/api'
 import { formatPrice } from '../../../../Utils/formatPrice'
-import SpecialtyTypeEnum from '../../../../enums/specialtyTypes'
+import SpecialityTypeEnum from '../../../../enums/specialityTypes'
 
 import { Container, Td } from './styles'
 
 const ProfitExpectation = ({ selectedVehicle, setValueSaleVehicle,  }) => {
-  const [specialtiesList, setSpecialtiesList] = useState([])
-  const [totalSpecialtyValue, setTotalSpecialtyValue] = useState(0)
+  const [specialitiesList, setSpecialitiesList] = useState([])
+  const [totalSpecialityValue, setTotalSpecialityValue] = useState(0)
   const [vehicle, setVehicle] = useState({})
 
   useEffect(() => {
-    async function loadSpecialties () {
+    async function loadSpecialities () {
       try {
-        const response = await api.get('specialties', {
+        const response = await api.get('specialities', {
           params: {
             limit: 50,
             vehicle_id: selectedVehicle.value,
-            specialty_type_id: [
-              SpecialtyTypeEnum.MULTA_PAGA,
-              // SpecialtyTypeEnum.MULTA_NAO_PAGA,
-              SpecialtyTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
-              SpecialtyTypeEnum.DESPESA_VEICULO_VENDIDO
+            speciality_type_id: [
+              SpecialityTypeEnum.MULTA_PAGA,
+              // SpecialityTypeEnum.MULTA_NAO_PAGA,
+              SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+              SpecialityTypeEnum.DESPESA_VEICULO_VENDIDO
             ]            
           }
         })
-        setSpecialtiesList(response.data.rows)
+        setSpecialitiesList(response.data.rows)
       } catch (error) {}
     }
 
-    selectedVehicle.value && loadSpecialties()
+    selectedVehicle.value && loadSpecialities()
 
     async function loadVehicle () {
       try {
@@ -43,25 +43,25 @@ const ProfitExpectation = ({ selectedVehicle, setValueSaleVehicle,  }) => {
   }, [selectedVehicle])
 
   useEffect(() => {
-    const total = specialtiesList.reduce((totalSum, specialty) => {
-      return Number(totalSum) + Number(specialty.value)
+    const total = specialitiesList.reduce((totalSum, speciality) => {
+      return Number(totalSum) + Number(speciality.value)
     }, 0)
-    setTotalSpecialtyValue(total)
-  }, [specialtiesList])
+    setTotalSpecialityValue(total)
+  }, [specialitiesList])
 
   function renderRolw () {
     const value_sale_formated = formatPrice(vehicle.value_sale || 0)
     const value_purchase_formated = formatPrice(vehicle.value_purchase || 0)
-    const value_specialty_formated = formatPrice(totalSpecialtyValue || 0)
+    const value_speciality_formated = formatPrice(totalSpecialityValue || 0)
     const value_profit =
-      vehicle.value_sale - vehicle.value_purchase - totalSpecialtyValue || 0
+      vehicle.value_sale - vehicle.value_purchase - totalSpecialityValue || 0
     const value_profit_formated = formatPrice(value_profit)
 
     return (
       <tr>
         <td>{value_sale_formated}</td>
         <td>{value_purchase_formated}</td>
-        <td>{value_specialty_formated}</td>
+        <td>{value_speciality_formated}</td>
         <Td damage={value_profit < 0}>{value_profit_formated}</Td>
       </tr>
     )

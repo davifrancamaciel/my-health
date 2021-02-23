@@ -11,7 +11,7 @@ import InputMask from 'components/Inputs/InputMask';
 import showToast from 'Utils/showToast';
 import getLocale from 'Utils/getLocale';
 import { getCoordinates } from 'Utils/getCoordinates';
-import Map from '../../Map';
+import Map from 'components/Map';
 import validation from './validation';
 
 import { FormContainer } from '../../styles';

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Select } from '@rocketseat/unform'
+import { Form } from '@rocketseat/unform'
 import { isBefore } from 'date-fns'
 
-import Input from '../../../../components/Inputs/Input'
-import Datepicker from '../../../../components/Inputs/Datepicker'
-import SubmitButton from '../../../../components/SubmitButton'
-import FormSearchContainer from '../../../../components/_layouts/FormSearchContainer'
+import Input from 'components/Inputs/Input'
+import Datepicker from 'components/Inputs/Datepicker'
+import SubmitButton from 'components/SubmitButton'
+import FormSearchContainer from 'components/_layouts/FormSearchContainer'
+import Select from 'components/Inputs/Select';
 
-import api from '../../../../services/api'
-import getValidationErrors from '../../../../Utils/getValidationErrors'
-import showToast from '../../../../Utils/showToast'
+import api from 'services/api'
+import getValidationErrors from 'Utils/getValidationErrors'
+import showToast from 'Utils/showToast'
 
 export default function Search ({ onSearch, setPage }) {
   const [options, setOptions] = useState([])
@@ -17,15 +18,15 @@ export default function Search ({ onSearch, setPage }) {
   const [endDate, setEndDate] = useState()
 
   useEffect(() => {
-    async function loadSpecialtiesTypes () {
+    async function loadSpecialitiesTypes () {
       try {
-        const response = await api.get('specialties-types')
+        const response = await api.get('specialities-types')
         setOptions(response.data)
       } catch (error) {
         getValidationErrors(error)
       }
     }
-    loadSpecialtiesTypes()
+    loadSpecialitiesTypes()
   }, [])
 
   function handleSubmit (data) {
@@ -42,7 +43,7 @@ export default function Search ({ onSearch, setPage }) {
       <Form onSubmit={handleSubmit}>
         <div className='field-group'>
           <div className='field'>
-            <Select label='Tipo' name='specialty_type_id' options={options} />
+            <Select label="Tipo" name="speciality_type_id" options={options} />
           </div>
           <div className='field'>
             <Datepicker

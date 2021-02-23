@@ -6,7 +6,7 @@ import BackPage from '../../BackPage'
 
 import { Container, Header, Page, PdfContainer } from './styles'
 
-const Report = ({ sale, specialtiesList, totalSpecialtyValue }) => {
+const Report = ({ sale, specialitiesList, totalSpecialityValue }) => {
   const componentRef = useRef()
 
   const handlePrint = useReactToPrint({
@@ -272,10 +272,10 @@ const Report = ({ sale, specialtiesList, totalSpecialtyValue }) => {
                   </li>
                 </ul>
                 <ul>
-                  {specialtiesList.map(specialty => (
-                    <li key={specialty.id}>
-                      <p>{specialty.description}</p>
-                      <p>{specialty.value}</p>
+                  {specialitiesList.map(speciality => (
+                    <li key={speciality.id}>
+                      <p>{speciality.description}</p>
+                      <p>{speciality.value}</p>
                     </li>
                   ))}
                 </ul>

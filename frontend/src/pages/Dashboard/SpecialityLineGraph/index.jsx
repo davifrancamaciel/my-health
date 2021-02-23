@@ -61,14 +61,14 @@ function LineGraph ({ ...props }) {
   const [data, setData] = useState({})
 
   useEffect(() => {
-    async function loadSpecialties () {
-      const response = await api.get('dashboard-specialties-graph')
+    async function loadSpecialities () {
+      const response = await api.get('dashboard-specialities-graph')
       let dataFormated = buildChartData(response.data)
 
       setData(dataFormated)
     }
 
-    loadSpecialties()
+    loadSpecialities()
   }, [])
 
   return (

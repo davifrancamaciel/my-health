@@ -25,8 +25,8 @@ export default function SimpleMenu () {
       case 'logout':
         dispatch(signOut())
         break
-      case 'specialty':
-        history.push(`/specialty`)
+      case 'speciality':
+        history.push(`/speciality`)
         break
 
       default:
@@ -52,7 +52,7 @@ export default function SimpleMenu () {
       >
         <MenuItem onClick={() => handleClose('profile')}>Minha conta</MenuItem>
         {profile.provider && (
-          <MenuItem onClick={() => handleClose('specialty')}>Especialidades</MenuItem>
+          <MenuItem onClick={() => handleClose('speciality')}>Especialidades</MenuItem>
         )}
         <MenuItem onClick={() => handleClose('logout')}>Sair</MenuItem>
       </Menu>

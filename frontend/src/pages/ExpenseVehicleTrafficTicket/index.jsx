@@ -10,22 +10,22 @@ import api from '../../services/api'
 import history from '../../services/browserhistory'
 import { formatPrice } from '../../Utils/formatPrice'
 
-import { ContainerSpecialtyVehicle } from './styles'
+import { ContainerSpecialityVehicle } from './styles'
 
-const SpecialtyVehicleList = function () {
+const SpecialityVehicleList = function () {
   const { id } = useParams()
   const [vehicle, setVehicle] = useState({})
   const [title, setTitle] = useState()
-  const [specialty, setSpecialty] = useState({})
-  const [specialtiesList, setSpecialtiesList] = useState([])
+  const [speciality, setSpeciality] = useState({})
+  const [specialitiesList, setSpecialitiesList] = useState([])
   const [totalValue, setTotalValue] = useState()
 
   useEffect(() => {
-    const total = specialtiesList.reduce((totalSum, specialty) => {
-      return Number(totalSum) + Number(specialty.value)
+    const total = specialitiesList.reduce((totalSum, speciality) => {
+      return Number(totalSum) + Number(speciality.value)
     }, 0)
     setTotalValue(total)
-  }, [specialtiesList])
+  }, [specialitiesList])
 
   useEffect(() => {
     const complement = vehicle.brand
@@ -54,21 +54,21 @@ const SpecialtyVehicleList = function () {
   return (
     <Container title={title}>
       <span>Total de multas {formatPrice(totalValue)}</span>
-      <ContainerSpecialtyVehicle>
+      <ContainerSpecialityVehicle>
         <CreateEdit
-          specialty={specialty}
-          setSpecialtiesList={setSpecialtiesList}
-          specialtiesList={specialtiesList}
-          setSpecialty={setSpecialty}
+          speciality={speciality}
+          setSpecialitiesList={setSpecialitiesList}
+          specialitiesList={specialitiesList}
+          setSpeciality={setSpeciality}
         />
         <List
-          setSpecialtiesList={setSpecialtiesList}
-          setSpecialty={setSpecialty}
-          specialtiesList={specialtiesList}
+          setSpecialitiesList={setSpecialitiesList}
+          setSpeciality={setSpeciality}
+          specialitiesList={specialitiesList}
         />
-      </ContainerSpecialtyVehicle>
+      </ContainerSpecialityVehicle>
     </Container>
   )
 }
 
-export default SpecialtyVehicleList
+export default SpecialityVehicleList

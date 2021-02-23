@@ -98,9 +98,9 @@ const SaleList = function () {
       await api.delete(`sales/${id}`)
 
       showToast.success('Venda excluída com sucesso!')
-      const updateSpecialties = sales.filter(c => c.id !== id)
+      const updateSpecialities = sales.filter(c => c.id !== id)
       setTotal(total - 1)
-      setSales(updateSpecialties)
+      setSales(updateSpecialities)
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -129,10 +129,10 @@ const SaleList = function () {
       {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>
         <Ul>
-          {sales.map(specialty => (
+          {sales.map(speciality => (
             <ListItem
-              item={specialty}
-              key={specialty.id}
+              item={speciality}
+              key={speciality.id}
               onUpdateClick={handleUpdate}
               onDeleteClick={handleDelete}
             />

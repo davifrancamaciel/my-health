@@ -12,42 +12,42 @@ import api from '../../../services/api'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 import showToast from '../../../Utils/showToast'
 import { formatPrice } from '../../../Utils/formatPrice'
-import SpecialtyTypeEnum from '../../../enums/specialtyTypes'
+import SpecialityTypeEnum from '../../../enums/specialityTypes'
 
 import { Ul } from '../../../components/_layouts/ListContainer/styles'
 import { Main } from './styles'
 
-const SpecialtyList = function ({ setSpecialtiesList, setSpecialty, specialtiesList }) {
+const SpecialityList = function ({ setSpecialitiesList, setSpeciality, specialitiesList }) {
   const { id } = useParams()
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    async function loadSpecialties () {
+    async function loadSpecialities () {
       try {
         setLoading(true)
 
-        const response = await api.get('specialties', {
+        const response = await api.get('specialities', {
           params: {
             limit: 50,
             vehicle_id: id,
-            specialty_type_id: [
-              SpecialtyTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
-              SpecialtyTypeEnum.DESPESA_VEICULO_VENDIDO
+            speciality_type_id: [
+              SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+              SpecialityTypeEnum.DESPESA_VEICULO_VENDIDO
             ]
           }
         })
 
-        const data = response.data.rows.map(specialty => ({
-          ...specialty,
-          valueFormated: formatPrice(specialty.value),
+        const data = response.data.rows.map(speciality => ({
+          ...speciality,
+          valueFormated: formatPrice(speciality.value),
           createdAtFormatedDate: `Cadastrada no dia ${format(
-            parseISO(specialty.createdAt),
+            parseISO(speciality.createdAt),
             "d 'de' MMMM",
             { locale: pt }
           )}`
         }))
 
-        setSpecialtiesList(data)
+        setSpecialitiesList(data)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -55,7 +55,7 @@ const SpecialtyList = function ({ setSpecialtiesList, setSpecialty, specialtiesL
       }
     }
 
-    loadSpecialties()
+    loadSpecialities()
   }, [])
 
   async function handleDelete (item) {
@@ -69,11 +69,11 @@ const SpecialtyList = function ({ setSpecialtiesList, setSpecialty, specialtiesL
   async function handleDeleteConfirm (id) {
     try {
       setLoading(true)
-      await api.delete(`specialties/${id}`)
+      await api.delete(`specialities/${id}`)
 
       showToast.success('Especialidade excluída com sucesso!')
-      const updateSpecialties = specialtiesList.filter(c => c.id !== id)
-      setSpecialtiesList(updateSpecialties)
+      const updateSpecialities = specialitiesList.filter(c => c.id !== id)
+      setSpecialitiesList(updateSpecialities)
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -82,18 +82,18 @@ const SpecialtyList = function ({ setSpecialtiesList, setSpecialty, specialtiesL
   }
 
   function handleUpdate (id) {
-    const selectedSpecialty = specialtiesList.find(x => x.id == id)
-    setSpecialty(selectedSpecialty)
+    const selectedSpeciality = specialitiesList.find(x => x.id == id)
+    setSpeciality(selectedSpeciality)
   }
 
   return (
     <Container loading={loading ? Boolean(loading) : undefined}>
       <Main>
         <Ul>
-          {specialtiesList.map(specialty => (
+          {specialitiesList.map(speciality => (
             <ListItem
-              item={specialty}
-              key={specialty.id}
+              item={speciality}
+              key={speciality.id}
               onUpdateClick={handleUpdate}
               onDeleteClick={handleDelete}
             />
@@ -104,4 +104,4 @@ const SpecialtyList = function ({ setSpecialtiesList, setSpecialty, specialtiesL
   )
 }
 
-export default SpecialtyList
+export default SpecialityList

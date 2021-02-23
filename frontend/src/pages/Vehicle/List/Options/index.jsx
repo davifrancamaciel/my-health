@@ -87,7 +87,7 @@ export default function MenuListComposition ({ id }) {
                   <MenuItem onClick={() => handleClick(id, 'files')}>
                     Fotos
                   </MenuItem>
-                  <MenuItem onClick={() => handleClick(id, 'specialty')}>
+                  <MenuItem onClick={() => handleClick(id, 'speciality')}>
                     Especialidades
                   </MenuItem>
                   <MenuItem onClick={() => handleClick(id, 'traffic-ticket')}>

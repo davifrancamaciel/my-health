@@ -2,9 +2,9 @@ import Company from '../models/Company'
 import User from '../models/User'
 import Vehicle from '../models/Vehicle'
 import Sale from '../models/Sale'
-import Specialty from '../models/Specialty'
+import Speciality from '../models/Speciality'
 import SaleIndexService from '../services/sale/index'
-import SpecialtyTypeEnum from '../enums/specialtyTypes'
+import SpecialityTypeEnum from '../enums/specialityTypes'
 
 class SaleController {
   async index (req, res) {
@@ -150,29 +150,29 @@ class SaleController {
         active: false,
       })
 
-      Specialty.update(
-        { specialty_type_id: SpecialtyTypeEnum.DESPESA_VEICULO_VENDIDO },
+      Speciality.update(
+        { speciality_type_id: SpecialityTypeEnum.DESPESA_VEICULO_VENDIDO },
         {
           where: {
-            specialty_type_id: SpecialtyTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+            speciality_type_id: SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
             vehicle_id,
           },
         }
       )
 
-      Specialty.update(
+      Speciality.update(
         {
-          specialty_type_id:
+          speciality_type_id:
             not_discounted_sale_value === 'true'
-              ? SpecialtyTypeEnum.MULTA_PAGA
-              : SpecialtyTypeEnum.MULTA_NAO_PAGA,
+              ? SpecialityTypeEnum.MULTA_PAGA
+              : SpecialityTypeEnum.MULTA_NAO_PAGA,
         },
         {
           where: {
-            specialty_type_id:
+            speciality_type_id:
               not_discounted_sale_value === 'true'
-                ? SpecialtyTypeEnum.MULTA_NAO_PAGA
-                : SpecialtyTypeEnum.MULTA_PAGA,
+                ? SpecialityTypeEnum.MULTA_NAO_PAGA
+                : SpecialityTypeEnum.MULTA_PAGA,
             vehicle_id,
           },
         }
@@ -245,40 +245,40 @@ class SaleController {
           active: true,
         })
 
-        Specialty.update(
-          { specialty_type_id: SpecialtyTypeEnum.DESPESA_VEICULO_NAO_VENDIDO },
+        Speciality.update(
+          { speciality_type_id: SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO },
           {
             where: {
-              specialty_type_id: SpecialtyTypeEnum.DESPESA_VEICULO_VENDIDO,
+              speciality_type_id: SpecialityTypeEnum.DESPESA_VEICULO_VENDIDO,
               vehicle_id: vehiclePreviousId,
             },
           }
         )
       }
 
-      Specialty.update(
-        { specialty_type_id: SpecialtyTypeEnum.DESPESA_VEICULO_VENDIDO },
+      Speciality.update(
+        { speciality_type_id: SpecialityTypeEnum.DESPESA_VEICULO_VENDIDO },
         {
           where: {
-            specialty_type_id: SpecialtyTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+            speciality_type_id: SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
             vehicle_id,
           },
         }
       )
 
-      Specialty.update(
+      Speciality.update(
         {
-          specialty_type_id:
+          speciality_type_id:
             not_discounted_sale_value === 'true'
-              ? SpecialtyTypeEnum.MULTA_PAGA
-              : SpecialtyTypeEnum.MULTA_NAO_PAGA,
+              ? SpecialityTypeEnum.MULTA_PAGA
+              : SpecialityTypeEnum.MULTA_NAO_PAGA,
         },
         {
           where: {
-            specialty_type_id:
+            speciality_type_id:
               not_discounted_sale_value === 'true'
-                ? SpecialtyTypeEnum.MULTA_NAO_PAGA
-                : SpecialtyTypeEnum.MULTA_PAGA,
+                ? SpecialityTypeEnum.MULTA_NAO_PAGA
+                : SpecialityTypeEnum.MULTA_PAGA,
             vehicle_id,
           },
         }
@@ -319,21 +319,21 @@ class SaleController {
       where: { id },
     })
 
-    Specialty.update(
-      { specialty_type_id: SpecialtyTypeEnum.DESPESA_VEICULO_NAO_VENDIDO },
+    Speciality.update(
+      { speciality_type_id: SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO },
       {
         where: {
-          specialty_type_id: SpecialtyTypeEnum.DESPESA_VEICULO_VENDIDO,
+          speciality_type_id: SpecialityTypeEnum.DESPESA_VEICULO_VENDIDO,
           vehicle_id: sale.vehicle_id,
         },
       }
     )
 
-    Specialty.update(
-      { specialty_type_id: SpecialtyTypeEnum.MULTA_NAO_PAGA },
+    Speciality.update(
+      { speciality_type_id: SpecialityTypeEnum.MULTA_NAO_PAGA },
       {
         where: {
-          specialty_type_id: SpecialtyTypeEnum.MULTA_PAGA,
+          speciality_type_id: SpecialityTypeEnum.MULTA_PAGA,
           vehicle_id: sale.vehicle_id,
         },
       }

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const ContainerSpecialtyVehicleForm = styled.div`
+export const ContainerSpecialityVehicleForm = styled.div`
   > div {
     padding: 34px;
     max-height: 450px;

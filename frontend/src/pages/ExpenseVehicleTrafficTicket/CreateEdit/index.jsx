@@ -16,10 +16,10 @@ import getValidationErrors from '../../../Utils/getValidationErrors'
 import { priceToNumber } from '../../../Utils/formatPrice'
 import showToast from '../../../Utils/showToast'
 import { formatPrice } from '../../../Utils/formatPrice'
-import SpecialtyTypeEnum from '../../../enums/specialtyTypes'
+import SpecialityTypeEnum from '../../../enums/specialityTypes'
 import validation from './validation'
 
-import { ContainerSpecialtyVehicleForm } from './styles'
+import { ContainerSpecialityVehicleForm } from './styles'
 
 const INITIAL_STATE = {
   id: 0,
@@ -28,10 +28,10 @@ const INITIAL_STATE = {
 }
 
 export default function CreateEdit ({
-  setSpecialty,
-  specialty,
-  setSpecialtiesList,
-  specialtiesList
+  setSpeciality,
+  speciality,
+  setSpecialitiesList,
+  specialitiesList
 }) {
   const { id } = useParams()
   const vehicle_id = Number(id)
@@ -39,22 +39,22 @@ export default function CreateEdit ({
 
   async function handleSubmit (data) {
     try {
-      const saveSpecialty = {
+      const saveSpeciality = {
         ...data,
         value: priceToNumber(data.value),
-        id: specialty ? Number(specialty.id) : 0,
-        specialty_type_id: specialty.specialty_type_id
-          ? Number(specialty.specialty_type_id)
-          : SpecialtyTypeEnum.MULTA_NAO_PAGA,
+        id: speciality ? Number(speciality.id) : 0,
+        speciality_type_id: speciality.speciality_type_id
+          ? Number(speciality.speciality_type_id)
+          : SpecialityTypeEnum.MULTA_NAO_PAGA,
         vehicle_id
       }
-      setSpecialty(saveSpecialty)
+      setSpeciality(saveSpeciality)
       setLoading(true)
 
-      if (saveSpecialty.id) {
-        const responseUpdate = await api.put('specialties', saveSpecialty)
+      if (saveSpeciality.id) {
+        const responseUpdate = await api.put('specialities', saveSpeciality)
 
-        const specialtiesUpdated = specialtiesList.map(e => {
+        const specialitiesUpdated = specialitiesList.map(e => {
           if (e.id === responseUpdate.data.id) {
             return {
               ...e,
@@ -64,11 +64,11 @@ export default function CreateEdit ({
             }
           } else return { ...e }
         })
-        setSpecialtiesList(specialtiesUpdated)
-        setSpecialty(INITIAL_STATE)
+        setSpecialitiesList(specialitiesUpdated)
+        setSpeciality(INITIAL_STATE)
       } else {
-        const responseNew = await api.post('specialties', saveSpecialty)
-        const newSpecialty = {
+        const responseNew = await api.post('specialities', saveSpeciality)
+        const newSpeciality = {
           ...responseNew.data,
           type: { name: 'Multa não paga' },
           valueFormated: formatPrice(responseNew.data.value),
@@ -78,8 +78,8 @@ export default function CreateEdit ({
             { locale: pt }
           )}`
         }
-        setSpecialtiesList([newSpecialty, ...specialtiesList])
-        setSpecialty(INITIAL_STATE)
+        setSpecialitiesList([newSpeciality, ...specialitiesList])
+        setSpeciality(INITIAL_STATE)
       }
 
       showToast.success(`Multa salva com sucesso!`)
@@ -92,12 +92,12 @@ export default function CreateEdit ({
   }
 
   return (
-    <ContainerSpecialtyVehicleForm>
+    <ContainerSpecialityVehicleForm>
       <FormContainer loading={loading}>
         <Form
           schema={validation()}
           onSubmit={handleSubmit}
-          initialData={specialty}
+          initialData={speciality}
         >
           <fieldset>
             <legend>
@@ -116,6 +116,6 @@ export default function CreateEdit ({
           <SubmitButton loading={loading ? true : false} text={'Salvar'} />
         </Form>
       </FormContainer>
-    </ContainerSpecialtyVehicleForm>
+    </ContainerSpecialityVehicleForm>
   )
 }

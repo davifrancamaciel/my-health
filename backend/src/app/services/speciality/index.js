@@ -1,25 +1,28 @@
 import { Op } from 'sequelize';
 
-import Specialty from '../../models/Specialty';
-import SpecialtyType from '../../models/SpecialtyType';
+import Speciality from '../../models/Speciality';
+import SpecialityType from '../../models/SpecialityType';
 import Vehicle from '../../models/Vehicle';
-import SpecialtyTypeEnum from '../../enums/specialtyTypes';
+import SpecialityTypeEnum from '../../enums/specialityTypes';
 import { startOfDay, endOfDay, parseISO } from 'date-fns';
 
-class SpecialtyIndexService {
+class SpecialityIndexService {
   async run({
     description,
-    specialty_type_id,
+    speciality_type_id,
     start_date,
     end_date,
     page,
     orderBy,
     sorting,
     limit,
+    user_id,
   }) {
-    let whereStatement = {};
+    let whereStatement = {
+      user_id,
+    };
 
-    if (specialty_type_id) whereStatement.specialty_type_id = specialty_type_id;
+    if (speciality_type_id) whereStatement.speciality_type_id = speciality_type_id;
 
     if (description)
       whereStatement.description = {
@@ -45,14 +48,14 @@ class SpecialtyIndexService {
     const orderQuery = orderBy || 'createdAt';
     const sortngQuery = sorting || 'DESC';
 
-    const { count, rows } = await Specialty.findAndCountAll({
+    const { count, rows } = await Speciality.findAndCountAll({
       where: whereStatement,
       limit: limit ? limit : 20,
       order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
       include: [
         {
-          model: SpecialtyType,
+          model: SpecialityType,
           as: 'type',
           attributes: ['name'],
         },
@@ -63,4 +66,4 @@ class SpecialtyIndexService {
   }
 }
 
-export default new SpecialtyIndexService();
+export default new SpecialityIndexService();

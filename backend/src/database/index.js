@@ -5,12 +5,12 @@ import databaseConfig from '../config/database'
 import Company from '../app/models/Company'
 import User from '../app/models/User'
 import Vehicle from '../app/models/Vehicle'
-import Specialty from '../app/models/Specialty'
-import SpecialtyType from '../app/models/SpecialtyType'
+import Speciality from '../app/models/Speciality'
+import SpecialityType from '../app/models/SpecialityType'
 import File from '../app/models/File'
 import Sale from '../app/models/Sale'
 
-const models = [Company, User, Vehicle, Specialty, SpecialtyType, File, Sale]
+const models = [Company, User, Vehicle, Speciality, SpecialityType, File, Sale]
 
 class Database {
   constructor () {

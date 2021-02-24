@@ -9,8 +9,9 @@ import Speciality from '../app/models/Speciality'
 import SpecialityType from '../app/models/SpecialityType'
 import File from '../app/models/File'
 import Sale from '../app/models/Sale'
+import Appointment from '../app/models/Appointment'
 
-const models = [Company, User, Vehicle, Speciality, SpecialityType, File, Sale]
+const models = [Company, User, Vehicle, Speciality, SpecialityType, File, Sale, Appointment]
 
 class Database {
   constructor () {

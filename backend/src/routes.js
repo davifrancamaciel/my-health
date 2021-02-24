@@ -9,6 +9,12 @@ import DashboardController from './app/controllers/DashboardController';
 
 import AppointmentController from './app/controllers/AppointmentController';
 
+import AvailableController from './app/controllers/AvailableController'
+
+import ScheduleController from './app/controllers/ScheduleController'
+import SpecialityProviderController from './app/controllers/SpecialityProviderController'
+
+
 import CompanyController from './app/controllers/CompanyController';
 import validateCompanyStore from './app/validators/Company/store';
 import validateCompanyUpdate from './app/validators/Company/update';
@@ -80,6 +86,12 @@ routes.delete('/companies/:id', CompanyController.delete);
 
 routes.get('/appointments', AppointmentController.index);
 
+routes.get('/available/providers/:providerId', AvailableController.index)
+
+routes.get('/schedule', ScheduleController.index)
+
+
+
 routes.post('/users', validateUserStore, UserController.store);
 routes.put('/users', validateUserUpdate, UserController.update);
 routes.get('/users', UserController.index);
@@ -101,6 +113,7 @@ routes.get('/vehicles/:id', VehicleController.find);
 routes.delete('/vehicles/:id', VehicleController.delete);
 routes.get('/vehicles-list', VehicleController.list);
 
+routes.get('/speciality-provider/:id', SpecialityProviderController.find)
 routes.post('/specialities', validateSpecialityStore, SpecialityController.store);
 routes.put('/specialities', validateSpecialityUpdate, SpecialityController.update);
 routes.get('/specialities', SpecialityController.index);

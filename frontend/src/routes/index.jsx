@@ -39,8 +39,8 @@ const Routes = () => {
 			<Route exact path="/dashboard" component={Dashboard} isPrivate />
 
 			<Route exact path="/appointment" component={Appointment} isPrivate />
-			<Route exact path="/appointment/:provider/create" component={AppointmentCreateEdit} isPrivate />
-			<Route exact path="/appointment/:provider/edit/:id" component={AppointmentCreateEdit} isPrivate />
+			<Route exact path="/appointment/:specialityId/create" component={AppointmentCreateEdit} isPrivate />
+			<Route exact path="/appointment/:specialityId/edit/:id" component={AppointmentCreateEdit} isPrivate />
 
 			<Route exact path="/company" component={CompanyList} isPrivate />
 			<Route exact path="/company/create" component={CompanyCreateEdit} isPrivate />

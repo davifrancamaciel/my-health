@@ -1,0 +1,22 @@
+import AvailableService from '../services/available/index'
+
+class AvailableController {
+    async index (req, res) {
+        const { date } = req.query
+        if (!date) {
+            return res.status(400).json({ error: 'Inavalid date' })
+        }
+
+        const searchDate = Number(date)
+        const provider_id = req.params.providerId
+
+        const available = await AvailableService.run({
+            searchDate,
+            provider_id,
+        })
+
+        return res.json(available)
+    }
+}
+
+export default new AvailableController()

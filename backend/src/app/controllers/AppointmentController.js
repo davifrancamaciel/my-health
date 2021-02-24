@@ -26,7 +26,7 @@ class AppointmentController {
       limit: 20,
       // order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
-      attributes: ['latitude', 'longitude'],
+      attributes: ['id', 'latitude', 'longitude'],
       include: [
         {
           model: SpecialityType,

@@ -3,6 +3,7 @@ import removeFile from '../utils/removeFile';
 import propertyValidate from '../utils/propertyValidate';
 
 class ProfileController {
+
   async update(req, res) {
     try {
       const { userProvider } = req;

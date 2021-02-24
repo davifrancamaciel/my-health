@@ -30,7 +30,7 @@ function MarkerContainer({ item }) {
 						</span>
 						<span>
 							<FiCalendar size={20} />
-							<Link to={`/appointment/${item.user.id}/create`}>Agendar</Link>
+							<Link to={`/appointment/${item.id}/create`}>Agendar</Link>
 						</span>
 					</p>
 				</Card>

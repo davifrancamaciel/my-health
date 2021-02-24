@@ -13,10 +13,11 @@ class AppointmentController {
     const { speciality_type_id, page = 1 } = req.query;
 
     let whereStatement = {
-      speciality_type_id: Number(speciality_type_id),
       active: true,
     };
-    console.log(speciality_type_id);
+
+    if (speciality_type_id)
+      whereStatement.speciality_type_id = speciality_type_id;
     // const orderQuery = orderBy || 'createdAt'
     // const sortngQuery = sorting || 'DESC'
 
@@ -25,6 +26,7 @@ class AppointmentController {
       limit: 20,
       // order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
+      attributes: ['latitude', 'longitude'],
       include: [
         {
           model: SpecialityType,
@@ -35,7 +37,7 @@ class AppointmentController {
         {
           model: User,
           as: 'user',
-          attributes: ['name', 'image'],
+          attributes: ['id', 'name', 'image', 'url', 'whatsapp', 'email'],
           where: { provider: true, active: true },
         },
       ],

@@ -4,9 +4,9 @@ export const ContainerMapSelectProvider = styled.div`
 	width: 100%;
 	height: 100vh;
 	position: relative;
-    display: flex;
-    justify-content: center;
-	
+	display: flex;
+	justify-content: center;
+
 	> .leaflet-container {
 		width: 100%;
 		height: 100vh;
@@ -18,5 +18,5 @@ export const Search = styled.div`
 	top: 10px;
 	z-index: 1;
 	width: 80%;
-    margin: auto 0px;
+	margin: auto 0px;
 `;

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Select } from '@rocketseat/unform';
-import L from 'leaflet';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+
+import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+
+import MarkerContainer from './Marker';
 
 // import Select from 'components/Inputs/Select';
 
 import api from 'services/api';
 import getValidationErrors from 'Utils/getValidationErrors';
 import Container from 'components/_layouts/Container';
-import { Search, ContainerMapSelectProvider } from './styles';
+import { Search, ContainerMapSelectProvider, PopupCustom, Card, Info } from './styles';
 
 function Appointment() {
 	const [types, setTypes] = useState([]);
@@ -17,17 +19,22 @@ function Appointment() {
 	const [initialPosition, setInitialPosition] = useState([0, 0]);
 	const [selectedPosition, setSelectedPosition] = useState([0, 0]);
 	const [specialities, setSpecialityies] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		async function loadSpecialitiesTypes() {
 			try {
+				setLoading(true);
 				const response = await api.get('specialities-types');
 				setTypes(response.data);
+				setLoading(false);
 			} catch (error) {
+				setLoading(false);
 				getValidationErrors(error);
 			}
 		}
 		loadSpecialitiesTypes();
+		loadSpecialities();
 	}, []);
 	useEffect(() => {
 		// if (!!selectedLocation[0] && !!selectedLocation[1]) {
@@ -48,41 +55,21 @@ function Appointment() {
 
 	async function loadSpecialities(id) {
 		try {
+			setLoading(true);
 			const response = await api.get('appointments', {
 				params: { speciality_type_id: id },
-            });
-            console.log(response.data)
+			});
+			setLoading(false);
+			console.log(response.data);
 			setSpecialityies(response.data.rows);
 		} catch (error) {
+			setLoading(false);
 			getValidationErrors(error);
 		}
 	}
 
-	function LocationMarker() {
-		const map = useMapEvents({
-			click(e) {
-				map.locate();
-				map.flyTo(e.latlng, map.getZoom());
-				setSelectedPosition([e.latlng.lat, e.latlng.lng]);
-			},
-		});
-
-		return selectedPosition === null ? null : (
-			<Marker position={selectedPosition}>
-				<Popup>You are here</Popup>
-			</Marker>
-		);
-	}
-
-	function MarkerProvider() {
-		return specialities.map((x) => (
-			<Marker position={[x.latitude, x.longitude]}>
-				<Popup>You are here</Popup>
-			</Marker>
-		));
-	}
 	return (
-		<Container title={`Agendar uma consulta`}>
+		<Container title={`Agendar uma consulta`} loading={loading}>
 			<ContainerMapSelectProvider>
 				<Search>
 					<Select
@@ -98,7 +85,9 @@ function Appointment() {
 							attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 						/>
-						<MarkerProvider />
+						{specialities.map((x) => (
+							<MarkerContainer item={x} />
+						))}
 					</MapContainer>
 				)}
 			</ContainerMapSelectProvider>

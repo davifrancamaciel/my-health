@@ -1,5 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { FaWhatsapp } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import {
 	format,
@@ -16,15 +18,19 @@ import {
 import { utcToZonedTime } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
 import api from 'services/api';
+import getValidationErrors from 'Utils/getValidationErrors';
+import urlMessageWhatsapp from 'Utils/urlMessageWhatsapp';
+import { formatPrice } from 'Utils/formatPrice';
 
 import { PRIMARY_COLOR } from 'constants/colors';
 import Container from 'components/_layouts/Container';
 import BackPage from 'components/BackPage';
+import showToast from 'Utils/showToast';
+import ShowConfirm from 'components/ShowConfirm';
 import { SheduleContainer, Time, Shedule, Profile, ProfileInfo } from './styles';
 
-const range = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-
 function CreateEdit() {
+	const profile = useSelector((state) => state.user.profile);
 	const { specialityId } = useParams();
 	const [date, setDate] = useState(new Date());
 	const [loading, setLoading] = useState(false);
@@ -34,49 +40,33 @@ function CreateEdit() {
 
 	useEffect(() => {
 		async function loadSchedule() {
-			setLoading(true);
-			const response = await api.get('schedule', {
-				params: {
-					date,
-				},
-			});
+			try {
+				setLoading(true);
 
-			const responseUser = await api.get(`speciality-provider/${specialityId}`);
-			console.log(responseUser.data);
-			setSpecialityProvider(responseUser.data);
+				const [provider, shedule] = await Promise.all([
+					api.get(`speciality-provider/${specialityId}`),
+					api.get(`/available/providers/${specialityId}`, {
+						params: {
+							date: date.getTime(),
+						},
+					}),
+				]);
 
-			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+				setSpecialityProvider({
+					...provider.data,
+					priceFormated: formatPrice(provider.data.value),
+					urlWhatsapp: urlMessageWhatsapp(provider.data.user.whatsapp),
+				});
+				setSchedules(shedule.data);
 
-			console.log(response.data);
-
-			const data = range.map((hour) => {
-				const checkDate = setMilliseconds(setSeconds(setMinutes(setHours(date, hour), 0), 0), 0);
-				const compareDate = utcToZonedTime(checkDate, timezone);
-				return {
-					time: `${hour}:00h`,
-					past: isBefore(compareDate, new Date()),
-					apponitment: response.data.find((a) => isEqual(parseISO(a.date), compareDate)),
-				};
-			});
-			console.log(data);
-			setSchedules(data);
-			setLoading(false);
+				setLoading(false);
+			} catch (error) {
+				setLoading(false);
+				getValidationErrors(error);
+			}
 		}
 		loadSchedule();
 	}, [date]);
-
-	useEffect(() => {
-		async function loadAvailable() {
-			const response = await api.get(`/available/providers/${specialityId}`, {
-				params: {
-					date: date.getTime(),
-				},
-			});
-			console.log(response.data);
-			// setHours(response.data);
-		}
-		loadAvailable();
-	}, [date, specialityId]);
 
 	function handlePrevDay() {
 		setDate(subDays(date, 1));
@@ -86,6 +76,37 @@ function CreateEdit() {
 		setDate(addDays(date, 1));
 	}
 
+	function handleAddAppointment(schedule) {
+		if (!schedule.available) {
+			showToast.warning('Este horário não está mais disponível');
+			return;
+		}
+		ShowConfirm(
+			'Atenção',
+			`Confirma o agendamento com o médico ${specialityProvider.user.name} no valor de ${specialityProvider.priceFormated}?`,
+			() => handleAddAppointmentConfirmed(schedule)
+		);
+	}
+
+	async function handleAddAppointmentConfirmed(schedule) {
+		try {
+			const newAppointment = {
+				...schedule,
+				user_id: profile.id,
+				provider_id: specialityProvider.user.id,
+			};
+			console.log(newAppointment);
+
+			setLoading(true);
+			await api.post('appointments', newAppointment);
+			setLoading(false);
+			showToast.success('Agendamento criado com sucesso');
+		} catch (error) {
+			setLoading(false);
+			getValidationErrors(error);
+		}
+	}
+
 	return (
 		<Container title={`Agenda`} loading={loading}>
 			<SheduleContainer>
@@ -93,16 +114,24 @@ function CreateEdit() {
 					<Profile>
 						<img src={specialityProvider.user.url} alt={specialityProvider.user.name} />
 						<ProfileInfo>
+							<strong>Especialidade {specialityProvider.type.name}</strong>
 							<strong>{specialityProvider.user.name}</strong>
 							<div>
 								<p>{specialityProvider.user.email}</p>
 							</div>
+							{specialityProvider.user.crm && (
+								<div>
+									<p>CRM {specialityProvider.user.crm}</p>
+								</div>
+							)}
 							<div>
-								<p>CRM {specialityProvider.user.crm}</p>
-							</div>
-							<div>
-								<p>{specialityProvider.user.whatsapp}</p>
-								<p>R$ {specialityProvider.value}</p>
+								<p>
+									<FaWhatsapp size={20} />
+									<a href={specialityProvider.urlWhatsapp} target="_blank">
+										{specialityProvider.user.whatsapp}
+									</a>
+								</p>
+								<p>{specialityProvider.priceFormated}</p>
 							</div>
 							<p>{specialityProvider.description}</p>
 						</ProfileInfo>
@@ -120,9 +149,12 @@ function CreateEdit() {
 					</header>
 					<ul>
 						{schedules.map((schedule) => (
-							<Time key={schedule.time} past={schedule.past} available={!schedule.apponitment}>
+							<Time
+								key={schedule.time}
+								available={!schedule.available}
+								onClick={() => handleAddAppointment(schedule)}
+							>
 								<strong>{schedule.time}</strong>
-								<span>{schedule.apponitment ? schedule.apponitment.user.name : 'Em aberto'}</span>
 							</Time>
 						))}
 					</ul>

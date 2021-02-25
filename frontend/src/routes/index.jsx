@@ -21,6 +21,7 @@ import SpecialityCreateEdit from '../pages/Speciality/CreateEdit';
 // import FilesVehicle from '../pages/Vehicle/Files'
 // import SaleList from '../pages/Sale/List'
 // import SaleCreateEdit from '../pages/Sale/CreateEdit'
+import Schedule from '../pages/Schedule';
 import Appointment from '../pages/Appointment/List';
 import AppointmentCreateEdit from '../pages/Appointment/CreateEdit';
 
@@ -37,6 +38,8 @@ const Routes = () => {
 			<Route exact path="/reset" component={Reset} />
 
 			<Route exact path="/dashboard" component={Dashboard} isPrivate />
+			
+			<Route exact path="/schedule" component={Schedule} isPrivate />
 
 			<Route exact path="/appointment" component={Appointment} isPrivate />
 			<Route exact path="/appointment/:specialityId/create" component={AppointmentCreateEdit} isPrivate />

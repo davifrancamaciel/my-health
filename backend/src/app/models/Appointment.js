@@ -31,6 +31,7 @@ class Appointment extends Model {
             foreignKey: 'provider_id',
             as: 'provider',
         })
+        this.belongsTo(models.Speciality, { foreignKey: 'speciality_id', as: 'speciality' })
     }
 }
 export default Appointment

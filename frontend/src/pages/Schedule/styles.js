@@ -15,7 +15,6 @@ export const SheduleContainer = styled.div`
 		button {
 			border: 0;
 			background: none;
-      
 		}
 
 		strong {
@@ -37,18 +36,29 @@ export const Time = styled.li`
 	border-radius: 2px;
 	background: #fff;
 	box-shadow: 0 0 14px 0 #00000033;
+	display: flex;
+	justify-content: space-between;
 
 	opacity: ${(props) => (props.past ? 0.6 : 1)};
-
-	strong {
-		display: block;
-		color: ${(props) => (props.available ? '#999' : '#7159c1')};
-		font-size: 20px;
-		font-weight: normal;
+	div {
+		strong {
+			display: block;
+			color: ${(props) => (props.available ? '#999' : `${PRIMARY_COLOR}`)};
+			font-size: 20px;
+			font-weight: normal;
+		}
+		span {
+			display: block;
+			margin-top: 3px;
+			color: ${(props) => (props.available ? '#999' : '#666')};
+		}
 	}
-	span {
-		display: block;
-		matgin-top: 3px;
-		color: ${(props) => (props.available ? '#999' : '#666')};
+
+	img {
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: solid 4px ${PRIMARY_COLOR};
 	}
 `;

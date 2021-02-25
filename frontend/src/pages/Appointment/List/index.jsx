@@ -10,7 +10,9 @@ import MarkerContainer from './Marker';
 
 import api from 'services/api';
 import getValidationErrors from 'Utils/getValidationErrors';
+import urlMessageWhatsapp from 'Utils/urlMessageWhatsapp';
 import Container from 'components/_layouts/Container';
+
 import { Search, ContainerMapSelectProvider, PopupCustom, Card, Info } from './styles';
 
 function Appointment() {
@@ -26,7 +28,9 @@ function Appointment() {
 			try {
 				setLoading(true);
 				const response = await api.get('specialities-types');
+
 				setTypes(response.data);
+
 				setLoading(false);
 			} catch (error) {
 				setLoading(false);
@@ -60,8 +64,13 @@ function Appointment() {
 				params: { speciality_type_id: id },
 			});
 			setLoading(false);
-			console.log(response.data);
-			setSpecialityies(response.data.rows);
+			
+			const data = response.data.rows.map((x) => ({
+				...x,
+				urlWhatsapp: urlMessageWhatsapp(x.user.whatsapp),
+			}));
+
+			setSpecialityies(data);
 		} catch (error) {
 			setLoading(false);
 			getValidationErrors(error);

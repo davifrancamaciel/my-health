@@ -12,7 +12,7 @@ export const SheduleContainer = styled.div`
 export const Profile = styled.div`
 	display: flex;
 	background-color: #fff;
-	border: solid 2px ${PRIMARY_COLOR};
+	/* border: solid 2px ${PRIMARY_COLOR}; */
 	box-shadow: 0 0 14px 0 #00000033;
 	border-radius: 2px;
 	flex-direction: column;
@@ -22,7 +22,7 @@ export const Profile = styled.div`
 	height: 100%;
 	padding: 40px 20px;
 	margin-top: 118px;
-  margin:  50px auto ;
+	margin: 50px auto;
 
 	> img {
 		width: 200px;
@@ -34,6 +34,7 @@ export const Profile = styled.div`
 `;
 
 export const ProfileInfo = styled.div`
+	width: 100%;
 	margin-top: 40px;
 	display: flex;
 	justify-content: center;
@@ -42,6 +43,9 @@ export const ProfileInfo = styled.div`
 
 	> strong {
 		text-align: center;
+	}
+	> strong + strong {
+		margin-top: 15px;
 	}
 	> div {
 		display: flex;
@@ -55,12 +59,15 @@ export const ProfileInfo = styled.div`
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
+			a {
+				color: #666;
+				font-size: 14px;
+				text-decoration: none;
+				cursor: pointer;
+			}
 
-			span {
-				display: flex;
-				svg {
-					margin-right: 5px;
-				}
+			svg {
+				margin-right: 5px;
 			}
 		}
 	}
@@ -108,14 +115,10 @@ export const Time = styled.li`
 	opacity: ${(props) => (props.past ? 0.6 : 1)};
 
 	strong {
+		text-align: center;
 		display: block;
 		color: ${(props) => (props.available ? '#999' : `${PRIMARY_COLOR}`)};
 		font-size: 20px;
 		font-weight: normal;
-	}
-	span {
-		display: block;
-		margin-top: 3px;
-		color: ${(props) => (props.available ? '#999' : '#666')};
 	}
 `;

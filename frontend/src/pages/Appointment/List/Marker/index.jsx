@@ -21,10 +21,7 @@ function MarkerContainer({ item }) {
 					<p>
 						<span>
 							<FaWhatsapp size={20} />
-							<a
-								href={`https://api.whatsapp.com/send?phone=+55${item.user.whatsapp}&teitemt=`}
-								target="_blank"
-							>
+							<a href={item.urlWhatsapp} target="_blank">
 								{item.user.whatsapp}
 							</a>
 						</span>

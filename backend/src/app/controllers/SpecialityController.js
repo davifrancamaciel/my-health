@@ -46,7 +46,7 @@ class SpecialityController {
 
     const speciality = await Speciality.findByPk(id);
     if (!speciality) {
-      return res.status(400).json({ error: 'especialidade não encontrada' });
+      return res.status(400).json({ error: 'Especialidade não encontrada' });
     }
 
     if (!userCompanyProvider) {
@@ -118,33 +118,43 @@ class SpecialityController {
   }
 
   async delete(req, res) {
-    const { userCompanyProvider, userProvider, userCompanyId } = req;
+    try {
+      const { userCompanyProvider, userProvider, userCompanyId } = req;
 
-    if (!userProvider) {
-      return res.status(401).json({
-        error: 'Usuário não tem permissão para deletar as especialidades',
+      if (!userProvider) {
+        return res.status(401).json({
+          error: 'Usuário não tem permissão para deletar as especialidades',
+        });
+      }
+
+      const { id } = req.params;
+
+      const speciality = await Speciality.findByPk(id);
+
+      if (!speciality) {
+        return res.status(400).json({ error: 'especialidade não encontrada' });
+      }
+
+      if (!userCompanyProvider && userCompanyId !== speciality.company_id) {
+        return res.status(401).json({
+          error: 'Não é possivel excluir um registro de outra loja',
+        });
+      }
+
+      await Speciality.destroy({
+        where: { id },
       });
+
+      return res.json('ok');
+    } catch (error) {
+      if (error && error.original.column.includes('speciality_id')) {
+        return res.status(401).json({
+          error:
+            'Não é possivel excluir um registro que já possui agendamentos',
+          serveError: error,
+        });
+      }
     }
-
-    const { id } = req.params;
-
-    const speciality = await Speciality.findByPk(id);
-
-    if (!speciality) {
-      return res.status(400).json({ error: 'especialidade não encontrada' });
-    }
-
-    if (!userCompanyProvider && userCompanyId !== speciality.company_id) {
-      return res.status(401).json({
-        error: 'Não é possivel excluir um registro de outra loja',
-      });
-    }
-
-    await Speciality.destroy({
-      where: { id },
-    });
-
-    return res.json('ok');
   }
 }
 

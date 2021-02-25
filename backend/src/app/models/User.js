@@ -32,8 +32,10 @@ class User extends Model {
         validated: Sequelize.BOOLEAN,
         url: {
           type: Sequelize.VIRTUAL,
-          get () {
-            return `${process.env.APP_URL}/files/${this.image}`
+          get() {
+            return `${process.env.APP_URL}/files/${
+              this.image ? this.image : 'avatar.png'
+            }`;
           },
         },
       },

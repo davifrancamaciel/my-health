@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import {
 	format,
@@ -21,23 +22,26 @@ import Container from 'components/_layouts/Container';
 import BackPage from 'components/BackPage';
 import { SheduleContainer, Time } from './styles';
 
-const range = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+const range = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
-function CreateEdit() {
-    const [date, setDate] = useState(new Date());
-    const [loading, setLoading] = useState(false);
+function Shedule() {
+	const profile = useSelector((state) => state.user.profile);
+
+	const [date, setDate] = useState(new Date());
+	const [loading, setLoading] = useState(false);
 	const [schedules, setSchedules] = useState([]);
 	const dateFormated = useMemo(() => format(date, "d 'de' MMMM", { locale: pt }), [date]);
 
 	useEffect(() => {
 		async function loadSchedule() {
-            setLoading(true);
+			setLoading(true);
 			const response = await api.get('schedule', {
 				params: {
 					date,
 				},
 			});
-
+			console.log(profile)
+			console.log(response.data);
 			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 			const data = range.map((hour) => {
@@ -50,8 +54,8 @@ function CreateEdit() {
 				};
 			});
 
-            setSchedules(data);
-            setLoading(false);
+			setSchedules(data);
+			setLoading(false);
 		}
 		loadSchedule();
 	}, [date]);
@@ -65,7 +69,7 @@ function CreateEdit() {
 	}
 
 	return (
-		<Container title={`Agenda`} loading={loading}>
+		<Container title={`Minha agenda`} loading={loading}>
 			<SheduleContainer>
 				<header>
 					<button type="button" onClick={handlePrevDay}>
@@ -79,8 +83,14 @@ function CreateEdit() {
 				<ul>
 					{schedules.map((schedule) => (
 						<Time key={schedule.time} past={schedule.past} available={!schedule.apponitment}>
-							<strong>{schedule.time}</strong>
-							<span>{schedule.apponitment ? schedule.apponitment.user.name : 'Em aberto'}</span>
+							<div>
+								<strong>{schedule.time}</strong>
+								<span>{schedule.apponitment ? schedule.apponitment.user.name : 'Em aberto'}</span>
+								{schedule.apponitment && <span>{schedule.apponitment.speciality.type.name}</span>}
+							</div>
+							{schedule.apponitment && (
+								<img src={schedule.apponitment.user.url} alt={schedule.apponitment.user.name} />
+							)}
 						</Time>
 					))}
 				</ul>
@@ -89,4 +99,4 @@ function CreateEdit() {
 	);
 }
 
-export default CreateEdit;
+export default Shedule;

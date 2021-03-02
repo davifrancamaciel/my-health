@@ -34,6 +34,7 @@ export const NotificationList = styled.div`
 	border-radius: 4px;
 	padding: 15px 5px;
 	display: ${(props) => (props.visible ? 'block' : 'none')};
+	z-index: 1;
 
 	&::before {
 		content: '';
@@ -44,7 +45,7 @@ export const NotificationList = styled.div`
 		height: 0;
 		border-left: 20px solid transparent;
 		border-right: 20px solid transparent;
-		border-bottom: 20px solid rgba(0, 0, 0, 0.6);
+		border-bottom: 20px solid rgba(0, 0, 0, 0.8);
 	}
 `;
 export const Notification = styled.div`
@@ -96,4 +97,26 @@ export const Notification = styled.div`
 export const Scroll = styled.div`
 	max-height: 260px;
 	padding: 5px 15px;
+	overflow-y: scroll;
+
+	&::-webkit-scrollbar {
+		width: 10px;		
+	}
+
+	/* Track */
+	&::-webkit-scrollbar-track {
+		background: #f1f1f1;
+		border-radius: 10px;
+	}
+
+	/* Handle */
+	&::-webkit-scrollbar-thumb {
+		background: #888;
+		border-radius: 11px;
+	}
+
+	/* Handle on hover */
+	&::-webkit-scrollbar-thumb:hover {
+		background: #555;
+	}
 `;

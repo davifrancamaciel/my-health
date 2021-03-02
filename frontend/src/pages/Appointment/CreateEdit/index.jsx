@@ -15,6 +15,8 @@ import {
 	parseISO,
 	isEqual,
 	formatRelative,
+	isSaturday,
+	isSunday
 } from 'date-fns';
 
 import { utcToZonedTime } from 'date-fns-tz';
@@ -72,11 +74,21 @@ function CreateEdit() {
 	}, [date]);
 
 	function handlePrevDay() {
-		setDate(subDays(date, 1));
+		const nextDate = subDays(date, 1);
+		let daysSub = 1;
+		if (isSunday(nextDate)) {
+			daysSub = 3;
+		}
+		setDate(subDays(date, daysSub));		
 	}
 
 	function handleNextDay() {
-		setDate(addDays(date, 1));
+		const nextDate = addDays(date, 1);
+		let daysAdd = 1;
+		if (isSaturday(nextDate)) {
+			daysAdd = 3;
+		}
+		setDate(addDays(date, daysAdd));
 	}
 
 	function handleAddAppointment(schedule) {

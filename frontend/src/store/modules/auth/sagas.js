@@ -84,10 +84,10 @@ const dataUser = {
 	user: {
 		id: 1,
 		name: 'Davi França Maciel',
-		image: null,
+		image: 'ba08ce2002ea9b8c957b38c06e963184.jpg',
 		email: 'davifrancamaciel@gmail.com',
 		provider: true,
-		whatsapp: '(66) 66666-6666',
+		whatsapp: '(24) 99999-9999',
 		phone: '',
 		cpf_cnpj: '',
 		cnh: '',
@@ -105,5 +105,5 @@ const dataUser = {
 		longitude: null,
 	},
 	token:
-		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHJvdmlkZXIiOnRydWUsImlhdCI6MTYxMzgyMzQ1OSwiZXhwIjoxNjE0NDI4MjU5fQ.GnNKbHtUbZySv1Q0ec4fsHys6ORQ1Ez2ld33REgXxhc',
+		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHJvdmlkZXIiOnRydWUsImlhdCI6MTYxNDI5NTgwMiwiZXhwIjoxNjE0OTAwNjAyfQ.eS43ONaK7RJS3UnQe1VOtnnkG0YtiZwPpJV5Gx03yxA',
 };

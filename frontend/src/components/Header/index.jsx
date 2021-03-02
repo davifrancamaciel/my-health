@@ -10,7 +10,7 @@ import ProfileMenu from './ProfileMenu'
 import ContractsMenu from './ContractsMenu'
 import Notifications from '../Notifications'
 
-import logo from '../../assets/logoupish-branco.png'
+import logo from '../../assets/logoupish.png'
 import getImage from '../../Utils/getImage'
 import { Container, Content, Profile } from './styles'
 
@@ -67,7 +67,7 @@ const Header = () => {
       itensMenu.filter(i =>
         i.provider.includes(profile.provider.toString())
       )
-    )
+    )   
   }, [profile])
 
   return (

@@ -12,7 +12,7 @@ import Speciality from '../../models/Speciality';
 import { Op } from 'sequelize';
 
 class AvailableService {
-  async run({ searchDate, speciality_id }) {
+  async run({ searchDate, speciality_id, user_id }) {
     const speciality = await Speciality.findByPk(speciality_id);
 
     if (!speciality) {
@@ -51,12 +51,17 @@ class AvailableService {
         setMinutes(setHours(searchDate, hour), minute),
         0
       );
+      const appontment = appointments.find(
+        a => format(a.date, 'HH:mm') === time
+      );
       return {
         time,
         value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
         available:
           isAfter(value, new Date()) &&
           !appointments.find(a => format(a.date, 'HH:mm') === time),
+        isMine: appontment && appontment.user_id === user_id,
+        id: appontment && appontment.user_id === user_id && appontment.id,
       };
     });
 

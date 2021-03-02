@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { MdNotifications } from 'react-icons/md';
 import { parseISO, formatDistance } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -6,10 +7,12 @@ import pt from 'date-fns/locale/pt';
 import { SECONDARY_COLOR } from 'constants/colors';
 
 import api from 'services/api';
+import firebaseService from 'services/firebase';
 
 import { Container, Badge, NotificationList, Notification, Scroll } from './styles';
 
 function Notifications() {
+	const profile = useSelector((state) => state.user.profile);
 	const [visible, setVisible] = useState(false);
 	const [notifications, setNotification] = useState([]);
 	/**
@@ -23,17 +26,17 @@ function Notifications() {
 
 	useEffect(() => {
 		async function loadNotifications() {
-			const response = await api.get('notifications');
-
-			const data = response.data.map((notification) => ({
-				...notification,
-				timeDistance: formatDistance(parseISO(notification.createdAt), new Date(), {
-					addSuffix: true,
-					locale: pt,
-				}),
-			}));
-			console.log(data);
-			setNotification(data);
+			firebaseService.getDataList(`notifications/user-${profile.id}`, (dataReceived) => {
+				console.log(dataReceived);
+				const data = dataReceived.map((notification) => ({
+					...notification,
+					timeDistance: formatDistance(parseISO(notification.createdAt), new Date(), {
+						addSuffix: true,
+						locale: pt,
+					}),
+				}));
+				setNotification(data);
+			});
 		}
 
 		loadNotifications();
@@ -43,11 +46,14 @@ function Notifications() {
 		setVisible(!visible);
 	}
 
-	async function handleMarkAsRead(id) {
-		await api.put(`notifications/${id}`);
+	async function handleMarkAsRead(key) {
+		let notificationRead = notifications.find((x) => x.key === key);
+		notificationRead.read = true;
+		console.log(notificationRead);
+		firebaseService.updateData(key, `notifications/user-${profile.id}`, notificationRead);
 		setNotification(
 			notifications.map((notification) =>
-				notification._id === id ? { ...notification, read: true } : notification
+				notification.key === key ? { ...notification, read: true } : notification
 			)
 		);
 	}
@@ -60,11 +66,11 @@ function Notifications() {
 			<NotificationList visible={visible}>
 				<Scroll>
 					{notifications.map((n) => (
-						<Notification key={n._id} unread={!n.read}>
+						<Notification key={n.key} unread={!n.read}>
 							<p>{n.content}</p>
 							<time>{n.timeDistance}</time>
 							{!n.read && (
-								<button type="button" onClick={() => handleMarkAsRead(n._id)}>
+								<button type="button" onClick={() => handleMarkAsRead(n.key)}>
 									Marcar como lido
 								</button>
 							)}

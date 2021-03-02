@@ -10,6 +10,7 @@ class SpecialityProviderController {
       const user = await Speciality.findOne({
         where: { id, active: true },
         attributes: [
+          'id',
           'zip_code',
           'state',
           'city',

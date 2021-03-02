@@ -112,7 +112,7 @@ export const Time = styled.li`
 	background: #fff;
 	box-shadow: 0 0 14px 0 #00000033;
 
-	opacity: ${(props) => (props.past ? 0.6 : 1)};
+	opacity: ${(props) => (props.available ? 0.6 : 1)};
 
 	strong {
 		text-align: center;

@@ -49,13 +49,24 @@ function Shedule() {
 			const data = range.map((hour) => {
 				const checkDate = setMilliseconds(setSeconds(setMinutes(setHours(date, hour), 0), 0), 0);
 				const compareDate = utcToZonedTime(checkDate, timezone);
+				const apponitment = response.data.find((a) => isEqual(parseISO(a.date), compareDate));
+
+				let toAppointmentProfile = 'provider';
+				let titlePosition = 'Médico';
+				if (apponitment && apponitment.provider_id == profile.id) {
+					toAppointmentProfile = 'user';
+					titlePosition = 'Paciente';
+				}
 				return {
 					time: `${hour}:00h`,
 					past: isBefore(compareDate, new Date()),
-					apponitment: response.data.find((a) => isEqual(parseISO(a.date), compareDate)),
+					apponitment,
+					scheduledWithUser: apponitment && apponitment[toAppointmentProfile],
+					titlePosition,
 				};
 			});
 
+			console.log(data);
 			setSchedules(data);
 			setLoading(false);
 		}
@@ -94,14 +105,24 @@ function Shedule() {
 				</header>
 				<ul>
 					{schedules.map((schedule) => (
-						<Time key={schedule.time} past={schedule.past} available={!schedule.apponitment}>
+						<Time
+							key={schedule.time}
+							past={schedule.past}
+							available={!schedule.apponitment}
+							scheduledWithUser={schedule.titlePosition}
+							provider={profile.provider}
+						>
 							<div>
 								<strong>{schedule.time}</strong>
-								<span>{schedule.apponitment ? schedule.apponitment.user.name : 'Em aberto'}</span>
-								{schedule.apponitment && <span>{schedule.apponitment.speciality.type.name}</span>}
+								<span>
+									{schedule.scheduledWithUser
+										? `${schedule.titlePosition} ${schedule.scheduledWithUser.name}`
+										: 'Em aberto'}
+								</span>
+								{schedule.scheduledWithUser && <span>{schedule.apponitment.speciality.type.name}</span>}
 							</div>
-							{schedule.apponitment && (
-								<img src={schedule.apponitment.user.url} alt={schedule.apponitment.user.name} />
+							{schedule.scheduledWithUser && (
+								<img src={schedule.scheduledWithUser.url} alt={schedule.scheduledWithUser.name} />
 							)}
 						</Time>
 					))}

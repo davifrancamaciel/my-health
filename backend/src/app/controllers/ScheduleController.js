@@ -27,10 +27,8 @@ class ScheduleController {
       date: {
         [Op.between]: [startOfDay(parsedDate), endOfDay(parsedDate)],
       },
+      [Op.or]: [{ provider_id: req.userId }, { user_id: req.userId }],
     };
-
-    if (user.provider) whereStatement.provider_id = req.userId;
-    if (!user.provider) whereStatement.user_id = req.userId;
 
     const appointments = await Appointment.findAll({
       where: whereStatement,

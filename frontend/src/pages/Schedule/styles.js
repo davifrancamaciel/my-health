@@ -40,10 +40,15 @@ export const Time = styled.li`
 	justify-content: space-between;
 
 	opacity: ${(props) => (props.past ? 0.6 : 1)};
+
 	div {
 		strong {
 			display: block;
-			color: ${(props) => (props.available ? '#999' : `${PRIMARY_COLOR}`)};
+			color: ${(props) =>
+				props.available
+					? '#999'
+					: `${props.scheduledWithUser === 'Médico' && props.provider ? '#ff892e' : PRIMARY_COLOR}`};
+
 			font-size: 20px;
 			font-weight: normal;
 		}
@@ -59,6 +64,6 @@ export const Time = styled.li`
 		height: 60px;
 		border-radius: 50%;
 		object-fit: cover;
-		border: solid 4px ${PRIMARY_COLOR};
+		border: solid 4px ${(props) => (props.scheduledWithUser === 'Médico' && props.provider ? '#ff892e' : PRIMARY_COLOR)};
 	}
 `;

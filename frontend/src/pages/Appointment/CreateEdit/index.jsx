@@ -62,6 +62,7 @@ function CreateEdit() {
 					priceFormated: formatPrice(provider.data.value),
 					urlWhatsapp: urlMessageWhatsapp(provider.data.user.whatsapp),
 				});
+				console.log(shedule.data);
 				setSchedules(shedule.data);
 
 				setLoading(false);

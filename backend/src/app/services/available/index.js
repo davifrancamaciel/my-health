@@ -21,13 +21,17 @@ class AvailableService {
 
     const appointments = await Appointment.findAll({
       where: {
-        provider_id: speciality.user_id,
+        [Op.or]: [
+          { provider_id: speciality.user_id },
+          { user_id: speciality.user_id },
+          { provider_id: user_id },
+          { user_id: user_id },
+        ],
         canceled_at: null,
         date: {
           [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
         },
       },
-      // order: ['date'],
     });
 
     const schedule = [
@@ -54,6 +58,7 @@ class AvailableService {
       const appontment = appointments.find(
         a => format(a.date, 'HH:mm') === time
       );
+
       return {
         time,
         value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
@@ -62,6 +67,8 @@ class AvailableService {
           !appointments.find(a => format(a.date, 'HH:mm') === time),
         isMine: appontment && appontment.user_id === user_id,
         id: appontment && appontment.user_id === user_id && appontment.id,
+        // appontment,
+        appointments
       };
     });
 

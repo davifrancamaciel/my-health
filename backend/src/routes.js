@@ -60,7 +60,6 @@ routes.put('/register', RegisterController.update);
 routes.post('/sessions', validateSessionStore, SessionController.store);
 routes.post('/forgot', ForgotController.store);
 routes.put('/forgot', ForgotController.update);
-routes.get('/users1qaz', UserController.index);
 
 // rotas privadas
 routes.use(authMiddleware);

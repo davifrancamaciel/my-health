@@ -6,10 +6,11 @@ import Mail from '../../lib/Mail';
 class RegisterController {
   async store(req, res) {
     try {
+      console.log('inicio')
       const userExist = await User.findOne({
         where: { email: req.body.email },
       });
-
+      console.log('fim')
       if (userExist) {
         return res
           .status(400)

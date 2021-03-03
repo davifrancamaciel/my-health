@@ -16,7 +16,7 @@ const models = [Company, User, Vehicle, Speciality, SpecialityType, File, Sale, 
 class Database {
   constructor () {
     this.init()
-    this.mongo()
+    // this.mongo()
   }
 
   init () {
@@ -27,13 +27,13 @@ class Database {
       .map(model => model.associate && model.associate(this.connection.models))
   }
 
-  mongo () {
-    this.mongooseConnection = mongoose.connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useFindAndModify: true,
-        useUnifiedTopology: true
-    })
-}
+  // mongo () {
+  //   this.mongooseConnection = mongoose.connect(process.env.MONGO_URL, {
+  //       useNewUrlParser: true,
+  //       useFindAndModify: true,
+  //       useUnifiedTopology: true
+  //   })
+// }
 }
 
 export default new Database()

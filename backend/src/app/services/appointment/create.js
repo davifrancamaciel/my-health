@@ -1,10 +1,10 @@
 import { startOfHour, parseISO, isBefore, format, subHours } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
-import Notification from '../../schemas/Notification';
 import User from '../../models/User';
 import Appointment from '../../models/Appointment';
 import Mail from '../../../lib/Mail';
+import { Op } from 'sequelize';
 
 class CreateAppontmentService {
   async run({ provider_id, user_id, date, speciality_id, speciality }) {
@@ -31,8 +31,14 @@ class CreateAppontmentService {
     const checkAvailability = await Appointment.findOne({
       where: {
         date: hourStart,
-        provider_id,
         canceled_at: null,
+        // provider_id,
+        [Op.or]: [
+          { provider_id: provider_id },
+          { user_id: provider_id },
+          { provider_id: user_id },
+          { user_id: user_id },
+        ],
       },
     });
     if (checkAvailability) {

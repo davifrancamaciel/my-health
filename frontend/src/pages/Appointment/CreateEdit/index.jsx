@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { FaWhatsapp } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import { FcCancel } from 'react-icons/fc';
 import {
 	format,
 	subDays,
@@ -16,7 +17,7 @@ import {
 	isEqual,
 	formatRelative,
 	isSaturday,
-	isSunday
+	isSunday,
 } from 'date-fns';
 
 import { utcToZonedTime } from 'date-fns-tz';
@@ -29,7 +30,6 @@ import firebaseService from 'services/firebase';
 
 import { PRIMARY_COLOR } from 'constants/colors';
 import Container from 'components/_layouts/Container';
-import BackPage from 'components/BackPage';
 import showToast from 'Utils/showToast';
 import ShowConfirm from 'components/ShowConfirm';
 import { SheduleContainer, Time, Shedule, Profile, ProfileInfo } from './styles';
@@ -62,7 +62,6 @@ function CreateEdit() {
 					priceFormated: formatPrice(provider.data.value),
 					urlWhatsapp: urlMessageWhatsapp(provider.data.user.whatsapp),
 				});
-				console.log(shedule.data);
 				setSchedules(shedule.data);
 
 				setLoading(false);
@@ -80,7 +79,7 @@ function CreateEdit() {
 		if (isSunday(nextDate)) {
 			daysSub = 3;
 		}
-		setDate(subDays(date, daysSub));		
+		setDate(subDays(date, daysSub));
 	}
 
 	function handleNextDay() {
@@ -147,8 +146,56 @@ function CreateEdit() {
 		firebaseService.pushData(`notifications/user-${data.provider_id}`, notification);
 	}
 
+	function handleCancelAppointment(schedule) {
+		if (!schedule.isMine) {
+			showToast.warning('Este agendamento só pode ser cancelado pelo paciente ou pelo próprio médico');
+			return;
+		}
+
+		if (!schedule.appointment.cancelable) {
+			showToast.warning('Este agendamento só pode ser cancelado até 2h antes');
+			return;
+		}
+		ShowConfirm(
+			'Atenção',
+			`Confirma o cancelamemto do agendamento com médico ${schedule.appointment.provider.name} no horário de ${schedule.time}h?`,
+			() => handleCancelAppointmentConfirmed(schedule)
+		);
+	}
+
+	async function handleCancelAppointmentConfirmed(schedule) {
+		try {
+			setLoading(true);
+			const responseCancel = await api.delete(`appointments/${schedule.appointment.id}`);
+			addNotificationCancel(responseCancel.data);
+
+			const response = await api.get(`/available/providers/${specialityId}`, {
+				params: { date: date.getTime() },
+			});
+			setSchedules(response.data);
+
+			setLoading(false);
+			showToast.success(`Agendamento de ${schedule.time}h CANCELADO com sucesso`);
+		} catch (error) {
+			setLoading(false);
+			getValidationErrors(error);
+		}
+	}
+
+	function addNotificationCancel(data) {
+		const { appointment, formatedDate } = data;
+
+		const notification = {
+			createdAt: appointment.canceled_at,
+			content: `Consulta CANCELADA para ${appointment.speciality.type.name} com ${appointment.user.name} para o ${formatedDate}`,
+			user: appointment.provider_id,
+			read: false,
+		};
+		firebaseService.pushData(`notifications/user-${appointment.provider_id}`, notification);
+	}
+
 	return (
-		<Container title={`Agenda`} loading={loading}>
+		<Container title={`Agenda`} loading={loading} showBack>
 			<SheduleContainer>
 				{specialityProvider.user && (
 					<Profile>
@@ -174,6 +221,10 @@ function CreateEdit() {
 								<p>{specialityProvider.priceFormated}</p>
 							</div>
 							<p>{specialityProvider.description}</p>
+							<p>
+								{specialityProvider.street} {specialityProvider.neighborhood} {specialityProvider.city}{' '}
+								{specialityProvider.neighborhood}
+							</p>
 						</ProfileInfo>
 					</Profile>
 				)}
@@ -189,12 +240,18 @@ function CreateEdit() {
 					</header>
 					<ul>
 						{schedules.map((schedule) => (
-							<Time
-								key={schedule.time}
-								available={!schedule.available}
-								onClick={() => handleAddAppointment(schedule)}
-							>
-								<strong>{schedule.time}</strong>
+							<Time key={schedule.time} available={!schedule.available}>
+								<div onClick={() => handleAddAppointment(schedule)}>
+									<strong>{schedule.time}</strong>
+								</div>
+								{schedule.isMine && (
+									<button
+										title="Cancelar agendamento"
+										onClick={() => handleCancelAppointment(schedule)}
+									>
+										<FcCancel size={20} color="#fff" />
+									</button>
+								)}
 							</Time>
 						))}
 					</ul>

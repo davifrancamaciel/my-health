@@ -6,7 +6,7 @@ import { Container } from './styles'
 
 export default function BackPage () {
   return (
-    <Container>
+    <Container className='dfm-back-page'>
       <span
         onClick={() => {
           history.goBack()

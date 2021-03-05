@@ -106,19 +106,32 @@ export const Shedule = styled.div`
 `;
 
 export const Time = styled.li`
+	position: relative;
 	cursor: pointer;
-	padding: 20px;
 	border-radius: 2px;
 	background: #fff;
 	box-shadow: 0 0 14px 0 #00000033;
 
 	opacity: ${(props) => (props.available ? 0.6 : 1)};
+	div {
+		padding: 20px;
 
-	strong {
-		text-align: center;
-		display: block;
-		color: ${(props) => (props.available ? '#999' : `${PRIMARY_COLOR}`)};
-		font-size: 20px;
-		font-weight: normal;
+		strong {
+			text-align: center;
+			display: block;
+			color: ${(props) => (props.available ? '#999' : `${PRIMARY_COLOR}`)};
+			font-size: 20px;
+			font-weight: normal;
+		}
+	}
+	button {
+		border: 0;
+		background: none;
+		margin-left: 5px;
+		padding: 5px;
+		height: 30px;
+		position: absolute;
+		top: 3px;
+		right: 3px;
 	}
 `;

@@ -1,15 +1,16 @@
-import { isBefore, subHours } from 'date-fns';
+import { isBefore, subHours, format } from 'date-fns';
 
 import User from '../../models/User';
 import Appointment from '../../models/Appointment';
 import Speciality from '../../models/Speciality';
 import SpecialityType from '../../models/SpecialityType';
+import pt from 'date-fns/locale/pt';
 
 import Mail from '../../../lib/Mail';
 
-class CancelAppointmentservice {
+class AppointmentCancelService {
   async run({ id, user_id }) {
-    const appointment = await Appointment.findByPk(id, {
+    let appointment = await Appointment.findByPk(id, {
       include: [
         {
           model: User,
@@ -64,16 +65,6 @@ class CancelAppointmentservice {
       }
     );
 
-    Notification.create({
-      content: `Consulta CANCELADA para ${appointment.speciality.type.name} com ${appointment.user.name} para o ${formatedDate}`,
-      user: provider_id,
-    });
-
-    Notification.create({
-      content: `Consulta CANCELADA para ${appointment.speciality.type.name} agendada com ${appointment.provider.name} para o ${formatedDate}`,
-      user: user_id,
-    });
-
     Mail.sendMail({
       to: `${appointment.provider.name} <${appointment.provider.email}>`,
       subject: 'Agendamento cancelado',
@@ -103,8 +94,8 @@ class CancelAppointmentservice {
     });
     // FIM notificações aos envolvidos
 
-    return appointment;
+    return { appointment, formatedDate };
   }
 }
 
-export default new CancelAppointmentservice();
+export default new AppointmentCancelService();

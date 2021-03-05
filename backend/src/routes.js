@@ -86,7 +86,7 @@ routes.delete('/companies/:id', CompanyController.delete);
 
 routes.get('/appointments', AppointmentController.index);
 routes.post('/appointments', AppointmentController.store);
-routes.delete('/appointments', AppointmentController.delete);
+routes.delete('/appointments/:id', AppointmentController.delete);
 
 routes.get('/available/providers/:specialityId', AvailableController.index)
 

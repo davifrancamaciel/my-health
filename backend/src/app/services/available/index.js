@@ -9,6 +9,7 @@ import {
 } from 'date-fns';
 import Appointment from '../../models/Appointment';
 import Speciality from '../../models/Speciality';
+import User from '../../models/User';
 import { Op } from 'sequelize';
 
 class AvailableService {
@@ -32,6 +33,13 @@ class AvailableService {
           [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
         },
       },
+      include:[
+        {
+          model: User,
+          as: 'provider',
+          attributes: ['name', 'url', 'image'],
+        },
+      ]
     });
 
     const schedule = [
@@ -55,7 +63,7 @@ class AvailableService {
         setMinutes(setHours(searchDate, hour), minute),
         0
       );
-      const appontment = appointments.find(
+      const appointment = appointments.find(
         a => format(a.date, 'HH:mm') === time
       );
 
@@ -65,10 +73,9 @@ class AvailableService {
         available:
           isAfter(value, new Date()) &&
           !appointments.find(a => format(a.date, 'HH:mm') === time),
-        isMine: appontment && appontment.user_id === user_id,
-        id: appontment && appontment.user_id === user_id && appontment.id,
-        // appontment,
-        appointments
+        isMine: appointment && appointment.user_id === user_id,
+        id: appointment && appointment.user_id === user_id && appointment.id,
+        appointment: appointment && appointment.user_id === user_id && appointment,
       };
     });
 

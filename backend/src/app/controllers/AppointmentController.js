@@ -4,17 +4,19 @@ import SpecialityType from '../models/SpecialityType';
 import Speciality from '../models/Speciality';
 import User from '../models/User';
 import AppointmentCreateService from '../services/appointment/create';
-
-import getExpireDate from '../utils/addDays';
+import AppointmentCancelService from '../services/appointment/cancel';
 
 class AppointmentController {
   async index(req, res) {
-    const { userProvider } = req;
+    const { userProvider, userId } = req;
 
     const { speciality_type_id, page = 1 } = req.query;
 
     let whereStatement = {
       active: true,
+      user_id: {
+        [Op.ne]: userId,
+      },
     };
 
     if (speciality_type_id)
@@ -72,15 +74,6 @@ class AppointmentController {
 
   async store(req, res) {
     try {
-      // const schema = Yup.object().shape({
-      //     provider_id: Yup.number().required(),
-      //     date: Yup.date().required(),
-      // })
-
-      // if (!(await schema.isValid(req.body))) {
-      //     return res.status(400).json({ error: 'Validation fails' })
-      // }
-
       const { provider_id, date, speciality_id, speciality } = req.body;
 
       const appointment = await AppointmentCreateService.run({
@@ -88,7 +81,7 @@ class AppointmentController {
         date,
         user_id: req.userId,
         speciality_id,
-        speciality
+        speciality,
       });
 
       return res.json(appointment);
@@ -98,12 +91,16 @@ class AppointmentController {
   }
 
   async delete(req, res) {
-    // const { id } = req.params
-    // const appointment = await CancelAppointmentservice.run({
-    //     id,
-    //     user_id: req.userId,
-    // })
-    // return res.json(appointment)
+    try {
+      const { id } = req.params;
+      const appointment = await AppointmentCancelService.run({
+        id,
+        user_id: req.userId,
+      });
+      return res.json(appointment);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   }
 }
 

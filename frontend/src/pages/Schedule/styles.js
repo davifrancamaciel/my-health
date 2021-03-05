@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { PRIMARY_COLOR } from 'constants/colors';
 
 export const SheduleContainer = styled.div`
-	max-width: 600px;
+	max-width: 800px;
 	margin: 50px auto;
 	display: flex;
 	flex-direction: column;
@@ -32,6 +32,7 @@ export const SheduleContainer = styled.div`
 `;
 
 export const Time = styled.li`
+	position: relative;
 	padding: 20px;
 	border-radius: 2px;
 	background: #fff;
@@ -62,8 +63,21 @@ export const Time = styled.li`
 	img {
 		width: 60px;
 		height: 60px;
+		margin-left: 5px;
 		border-radius: 50%;
 		object-fit: cover;
-		border: solid 4px ${(props) => (props.scheduledWithUser === 'Médico' && props.provider ? '#ff892e' : PRIMARY_COLOR)};
+		border: solid 4px
+			${(props) => (props.scheduledWithUser === 'Médico' && props.provider ? '#ff892e' : PRIMARY_COLOR)};
+	}
+
+	button {
+		border: 0;
+		background: none;
+		margin-left: 5px;
+		padding: 5px;
+		height: 30px;
+		position: absolute;
+		top: 3px;
+		right: 3px;
 	}
 `;

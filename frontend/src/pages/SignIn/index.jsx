@@ -55,7 +55,7 @@ const SignIn = () => {
 					<Link to="/forgot">Esqueci minha senha</Link>
 				</Form>
 			</Content>
-			<BackgroundSignIn />
+			<BackgroundSignIn />			
 		</>
 	);
 };

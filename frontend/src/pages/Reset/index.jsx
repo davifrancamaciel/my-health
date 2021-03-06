@@ -5,7 +5,7 @@ import { Form, Input } from '@rocketseat/unform';
 
 import { signInRequest, changePasswordRequest, signFailure } from 'store/modules/auth/actions';
 import SubmitButton from 'components/SubmitButton';
-import { Content, BackgroundSignIn } from '../_layouts/auth/styles';
+import { Content, BackgroundReset } from '../_layouts/auth/styles';
 
 import logo from 'assets/logo.png';
 import validation from './validation';
@@ -55,7 +55,7 @@ const Reset = () => {
 					<Link to="/register">Criar conta</Link>
 				</Form>
 			</Content>
-			<BackgroundSignIn />
+			<BackgroundReset />
 		</>
 	);
 };

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 
 import SubmitButton from '../../components/SubmitButton';
-import { Content, BackgroundSignIn } from '../_layouts/auth/styles';
+import { Content, BackgroundForgot } from '../_layouts/auth/styles';
 
 import logo from '../../assets/logo.png';
 import validation from './validation';
@@ -39,7 +39,7 @@ const Forgot = () => {
 					<Link to="/register">Criar conta</Link>
 				</Form>
 			</Content>
-			<BackgroundSignIn />
+			<BackgroundForgot />
 		</>
 	);
 };

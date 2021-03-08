@@ -6,11 +6,12 @@ import Mail from '../../lib/Mail';
 class ForgotController {
   async store(req, res) {
     const { email } = req.body;
-
+    console.log('forgot antes');
     const user = await User.findOne({
       where: { email },
       attributes: ['id', 'name', 'email', 'active'],
     });
+    console.log('forgot depois');
 
     if (!user) {
       return res.status(401).json({ error: 'Usuário não encontrado' });

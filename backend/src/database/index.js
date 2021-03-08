@@ -1,32 +1,29 @@
-import Sequelize from 'sequelize'
+import Sequelize from 'sequelize';
 
-import databaseConfig from '../config/database'
-import Company from '../app/models/Company'
-import User from '../app/models/User'
-import Vehicle from '../app/models/Vehicle'
-import Speciality from '../app/models/Speciality'
-import SpecialityType from '../app/models/SpecialityType'
-import File from '../app/models/File'
-import Sale from '../app/models/Sale'
-import Appointment from '../app/models/Appointment'
+import databaseConfig from '../config/database';
+import User from '../app/models/User';
+import Speciality from '../app/models/Speciality';
+import SpecialityType from '../app/models/SpecialityType';
+import Appointment from '../app/models/Appointment';
 
-const models = [Company, User, Vehicle, Speciality, SpecialityType, File, Sale, Appointment]
+const models = [User, Speciality, SpecialityType, Appointment];
 
 class Database {
-  constructor () {
-    this.init()
+  constructor() {
+    this.init();
   }
 
-  init () {
-    this.connection = new Sequelize(databaseConfig)
+  init() {
+    console.log('databaseConfig ', databaseConfig);
+    this.connection = new Sequelize(databaseConfig);
 
     models
       .map(model => model.init(this.connection))
-      .map(model => model.associate && model.associate(this.connection.models))
+      .map(model => model.associate && model.associate(this.connection.models));
   }
 }
 
-export default new Database()
+export default new Database();
 
 /*
 ANOTAÇÕES

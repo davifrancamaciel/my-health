@@ -195,7 +195,7 @@ function CreateEdit() {
 	}
 
 	return (
-		<Container title={`Agenda`} loading={loading} showBack>
+		<Container title={`Agenda do médico`} loading={loading} showBack>
 			<SheduleContainer>
 				{specialityProvider.user && (
 					<Profile>

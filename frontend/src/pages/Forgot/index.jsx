@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 
 import SubmitButton from '../../components/SubmitButton';
-import { Content, BackgroundForgot } from '../_layouts/auth/styles';
+import { Content, BackgroundForgot, AnimationContainerLeft } from '../_layouts/auth/styles';
 
 import logo from '../../assets/logo.png';
 import validation from './validation';
@@ -31,13 +31,15 @@ const Forgot = () => {
 	return (
 		<>
 			<Content>
-				<img src={logo} alt="UPIS Saúde" />
-				<Form schema={validation()} onSubmit={handleSubmit}>
-					<Input name="email" type="email" placeholder="Seu e-mail" />
-					<SubmitButton loading={loading} text={'Esqueci a senha'} />
-					<Link to="/">Já tenho conta</Link>
-					<Link to="/register">Criar conta</Link>
-				</Form>
+				<AnimationContainerLeft>
+					<img src={logo} alt="UPIS Saúde" />
+					<Form schema={validation()} onSubmit={handleSubmit}>
+						<Input name="email" type="email" placeholder="Seu e-mail" />
+						<SubmitButton loading={loading} text={'Esqueci a senha'} />
+						<Link to="/">Já tenho conta</Link>
+						<Link to="/register">Criar conta</Link>
+					</Form>
+				</AnimationContainerLeft>
 			</Content>
 			<BackgroundForgot />
 		</>

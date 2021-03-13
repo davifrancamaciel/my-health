@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Select } from '@rocketseat/unform';
+// import { Select } from '@rocketseat/unform';
 
 import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import MarkerContainer from './Marker';
 
-// import Select from 'components/Inputs/Select';
+import Select from 'components/Inputs/Select';
 
 import api from 'services/api';
 import getValidationErrors from 'Utils/getValidationErrors';
@@ -64,7 +64,7 @@ function Appointment() {
 				params: { speciality_type_id: id },
 			});
 			setLoading(false);
-			
+
 			const data = response.data.rows.map((x) => ({
 				...x,
 				urlWhatsapp: urlMessageWhatsapp(x.user.whatsapp),
@@ -85,7 +85,7 @@ function Appointment() {
 						placeholder="Informe uma especialidade"
 						name="speciality_type_id"
 						options={types}
-						onChange={(e) => loadSpecialities(e.target.value)}
+						onSelected={(e) => loadSpecialities(e.value)}
 					/>
 				</Search>
 				{isLoadedPosition && (

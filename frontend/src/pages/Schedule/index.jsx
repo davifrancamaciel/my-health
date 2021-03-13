@@ -142,7 +142,7 @@ function Shedule() {
 	}
 
 	return (
-		<Container title={`Minha agenda`} loading={loading} showBack>
+		<Container title={`Meus agendamentos`} loading={loading} showBack>
 			<SheduleContainer>
 				<header>
 					<button type="button" onClick={handlePrevDay}>

@@ -5,7 +5,7 @@ import { Form, Input } from '@rocketseat/unform';
 
 import { signInRequest, changePasswordRequest, signFailure } from 'store/modules/auth/actions';
 import SubmitButton from 'components/SubmitButton';
-import { Content, BackgroundSignIn } from '../_layouts/auth/styles';
+import { Content, BackgroundSignIn, AnimationContainerLeft } from '../_layouts/auth/styles';
 import useQuery from 'hooks/queryString';
 import showToast from 'Utils/showToast';
 import getValidationErrors from 'Utils/getValidationErrors';
@@ -46,16 +46,18 @@ const SignIn = () => {
 	return (
 		<>
 			<Content>
-				<img src={logo} alt="UPIS Saúde" />
-				<Form initialData={user} schema={validation()} onSubmit={handleSubmit}>
-					<Input name="email" type="email" placeholder="Seu e-mail" />
-					<Input name="password" type="password" placeholder="Sua senha" />
-					<SubmitButton loading={loading} text={'Acessar'} />
-					<Link to="/register">Criar conta </Link>
-					<Link to="/forgot">Esqueci minha senha</Link>
-				</Form>
+				<AnimationContainerLeft>
+					<img src={logo} alt="UPIS Saúde" />
+					<Form initialData={user} schema={validation()} onSubmit={handleSubmit}>
+						<Input name="email" type="email" placeholder="Seu e-mail" />
+						<Input name="password" type="password" placeholder="Sua senha" />
+						<SubmitButton loading={loading} text={'Acessar'} />
+						<Link to="/register">Criar conta </Link>
+						<Link to="/forgot">Esqueci minha senha</Link>
+					</Form>
+				</AnimationContainerLeft>
 			</Content>
-			<BackgroundSignIn />			
+			<BackgroundSignIn />
 		</>
 	);
 };

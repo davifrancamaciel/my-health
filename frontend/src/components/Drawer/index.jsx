@@ -86,12 +86,10 @@ export default function TemporaryDrawer ({ itensMenuUser }) {
         ))}
       </List>
       <Divider />
-      {!profile.company_provider && (
+      {/* {!profile.company_provider && (
         <List>
           <ListItem button onClick={handleContractsClick}>
-            {/* <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon> */}
+           
             <ListItemText primary='Contratos' />
             {openContracts ? (
               <MdExpandLess size={26} />
@@ -111,13 +109,12 @@ export default function TemporaryDrawer ({ itensMenuUser }) {
                 className={classes.nested}
                 onClick={() => history.push(`/sale`)}
               >
-                {/* <ListItemIcon></ListItemIcon> */}
                 <ListItemText primary='Vendas' />
               </ListItem>
             </List>
           </Collapse>
         </List>
-      )}
+      )} */}
     </div>
   )
 

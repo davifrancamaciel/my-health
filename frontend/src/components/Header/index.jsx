@@ -23,7 +23,7 @@ const itensMenu = [
   },
   {
     path: 'appointment',
-    label: 'Agendar',
+    label: 'Especialidades',
     provider: 'false|true',
     icon: <AiOutlineShop size={26} />
   },

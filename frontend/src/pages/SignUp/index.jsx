@@ -9,10 +9,9 @@ import InputMask from '../../components/Inputs/InputMask';
 import validation from './validation';
 
 import logo from '../../assets/logo.png';
-import { Content, BackgroundSignUp } from '../_layouts/auth/styles';
+import { Content, BackgroundSignUp, AnimationContainerRight } from '../_layouts/auth/styles';
 
 const SignUp = () => {
-	
 	const dispatch = useDispatch();
 	const loading = useSelector((state) => state.auth.loading);
 
@@ -24,16 +23,18 @@ const SignUp = () => {
 		<>
 			<BackgroundSignUp />
 			<Content>
-				<img src={logo} alt="UPIS Saúde" />
-				<Form schema={validation()} onSubmit={handleSubmit}>
-					<Input name="name" type="text" placeholder="Seu nome completo" />
-					<InputMask mask="(99) 99999-9999" name="whatsapp" type="tel" placeholder="Seu whatsapp" />
-					<Input name="email" type="email" placeholder="Seu email para acesso" />
-					<Input name="password" type="password" placeholder="Sua senha" />
-					<SubmitButton loading={loading} text={'Criar conta'} />
-					<Link to="/">Já tenho conta</Link>
-					<Link to="/forgot">Esqueci minha senha</Link>
-				</Form>
+				<AnimationContainerRight>
+					<img src={logo} alt="UPIS Saúde" />
+					<Form schema={validation()} onSubmit={handleSubmit}>
+						<Input name="name" type="text" placeholder="Seu nome completo" />
+						<InputMask mask="(99) 99999-9999" name="whatsapp" type="tel" placeholder="Seu whatsapp" />
+						<Input name="email" type="email" placeholder="Seu email para acesso" />
+						<Input name="password" type="password" placeholder="Sua senha" />
+						<SubmitButton loading={loading} text={'Criar conta'} />
+						<Link to="/">Já tenho conta</Link>
+						<Link to="/forgot">Esqueci minha senha</Link>
+					</Form>
+				</AnimationContainerRight>
 			</Content>
 		</>
 	);

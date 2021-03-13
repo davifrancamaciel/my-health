@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { darken, lighten } from 'polished';
 import { PRIMARY_COLOR } from '../../../constants/colors';
 import bgIn from '../../../assets/bg_doctors.svg';
@@ -70,31 +70,60 @@ export const Content = styled.div`
 	}
 `;
 
+const appearFromRight = keyframes`
+  from{
+    opacity:0;
+    transform:translateX(50px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0)
+  }
+`;
+
+export const AnimationContainerRight = styled.div`
+	animation: ${appearFromRight} 1s;
+`;
+
+const appearFromLeft = keyframes`
+  from{
+    opacity:0;
+    transform:translateX(-50px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0)
+  }
+`;
+
+export const AnimationContainerLeft = styled.div`
+	animation: ${appearFromLeft} 1s;
+`;
+
 export const BackgroundSignUp = styled.div`
 	flex: 1;
 	/* background: #f8f8f5 url(${bgUp}) no-repeat 40% top; */
 	/* background-size: cover; */
-	background:  #f8f8f5 url(${bgUp}) no-repeat center;
+	background: #f8f8f5 url(${bgUp}) no-repeat center;
 	background-size: 450px;
-	
 `;
 
 export const BackgroundSignIn = styled.div`
 	flex: 1;
 	/* background: url(${bgIn}) no-repeat center;
 	background-size: cover; */
-	background:  #f8f8f5 url(${bgIn}) no-repeat center;
+	background: #f8f8f5 url(${bgIn}) no-repeat center;
 	background-size: 450px;
 `;
 
 export const BackgroundForgot = styled.div`
 	flex: 1;
-	background:  #f8f8f5 url(${bgForgot}) no-repeat center;
+	background: #f8f8f5 url(${bgForgot}) no-repeat center;
 	background-size: 450px;
 `;
 
 export const BackgroundReset = styled.div`
 	flex: 1;
-	background:  #f8f8f5 url(${bgReset}) no-repeat center;
+	background: #f8f8f5 url(${bgReset}) no-repeat center;
 	background-size: 450px;
 `;

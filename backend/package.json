@@ -4,10 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "migrate": "npm run sequelize db:migrate",
+    "migrate": "yarn sequelize db:migrate",
     "migrate:prod": "set NODE_ENV=.env.production && sequelize db:migrate",
-    "undo": "npm run sequelize db:migrate:undo:all",
-    "seeds": "npm run sequelize db:seed:all",
+    "undo": "yarn sequelize db:migrate:undo:all",
+    "seeds": "yarn sequelize db:seed:all",
     "dev": "nodemon src/server.js",
     "dev:prod": "env-cmd -f.env.production nodemon src/server.js",
     "build": "env-cmd -f.env.production sucrase ./src -d ./dist --transforms imports",

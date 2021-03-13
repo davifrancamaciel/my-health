@@ -42,6 +42,7 @@ export const Container = styled.div`
 	.leaflet-container {
 		width: 100%;
 		height: 100vh;
+		max-height: 100%;
 	}
 `;
 export const TabsContainer = styled.div`

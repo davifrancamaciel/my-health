@@ -5,7 +5,7 @@ import { Form, Input } from '@rocketseat/unform';
 
 import { signInRequest, changePasswordRequest, signFailure } from 'store/modules/auth/actions';
 import SubmitButton from 'components/SubmitButton';
-import { Content, BackgroundReset } from '../_layouts/auth/styles';
+import { Content, BackgroundReset, AnimationContainerLeft } from '../_layouts/auth/styles';
 
 import logo from 'assets/logo.png';
 import validation from './validation';
@@ -30,12 +30,12 @@ const Reset = () => {
 				...data,
 				token: query.get('token'),
 			};
-			
+
 			dispatch(changePasswordRequest());
 
 			const response = await api.put('forgot', userUpdate);
 			const { email, message } = response.data;
-			
+
 			showToast.success(message);
 			dispatch(signInRequest(email, data.password));
 		} catch (error) {
@@ -46,14 +46,16 @@ const Reset = () => {
 	return (
 		<>
 			<Content>
-				<img src={logo} alt="UPIS Saúde" />
-				<Form schema={validation()} onSubmit={handleSubmit}>
-					<Input type="password" name="password" placeholder="Nova senha" />
-					<Input type="password" name="confirmPassword" placeholder="Confirme a nova senha" />
-					<SubmitButton loading={loading} text={'Redefinir'} />
-					<Link to="/">Já tenho conta</Link>
-					<Link to="/register">Criar conta</Link>
-				</Form>
+				<AnimationContainerLeft>
+					<img src={logo} alt="UPIS Saúde" />
+					<Form schema={validation()} onSubmit={handleSubmit}>
+						<Input type="password" name="password" placeholder="Nova senha" />
+						<Input type="password" name="confirmPassword" placeholder="Confirme a nova senha" />
+						<SubmitButton loading={loading} text={'Redefinir'} />
+						<Link to="/">Já tenho conta</Link>
+						<Link to="/register">Criar conta</Link>
+					</Form>
+				</AnimationContainerLeft>
 			</Content>
 			<BackgroundReset />
 		</>

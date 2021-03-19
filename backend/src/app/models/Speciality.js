@@ -15,7 +15,13 @@ class Speciality extends Model {
         complement: Sequelize.STRING,
         latitude: Sequelize.DECIMAL,
         longitude: Sequelize.DECIMAL,
-        password: Sequelize.VIRTUAL,
+        schedule: Sequelize.STRING,
+        scheduleFormated: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return JSON.parse(this.schedule);
+          },
+        },
       },
       { sequelize }
     );
@@ -24,7 +30,10 @@ class Speciality extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.SpecialityType, { foreignKey: 'speciality_type_id', as: 'type' });
+    this.belongsTo(models.SpecialityType, {
+      foreignKey: 'speciality_type_id',
+      as: 'type',
+    });
     this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
   }
 }

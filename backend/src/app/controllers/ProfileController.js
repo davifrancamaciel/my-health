@@ -1,9 +1,11 @@
+import jwt from 'jsonwebtoken';
+import authConfig from '../../config/auth';
+
 import User from '../models/User';
 import removeFile from '../utils/removeFile';
 import propertyValidate from '../utils/propertyValidate';
 
 class ProfileController {
-
   async update(req, res) {
     try {
       const { userProvider } = req;
@@ -90,6 +92,9 @@ class ProfileController {
         complement,
         latitude,
         longitude,
+        token: jwt.sign({ id, provider }, authConfig.secret, {
+          expiresIn: authConfig.expiresIn,
+        }),
       });
     } catch (error) {
       if (req.file && req.file.filename) {

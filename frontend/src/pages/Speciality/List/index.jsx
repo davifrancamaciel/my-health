@@ -98,7 +98,7 @@ const SpecialityList = function () {
 	}
 
 	return (
-		<Container title="Minhas especialidades" loading={loading ? Boolean(loading) : undefined}>
+		<Container title="Minhas especialidades" loading={loading ? Boolean(loading) : undefined} showBack>
 			<Search onSearch={setSearch} setPage={setPage} />
 			<span>
 				<span>{total > 0 && <span>Total {total}</span>}</span>

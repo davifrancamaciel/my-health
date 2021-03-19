@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
 import { useSelector } from 'react-redux'
-import api from '../../services/api'
+import api from 'services/api'
 
-import Container from '../../components/_layouts/Container'
+import Container from 'components/_layouts/Container'
 import SignatureControl from './SignatureControl'
 import CardContainer from './CardContainer'
 import SpecialityLineGraph from './SpecialityLineGraph'
 
 import { HeaderContainer, DashboardContainer } from './styles'
-import getValidationErrors from '../../Utils/getValidationErrors'
+import getValidationErrors from 'Utils/getValidationErrors'
 
 
 const Dashboard = () => {

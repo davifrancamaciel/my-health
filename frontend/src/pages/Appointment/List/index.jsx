@@ -95,7 +95,7 @@ function Appointment() {
 							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 						/>
 						{specialities.map((x) => (
-							<MarkerContainer item={x} />
+							<MarkerContainer key={x.id} item={x} />
 						))}
 					</MapContainer>
 				)}

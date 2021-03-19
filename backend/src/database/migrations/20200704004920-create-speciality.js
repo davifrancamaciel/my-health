@@ -25,7 +25,11 @@ module.exports = {
 
       description: {
         type: Sequelize.STRING(1000),
-        allowNull: false,
+        allowNull: true,
+      },
+      schedule: {
+        type: Sequelize.STRING(2000),
+        allowNull: true,
       },
       value: {
         type: Sequelize.DECIMAL,

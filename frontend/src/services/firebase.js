@@ -8,7 +8,7 @@ export default class FirebaseService {
 			dataSnapshot.forEach((childSnapshot) => {
 				let item = childSnapshot.val();
 				item['key'] = childSnapshot.key;
-				items.push(item);
+				items.unshift(item);
 			});
 			callback(items);
 		});
@@ -24,10 +24,10 @@ export default class FirebaseService {
 	};
 
 	static updateData = (id, node, objToSubmit) => {
-		return firebaseDatabase.ref(`${node}/${id}`).update(objToSubmit);		
+		return firebaseDatabase.ref(`${node}/${id}`).update(objToSubmit);
 	};
 
 	static remove = (id, node) => {
 		return firebaseDatabase.ref(`${node}/${id}`).remove();
-	};	
+	};
 }

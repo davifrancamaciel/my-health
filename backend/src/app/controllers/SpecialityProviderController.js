@@ -4,7 +4,7 @@ import Speciality from '../models/Speciality';
 
 class SpecialityProviderController {
   async find(req, res) {
-    // try {
+    try {
       const { id } = req.params;
 
       const user = await Speciality.findOne({
@@ -19,6 +19,7 @@ class SpecialityProviderController {
           'complement',
           'value',
           'description',
+          'schedule',
         ],
         include: [
           {
@@ -48,12 +49,16 @@ class SpecialityProviderController {
         return res.status(400).json({ error: 'Médico não encontrado' });
       }
 
-      return res.json(user);
-    // } catch (error) {
-    //   return res
-    //     .status(500)
-    //     .json({ error: 'Ocoreu um erro interno', messages: error.inner });
-    // }
+      const scheduleConfig = JSON.parse(user.schedule);
+      let userFormated = user;
+      userFormated.schedule = scheduleConfig.daysWeekConfig;
+
+      return res.json(userFormated);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error: 'Ocoreu um erro interno', messages: error.inner });
+    }
   }
 }
 

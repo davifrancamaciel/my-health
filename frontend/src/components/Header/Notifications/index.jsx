@@ -6,7 +6,6 @@ import pt from 'date-fns/locale/pt';
 
 import { SECONDARY_COLOR } from 'constants/colors';
 
-import api from 'services/api';
 import firebaseService from 'services/firebase';
 
 import { Container, Badge, NotificationList, Notification, Scroll } from './styles';
@@ -49,7 +48,6 @@ function Notifications() {
 	async function handleMarkAsRead(key) {
 		let notificationRead = notifications.find((x) => x.key === key);
 		notificationRead.read = true;
-		console.log(notificationRead);
 		firebaseService.updateData(key, `notifications/user-${profile.id}`, notificationRead);
 		setNotification(
 			notifications.map((notification) =>

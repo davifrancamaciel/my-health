@@ -28,6 +28,9 @@ export const SheduleContainer = styled.div`
 		grid-template-columns: repeat(2, 1fr);
 		grid-gap: 15px;
 		margin-top: 30px;
+		@media (max-width: 780px) {
+			grid-template-columns: 1fr;
+		}
 	}
 `;
 

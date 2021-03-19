@@ -16,6 +16,11 @@ import {
 	parseISO,
 	isEqual,
 	formatRelative,
+	isMonday,
+	isTuesday,
+	isWednesday,
+	isThursday,
+	isFriday,
 	isSaturday,
 	isSunday,
 } from 'date-fns';
@@ -56,6 +61,7 @@ function CreateEdit() {
 						},
 					}),
 				]);
+				console.log(provider.data.schedule);
 
 				setSpecialityProvider({
 					...provider.data,
@@ -80,6 +86,7 @@ function CreateEdit() {
 			daysSub = 3;
 		}
 		setDate(subDays(date, daysSub));
+		console.log(amountDays(nextDate));
 	}
 
 	function handleNextDay() {
@@ -89,6 +96,52 @@ function CreateEdit() {
 			daysAdd = 3;
 		}
 		setDate(addDays(date, daysAdd));
+		console.log(amountDays(nextDate));
+	}
+
+	function amountDays(date) {
+		let days = 1;
+		// debugger;
+		if (isMonday(date)) {
+			const monday = specialityProvider.schedule.find((x) => x.day === 'Segunda');
+			if (!monday.available) {
+				days = days + 1;
+			}
+		}
+		if (isTuesday(date)) {
+			const tuesday = specialityProvider.schedule.find((x) => x.day === 'Terça');
+			if (!tuesday.available) {
+				days = days + 1;
+			}
+		}
+		if (isWednesday(date)) {
+			const wednesday = specialityProvider.schedule.find((x) => x.day === 'Quarta');
+			if (!wednesday.available) {
+				days = days + 1;
+			}
+		}
+		if (isThursday(date)) {
+			const thursday = specialityProvider.schedule.find((x) => x.day === 'Quinta');
+			if (!thursday.available) {
+				days = days + 1;
+			}
+		}
+		if (isFriday(date)) {
+			const friday = specialityProvider.schedule.find((x) => x.day === 'Sexta');
+			if (!friday.available) {
+				days = days + 1;
+			}
+		}
+		if (isSaturday(date)) {
+			const saturday = specialityProvider.schedule.find((x) => x.day === 'Sábado');
+			if (!saturday.available) {
+				days = days + 1;
+			}
+		}
+		if (isSunday(date)) {
+			days = days + 1;
+		}
+		return days;
 	}
 
 	function handleAddAppointment(schedule) {

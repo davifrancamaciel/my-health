@@ -27,8 +27,7 @@ import ShowConfirm from 'components/ShowConfirm';
 import showToast from 'Utils/showToast';
 import getValidationErrors from 'Utils/getValidationErrors';
 import { SheduleContainer, Time } from './styles';
-
-const range = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+import { schedule } from 'Utils/schedule';
 
 function Shedule() {
 	const profile = useSelector((state) => state.user.profile);
@@ -52,8 +51,9 @@ function Shedule() {
 
 		const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-		const data = range.map((hour) => {
-			const checkDate = setMilliseconds(setSeconds(setMinutes(setHours(date, hour), 0), 0), 0);
+		const data = schedule.map((time) => {
+			const [hour, minute] = time.time.split(':');
+			const checkDate = setMilliseconds(setSeconds(setMinutes(setHours(date, hour), minute), 0), 0);
 			const compareDate = utcToZonedTime(checkDate, timezone);
 			const appointment = response.data.find((a) => isEqual(parseISO(a.date), compareDate));
 
@@ -64,7 +64,7 @@ function Shedule() {
 				titlePosition = 'Paciente';
 			}
 			return {
-				time: `${hour}:00h`,
+				time: `${hour}:${minute}h`,
 				past: isBefore(compareDate, new Date()),
 				appointment: appointment,
 				scheduledWithUser: appointment && appointment[toAppointmentProfile],

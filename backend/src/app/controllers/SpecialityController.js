@@ -73,6 +73,7 @@ class SpecialityController {
       const speciality = await Speciality.create({
         ...req.body,
         user_id: userId,
+        schedule: JSON.stringify(req.body.schedule),
       });
 
       return res.json(speciality);
@@ -93,7 +94,7 @@ class SpecialityController {
       const speciality = await Speciality.findByPk(id);
 
       if (!speciality) {
-        return res.status(400).json({ error: 'especialidade não encontrada' });
+        return res.status(400).json({ error: 'Especialidade não encontrada' });
       }
 
       if (!userProvider || userId !== speciality.user_id) {
@@ -105,15 +106,18 @@ class SpecialityController {
       await speciality.update({
         ...req.body,
         user_id: userId,
+        schedule: JSON.stringify(req.body.schedule),
       });
 
       const specialityEdited = await Speciality.findByPk(id);
 
       return res.json(specialityEdited);
     } catch (error) {
-      return res
-        .status(500)
-        .json({ error: 'Ocoreu um erro interno', messages: error });
+      return res.status(500).json({
+        error: 'Ocoreu um erro interno',
+        messages: error,
+        serverError: error,
+      });
     }
   }
 

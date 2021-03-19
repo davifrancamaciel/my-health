@@ -7,7 +7,7 @@ import {
 import { MdAttachMoney } from 'react-icons/md'
 
 import Card from './Card'
-import { formatPrice } from '../../../Utils/formatPrice'
+import { formatPrice } from 'Utils/formatPrice'
 
 import { Container } from './styles'
 

@@ -3,12 +3,18 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Form } from '@rocketseat/unform';
 
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Switch from '@material-ui/core/Switch';
+
 import Container from 'components/_layouts/Container';
 import SubmitButton from 'components/SubmitButton';
 import FormContainer from 'components/_layouts/FormContainer';
 import Input from 'components/Inputs/Input';
 import InputMoney from 'components/Inputs/InputMoney';
-import BackPage from 'components/BackPage';
 import Select from 'components/Inputs/Select';
 import InputMask from 'components/Inputs/InputMask';
 
@@ -20,8 +26,10 @@ import api from 'services/api';
 import history from 'services/browserhistory';
 import getValidationErrors from 'Utils/getValidationErrors';
 import { priceToNumber } from 'Utils/formatPrice';
+import { schedule, daysWeek } from 'Utils/schedule';
 
 import validation from './validation';
+import { Hours } from './styles';
 
 const SpecialityCreateEdit = function () {
 	const profile = useSelector((state) => state.user.profile);
@@ -32,6 +40,27 @@ const SpecialityCreateEdit = function () {
 	const [types, setTypes] = useState([]);
 	const [zipCodeChanged, setZipCodeChanged] = useState('');
 	const [selectedLocation, setSelectedLocation] = useState([0, 0]);
+
+	const [scheduleConfig, setScheduleConfig] = useState(schedule);
+	const [daysWeekConfig, setDaysWeekConfig] = useState(daysWeek);
+
+	const handleChangeSchedule = (event) => {
+		setScheduleConfig(
+			scheduleConfig.map((x) => ({
+				...x,
+				available: x.time === event.target.name ? event.target.checked : x.available,
+			}))
+		);
+	};
+
+	const handleChangeDays = (event) => {
+		setDaysWeekConfig(
+			daysWeekConfig.map((x) => ({
+				...x,
+				available: x.day === event.target.name ? event.target.checked : x.available,
+			}))
+		);
+	};
 
 	useEffect(() => {
 		if (!profile.provider) {
@@ -56,8 +85,14 @@ const SpecialityCreateEdit = function () {
 				try {
 					setLoading(true);
 					const response = await api.get(`specialities/${id}`);
-					console.log(response);
+
 					setSpeciality(response.data);
+
+					const { scheduleFormated } = response.data;
+					if (scheduleFormated) {
+						setDaysWeekConfig(scheduleFormated.daysWeekConfig);
+						setScheduleConfig(scheduleFormated.scheduleConfig);
+					}
 
 					setLoading(false);
 				} catch (error) {
@@ -70,7 +105,6 @@ const SpecialityCreateEdit = function () {
 	}, []);
 
 	useEffect(() => {
-    console.log(speciality)
 		const { latitude, longitude } = speciality;
 		setSelectedLocation([Number(latitude), Number(longitude)]);
 	}, [speciality]);
@@ -83,6 +117,10 @@ const SpecialityCreateEdit = function () {
 				id: id ? Number(id) : 0,
 				latitude: selectedLocation[0],
 				longitude: selectedLocation[1],
+				schedule: {
+					scheduleConfig,
+					daysWeekConfig,
+				},
 			};
 
 			setLoading(true);
@@ -104,13 +142,54 @@ const SpecialityCreateEdit = function () {
 	}
 
 	return (
-		<Container title={`Cadastro de especialidades`}>
+		<Container title={`Cadastro de especialidades`} loading={loading} showBack>
 			<FormContainer loading={loading} large>
 				<Form schema={validation()} onSubmit={handleSubmit} initialData={speciality}>
+					<FormControl component="fieldset">
+						<FormLabel component="legend">
+							Marque abaixo os dias da semana que essa especialidade será disponibilizada
+						</FormLabel>
+						<Hours>
+							{daysWeekConfig.map((x) => (
+								<FormControlLabel
+									key={x.day}
+									control={
+										<Switch
+											color="primary"
+											checked={x.available}
+											onChange={handleChangeDays}
+											name={`${x.day}`}
+										/>
+									}
+									label={`${x.day}`}
+								/>
+							))}
+						</Hours>
+						<FormLabel component="legend">
+							Marque abaixo os horários que essa especialidade será disponibilizada
+						</FormLabel>
+						<Hours>
+							{scheduleConfig.map((x) => (
+								<FormControlLabel
+									key={x.time}
+									control={
+										<Switch
+											color="primary"
+											checked={x.available}
+											onChange={handleChangeSchedule}
+											name={`${x.time}`}
+										/>
+									}
+									label={`${x.time}h`}
+								/>
+							))}
+						</Hours>
+						<FormHelperText>Be careful</FormHelperText>
+					</FormControl>
+
 					<fieldset>
 						<legend>
 							<h2>Dados</h2>
-							<BackPage />
 						</legend>
 
 						<div className="field-group">

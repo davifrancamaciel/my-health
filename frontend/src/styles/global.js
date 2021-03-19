@@ -1,7 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
+import { lighten } from 'polished';
 
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-circular-progressbar/dist/styles.css';
+
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../constants/colors';
 
 export default createGlobalStyle`
@@ -111,5 +113,14 @@ export default createGlobalStyle`
             resize: none;
           }
 
+    }
+
+    .MuiSwitch-colorPrimary.Mui-checked{
+        color : ${PRIMARY_COLOR} !important;
+    }
+
+    .MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track {
+        background-color: ${lighten(0.08, `${PRIMARY_COLOR}`)} !important;
+        
     }
 `;

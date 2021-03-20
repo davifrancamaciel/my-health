@@ -18,7 +18,7 @@ import { PRIMARY_COLOR } from 'constants/colors';
 import Container from 'components/_layouts/Container';
 import showToast from 'Utils/showToast';
 import ShowConfirm from 'components/ShowConfirm';
-import { setNextDate, setPrevtDate } from './util';
+import { setNextDate, setPrevtDate } from 'Utils/schedule';
 import { SheduleContainer, Time, Shedule, Profile, ProfileInfo } from './styles';
 
 function CreateEdit() {

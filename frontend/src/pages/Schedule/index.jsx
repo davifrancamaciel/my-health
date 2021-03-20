@@ -13,7 +13,6 @@ import {
 	isBefore,
 	parseISO,
 	isEqual,
-	isSaturday,
 	isSunday,
 } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
@@ -38,10 +37,15 @@ function Shedule() {
 	const dateFormated = useMemo(() => format(date, "eeee',' d 'de' MMMM", { locale: pt }), [date]);
 
 	useEffect(() => {
-		loadSchedule();
+		if (isSunday(date)) {
+			loadSchedule(addDays(date, 1));
+			setDate(addDays(date, 1));
+		} else {
+			loadSchedule(date);
+		}
 	}, [date]);
 
-	async function loadSchedule() {
+	async function loadSchedule(date) {
 		setLoading(true);
 		const response = await api.get('schedule', {
 			params: {
@@ -80,7 +84,7 @@ function Shedule() {
 		const nextDate = subDays(date, 1);
 		let daysSub = 1;
 		if (isSunday(nextDate)) {
-			daysSub = 3;
+			daysSub = 2;
 		}
 		setDate(subDays(date, daysSub));
 	}
@@ -88,8 +92,8 @@ function Shedule() {
 	function handleNextDay() {
 		const nextDate = addDays(date, 1);
 		let daysAdd = 1;
-		if (isSaturday(nextDate)) {
-			daysAdd = 3;
+		if (isSunday(nextDate)) {
+			daysAdd = 2;
 		}
 		setDate(addDays(date, daysAdd));
 	}

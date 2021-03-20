@@ -4,26 +4,7 @@ import { useParams } from 'react-router-dom';
 import { FaWhatsapp } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { FcCancel } from 'react-icons/fc';
-import {
-	format,
-	subDays,
-	addDays,
-	setHours,
-	setMinutes,
-	setSeconds,
-	setMilliseconds,
-	isBefore,
-	parseISO,
-	isEqual,
-	formatRelative,
-	isMonday,
-	isTuesday,
-	isWednesday,
-	isThursday,
-	isFriday,
-	isSaturday,
-	isSunday,
-} from 'date-fns';
+import { format, parseISO, formatRelative } from 'date-fns';
 
 import { utcToZonedTime } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
@@ -37,6 +18,7 @@ import { PRIMARY_COLOR } from 'constants/colors';
 import Container from 'components/_layouts/Container';
 import showToast from 'Utils/showToast';
 import ShowConfirm from 'components/ShowConfirm';
+import { setNextDate, setPrevtDate } from './util';
 import { SheduleContainer, Time, Shedule, Profile, ProfileInfo } from './styles';
 
 function CreateEdit() {
@@ -45,103 +27,61 @@ function CreateEdit() {
 	const [date, setDate] = useState(new Date());
 	const [loading, setLoading] = useState(false);
 	const [schedules, setSchedules] = useState([]);
-	const dateFormated = useMemo(() => format(date, "d 'de' MMMM", { locale: pt }), [date]);
+	const dateFormated = useMemo(() => format(date, "eeee',' d 'de' MMMM", { locale: pt }), [date]);
 	const [specialityProvider, setSpecialityProvider] = useState({});
 
 	useEffect(() => {
-		async function loadScheduleAndProfile() {
+		async function loadProfile() {
 			try {
 				setLoading(true);
 
-				const [provider, shedule] = await Promise.all([
-					api.get(`speciality-provider/${specialityId}`),
-					api.get(`/available/providers/${specialityId}`, {
-						params: {
-							date: date.getTime(),
-						},
-					}),
-				]);
-				console.log(provider.data.schedule);
+				const response = await api.get(`speciality-provider/${specialityId}`);
 
 				setSpecialityProvider({
-					...provider.data,
-					priceFormated: formatPrice(provider.data.value),
-					urlWhatsapp: urlMessageWhatsapp(provider.data.user.whatsapp),
+					...response.data,
+					priceFormated: formatPrice(response.data.value),
+					urlWhatsapp: urlMessageWhatsapp(response.data.user.whatsapp),
 				});
-				setSchedules(shedule.data);
 
+				setDate(setNextDate(date, response.data.schedule));
 				setLoading(false);
 			} catch (error) {
 				setLoading(false);
 				getValidationErrors(error);
 			}
 		}
-		loadScheduleAndProfile();
+		loadProfile();
+	}, []);
+
+	useEffect(() => {
+		specialityProvider.schedule && loadSchedule(date);
 	}, [date]);
 
-	function handlePrevDay() {
-		const nextDate = subDays(date, 1);
-		let daysSub = 1;
-		if (isSunday(nextDate)) {
-			daysSub = 3;
+	async function loadSchedule(date) {
+		try {
+			setLoading(true);
+
+			const response = await api.get(`/available/providers/${specialityId}`, {
+				params: {
+					date: date.getTime(),
+				},
+			});
+
+			setSchedules(response.data);
+
+			setLoading(false);
+		} catch (error) {
+			setLoading(false);
+			getValidationErrors(error);
 		}
-		setDate(subDays(date, daysSub));
-		console.log(amountDays(nextDate));
+	}
+
+	function handlePrevDay() {
+		setDate(setPrevtDate(date, specialityProvider.schedule));
 	}
 
 	function handleNextDay() {
-		const nextDate = addDays(date, 1);
-		let daysAdd = 1;
-		if (isSaturday(nextDate)) {
-			daysAdd = 3;
-		}
-		setDate(addDays(date, daysAdd));
-		console.log(amountDays(nextDate));
-	}
-
-	function amountDays(date) {
-		let days = 1;
-		// debugger;
-		if (isMonday(date)) {
-			const monday = specialityProvider.schedule.find((x) => x.day === 'Segunda');
-			if (!monday.available) {
-				days = days + 1;
-			}
-		}
-		if (isTuesday(date)) {
-			const tuesday = specialityProvider.schedule.find((x) => x.day === 'Terça');
-			if (!tuesday.available) {
-				days = days + 1;
-			}
-		}
-		if (isWednesday(date)) {
-			const wednesday = specialityProvider.schedule.find((x) => x.day === 'Quarta');
-			if (!wednesday.available) {
-				days = days + 1;
-			}
-		}
-		if (isThursday(date)) {
-			const thursday = specialityProvider.schedule.find((x) => x.day === 'Quinta');
-			if (!thursday.available) {
-				days = days + 1;
-			}
-		}
-		if (isFriday(date)) {
-			const friday = specialityProvider.schedule.find((x) => x.day === 'Sexta');
-			if (!friday.available) {
-				days = days + 1;
-			}
-		}
-		if (isSaturday(date)) {
-			const saturday = specialityProvider.schedule.find((x) => x.day === 'Sábado');
-			if (!saturday.available) {
-				days = days + 1;
-			}
-		}
-		if (isSunday(date)) {
-			days = days + 1;
-		}
-		return days;
+		setDate(setNextDate(date, specialityProvider.schedule));
 	}
 
 	function handleAddAppointment(schedule) {
@@ -282,15 +222,17 @@ function CreateEdit() {
 					</Profile>
 				)}
 				<Shedule>
-					<header>
-						<button type="button" onClick={handlePrevDay}>
-							<MdChevronLeft color={PRIMARY_COLOR} size={36} />
-						</button>
-						<strong>{dateFormated}</strong>
-						<button type="button" onClick={handleNextDay}>
-							<MdChevronRight color={PRIMARY_COLOR} size={36} />
-						</button>
-					</header>
+					{specialityProvider.schedule && (
+						<header>
+							<button type="button" onClick={handlePrevDay}>
+								<MdChevronLeft color={PRIMARY_COLOR} size={36} />
+							</button>
+							<strong>{dateFormated}</strong>
+							<button type="button" onClick={handleNextDay}>
+								<MdChevronRight color={PRIMARY_COLOR} size={36} />
+							</button>
+						</header>
+					)}
 					<ul>
 						{schedules.map((schedule) => (
 							<Time key={schedule.time} available={!schedule.available}>

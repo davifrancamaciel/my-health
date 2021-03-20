@@ -48,14 +48,26 @@ const SpecialityList = function () {
 					params: { ...search, page, ...onChangeOrder },
 				});
 
-				const data = response.data.rows.map((speciality) => ({
-					...speciality,
-					valueFormated: formatPrice(speciality.value),
-					createdAtFormatedDate: `Cadastrada no dia ${format(parseISO(speciality.createdAt), "d 'de' MMMM", {
-						locale: pt,
-					})}`,
-				}));
+				const data = response.data.rows.map((speciality) => {
+					const days = speciality.scheduleFormated.daysWeekConfig
+						.filter((x) => x.available === true)
+						.map((day) => day.day)
+						.join(', ');
 
+					return {
+						...speciality,
+						valueFormated: formatPrice(speciality.value),
+						createdAtFormatedDate: `Cadastrada no dia ${format(
+							parseISO(speciality.createdAt),
+							"d 'de' MMMM",
+							{
+								locale: pt,
+							}
+						)}`,
+						days,
+					};
+				});
+				console.log(data);
 				if (page > 1) setSpecialities([...specialities, ...data]);
 				else setSpecialities(data);
 

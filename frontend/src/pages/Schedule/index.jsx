@@ -35,7 +35,7 @@ function Shedule() {
 	const [date, setDate] = useState(new Date());
 	const [loading, setLoading] = useState(false);
 	const [schedules, setSchedules] = useState([]);
-	const dateFormated = useMemo(() => format(date, "d 'de' MMMM", { locale: pt }), [date]);
+	const dateFormated = useMemo(() => format(date, "eeee',' d 'de' MMMM", { locale: pt }), [date]);
 
 	useEffect(() => {
 		loadSchedule();

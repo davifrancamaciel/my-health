@@ -1,4 +1,4 @@
-import { startOfHour, parseISO, isBefore, format, subHours } from 'date-fns';
+import { parseISO, isBefore, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 import User from '../../models/User';
@@ -22,7 +22,7 @@ class CreateAppontmentService {
     }
 
     // checando se a data é retoativa
-    const hourStart = startOfHour(parseISO(date));
+    const hourStart = parseISO(date);
 
     if (isBefore(hourStart, new Date())) {
       throw new Error('Não é permitido marcar para datas passadas');
@@ -32,7 +32,6 @@ class CreateAppontmentService {
       where: {
         date: hourStart,
         canceled_at: null,
-        // provider_id,
         [Op.or]: [
           { provider_id: provider_id },
           { user_id: provider_id },

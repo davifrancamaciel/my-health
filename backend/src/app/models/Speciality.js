@@ -4,6 +4,7 @@ class Speciality extends Model {
   static init(sequelize) {
     super.init(
       {
+        active: Sequelize.BOOLEAN,
         description: Sequelize.STRING,
         speciality_type_id: Sequelize.NUMBER,
         value: Sequelize.DECIMAL,

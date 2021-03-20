@@ -26,7 +26,6 @@ function Notifications() {
 	useEffect(() => {
 		async function loadNotifications() {
 			firebaseService.getDataList(`notifications/user-${profile.id}`, (dataReceived) => {
-				console.log(dataReceived);
 				const data = dataReceived.map((notification) => ({
 					...notification,
 					timeDistance: formatDistance(parseISO(notification.createdAt), new Date(), {

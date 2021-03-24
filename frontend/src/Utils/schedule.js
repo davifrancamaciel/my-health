@@ -10,6 +10,15 @@ import {
 	isSunday,
 } from 'date-fns';
 
+/*
+Modelo do JSON para a coluna schedule na tabela de especialidades no banco de configuração
+da agenda do medico
+
+	const scheduleModel = {
+		scheduleConfig: schedule,
+		daysWeekConfig: daysWeek,
+	};
+*/
 export const schedule = [
 	{ time: '08:00', available: true },
 	{ time: '08:30', available: true },
@@ -74,7 +83,7 @@ export function setPrevtDate(date, scheduleDaysProvider) {
 	}
 }
 
-function availableDay(date, scheduleDaysProvider) {
+export function availableDay(date, scheduleDaysProvider) {
 	if (!scheduleDaysProvider) {
 		scheduleDaysProvider = daysWeek;
 	}

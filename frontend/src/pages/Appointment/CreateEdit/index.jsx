@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { FaWhatsapp } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { FcCancel } from 'react-icons/fc';
-import { format, parseISO, formatRelative } from 'date-fns';
+import { format, parseISO, formatRelative, isEqual, startOfDay } from 'date-fns';
 
 import { utcToZonedTime } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
@@ -18,11 +18,13 @@ import { PRIMARY_COLOR } from 'constants/colors';
 import Container from 'components/_layouts/Container';
 import showToast from 'Utils/showToast';
 import ShowConfirm from 'components/ShowConfirm';
-import { setNextDate, setPrevtDate } from 'Utils/schedule';
+import { setNextDate, setPrevtDate, availableDay } from 'Utils/schedule';
 import { SheduleContainer, Time, Shedule, Profile, ProfileInfo } from './styles';
 
 function CreateEdit() {
 	const profile = useSelector((state) => state.user.profile);
+	const notificationsList = useSelector((state) => state.notification.list);
+
 	const { specialityId } = useParams();
 	const [date, setDate] = useState(new Date());
 	const [loading, setLoading] = useState(false);
@@ -43,7 +45,11 @@ function CreateEdit() {
 					urlWhatsapp: urlMessageWhatsapp(response.data.user.whatsapp),
 				});
 
-				setDate(setNextDate(date, response.data.schedule));
+				if (!availableDay(date, response.data.schedule)) {
+					setDate(setNextDate(date, response.data.schedule));
+				} else {
+					loadSchedule(date);
+				}
 				setLoading(false);
 			} catch (error) {
 				setLoading(false);
@@ -57,17 +63,32 @@ function CreateEdit() {
 		specialityProvider.schedule && loadSchedule(date);
 	}, [date]);
 
+	useEffect(() => {
+		const [notification] = notificationsList;
+		if (isEqual(startOfDay(date), startOfDay(parseISO(notification.date)))) {
+			loadSchedule(date);
+		}
+	}, [notificationsList]);
+
 	async function loadSchedule(date) {
 		try {
 			setLoading(true);
+			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 			const response = await api.get(`/available/providers/${specialityId}`, {
-				params: {
-					date: date.getTime(),
-				},
+				params: { date: date.getTime() },
 			});
 
-			setSchedules(response.data);
+			const data = response.data.map((a) => {
+				const value2 = utcToZonedTime(parseISO(a.value), timezone); // talvez tirar
+				return {
+					...a,
+					value2,
+				};
+			});
+			console.log(data);
+			setSchedules(data);
+			// setSchedules(response.data);
 
 			setLoading(false);
 		} catch (error) {
@@ -116,12 +137,8 @@ function CreateEdit() {
 			};
 			addNotification(notification);
 
-			const response = await api.get(`/available/providers/${specialityId}`, {
-				params: { date: date.getTime() },
-			});
-			setSchedules(response.data);
+			loadSchedule(date);
 
-			setLoading(false);
 			showToast.success(`Agendamento criado com sucesso para ${newAppointment.dateFormated}`);
 		} catch (error) {
 			setLoading(false);
@@ -162,12 +179,8 @@ function CreateEdit() {
 			const responseCancel = await api.delete(`appointments/${schedule.appointment.id}`);
 			addNotificationCancel(responseCancel.data);
 
-			const response = await api.get(`/available/providers/${specialityId}`, {
-				params: { date: date.getTime() },
-			});
-			setSchedules(response.data);
+			loadSchedule(date);
 
-			setLoading(false);
 			showToast.success(`Agendamento de ${schedule.time}h CANCELADO com sucesso`);
 		} catch (error) {
 			setLoading(false);
@@ -183,6 +196,7 @@ function CreateEdit() {
 			content: `Consulta CANCELADA para ${appointment.speciality.type.name} com ${appointment.user.name} para o ${formatedDate}`,
 			user: appointment.provider_id,
 			read: false,
+			...appointment,
 		};
 		firebaseService.pushData(`notifications/user-${appointment.provider_id}`, notification);
 	}
@@ -196,9 +210,9 @@ function CreateEdit() {
 						<ProfileInfo>
 							<strong>Especialidade {specialityProvider.type.name}</strong>
 							<strong>{specialityProvider.user.name}</strong>
-							<div>
-								<p>{specialityProvider.user.email}</p>
-							</div>
+							<strong>
+								<a href={`mailto:${specialityProvider.user.email}`}>{specialityProvider.user.email}</a>{' '}
+							</strong>
 							{specialityProvider.user.crm && (
 								<div>
 									<p>CRM {specialityProvider.user.crm}</p>
@@ -216,7 +230,7 @@ function CreateEdit() {
 							<p>{specialityProvider.description}</p>
 							<p>
 								{specialityProvider.street} {specialityProvider.neighborhood} {specialityProvider.city}{' '}
-								{specialityProvider.neighborhood}
+								{specialityProvider.neighborhood} {specialityProvider.complement}
 							</p>
 						</ProfileInfo>
 					</Profile>

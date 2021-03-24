@@ -12,7 +12,6 @@ export const SheduleContainer = styled.div`
 export const Profile = styled.div`
 	display: flex;
 	background-color: #fff;
-	/* border: solid 2px ${PRIMARY_COLOR}; */
 	box-shadow: 0 0 14px 0 #00000033;
 	border-radius: 2px;
 	flex-direction: column;
@@ -23,6 +22,9 @@ export const Profile = styled.div`
 	padding: 40px 20px;
 	margin-top: 118px;
 	margin: 50px auto;
+	@media (max-width: 780px) {
+		margin-top: 0px;
+	}
 
 	> img {
 		width: 200px;
@@ -43,6 +45,12 @@ export const ProfileInfo = styled.div`
 
 	> strong {
 		text-align: center;
+		a {
+			color: #666;
+			font-size: 14px;
+			text-decoration: none;
+			cursor: pointer;
+		}
 	}
 	> strong + strong {
 		margin-top: 15px;
@@ -70,6 +78,12 @@ export const ProfileInfo = styled.div`
 				margin-right: 5px;
 			}
 		}
+	}
+	> p {
+		font-size: 14px;
+		margin-top: 2px;
+		line-height: 20px;
+		margin: 10px 0;
 	}
 `;
 

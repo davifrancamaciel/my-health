@@ -11,6 +11,9 @@ export const ContainerMapSelectProvider = styled.div`
 		width: 100%;
 		height: 100vh;
 		z-index: 0;
+		.leaflet-popup {
+			left: -138px !important;
+		}
 	}
 `;
 export const Search = styled.div`

@@ -9,7 +9,7 @@ import {
 	ResponsiveText,
 	ExpiredStatus,
 	ActiveStatus,
-} from '../../../../components/_layouts/ListContainer/styles';
+} from 'components/_layouts/ListContainer/styles';
 
 function Item({ item, onDeleteClick, onUpdateClick }) {
 	return (
@@ -31,6 +31,7 @@ function Item({ item, onDeleteClick, onUpdateClick }) {
 
 			<ResponsiveText>{item.description}</ResponsiveText>
 			<ResponsiveText>{item.days ? `Dias disponiveis ${item.days}` : 'Nenhum dia disponível'}</ResponsiveText>
+			<ResponsiveText>{item.street} {item.neighborhood} {item.city} {item.complement}</ResponsiveText>
 			<InfoStatus>
 				<ExpiredStatus>{item.createdAtFormatedDate}</ExpiredStatus>
 				<ActiveStatus active={item.active}>{`${item.active ? 'Disponível' : 'Indisponível'}`}</ActiveStatus>

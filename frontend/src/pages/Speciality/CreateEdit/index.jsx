@@ -33,6 +33,7 @@ const SpecialityCreateEdit = function () {
 	const [types, setTypes] = useState([]);
 	const [zipCodeChanged, setZipCodeChanged] = useState('');
 	const [selectedLocation, setSelectedLocation] = useState([0, 0]);
+	const [locationSelectedClick, setLocationSelectedClick] = useState([0, 0]);
 
 	const [scheduleConfig, setScheduleConfig] = useState(schedule);
 	const [daysWeekConfig, setDaysWeekConfig] = useState(daysWeek);
@@ -83,15 +84,33 @@ const SpecialityCreateEdit = function () {
 
 	useEffect(() => {
 		const { latitude, longitude } = speciality;
+		console.log(latitude, longitude);
 		setSelectedLocation([Number(latitude), Number(longitude)]);
 	}, [speciality]);
+
+	// useEffect(() => {
+	// 	console.log('Localização anterior', selectedLocation);
+	// 	setLocationSelectedClick(selectedLocation);
+	// }, [selectedLocation]);
+
+	// useEffect(() => {
+	// 	console.log('Localização a ser salva ', locationSelectedClick);
+	// }, [locationSelectedClick]);
+
+	useEffect(() => {
+		async function loadZipCode() {
+			const response = await getLocale(zipCodeChanged);
+			setSpeciality({ ...speciality, ...response });
+		}
+		loadZipCode();
+	}, [zipCodeChanged]);
 
 	async function handleSubmit(data) {
 		try {
 			const daysAvailable = daysWeekConfig.find((x) => x.available === true);
 			const hoursAvailable = scheduleConfig.find((x) => x.available === true);
 			const checActive = daysAvailable && hoursAvailable ? active : false;
-			
+
 			const saveSpeciality = {
 				...data,
 				active: checActive,
@@ -198,7 +217,11 @@ const SpecialityCreateEdit = function () {
 							<h2>Localização</h2>
 							<span>Selecione sua localização no mapa</span>
 						</legend>
-						<Map selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+						<Map
+							selectedLocation={selectedLocation}
+							setSelectedLocation={setSelectedLocation}
+							setLocationSelectedClick={setLocationSelectedClick}
+						/>
 					</fieldset>
 
 					<SubmitButton loading={loading ? true : false} text={'Salvar'} />

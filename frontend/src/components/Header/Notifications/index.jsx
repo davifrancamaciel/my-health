@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdNotifications } from 'react-icons/md';
 import { parseISO, formatDistance } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import { notificationListSuccess } from 'store/modules/notification/actions';
 
 import { SECONDARY_COLOR } from 'constants/colors';
 
@@ -11,7 +12,9 @@ import firebaseService from 'services/firebase';
 import { Container, Badge, NotificationList, Notification, Scroll } from './styles';
 
 function Notifications() {
+	const dispatch = useDispatch();
 	const profile = useSelector((state) => state.user.profile);
+	const notificationsList = useSelector((state) => state.notification.list);
 	const [visible, setVisible] = useState(false);
 	const [notifications, setNotification] = useState([]);
 	/**
@@ -24,6 +27,12 @@ function Notifications() {
 	]);
 
 	useEffect(() => {
+		if (!!notifications.length) {
+			dispatch(notificationListSuccess(notifications));
+		}
+	}, [notifications]);
+
+	useEffect(() => {
 		async function loadNotifications() {
 			firebaseService.getDataList(`notifications/user-${profile.id}`, (dataReceived) => {
 				const data = dataReceived.map((notification) => ({
@@ -33,6 +42,7 @@ function Notifications() {
 						locale: pt,
 					}),
 				}));
+
 				setNotification(data);
 			});
 		}

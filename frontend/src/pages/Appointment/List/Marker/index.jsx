@@ -32,7 +32,7 @@ function MarkerContainer({ item }) {
 					</p>
 				</Card>
 			</PopupCustom>
-			<Tooltip>{item.user.name}</Tooltip>
+			<Tooltip >{item.user.name}</Tooltip>
 		</Marker>
 	);
 }

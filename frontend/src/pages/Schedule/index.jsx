@@ -12,8 +12,9 @@ import {
 	setMilliseconds,
 	isBefore,
 	parseISO,
-	isEqual,
 	isSunday,
+	isEqual,
+	startOfDay,
 } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
@@ -30,6 +31,7 @@ import { schedule } from 'Utils/schedule';
 
 function Shedule() {
 	const profile = useSelector((state) => state.user.profile);
+	const notificationsList = useSelector((state) => state.notification.list);
 
 	const [date, setDate] = useState(new Date());
 	const [loading, setLoading] = useState(false);
@@ -44,6 +46,13 @@ function Shedule() {
 			loadSchedule(date);
 		}
 	}, [date]);
+
+	useEffect(() => {
+		const [notification] = notificationsList;
+		if (isEqual(startOfDay(date), startOfDay(parseISO(notification.date)))) {
+			loadSchedule(date);
+		}
+	}, [notificationsList]);
 
 	async function loadSchedule(date) {
 		setLoading(true);
@@ -117,7 +126,7 @@ function Shedule() {
 			setLoading(true);
 			const response = await api.delete(`appointments/${schedule.appointment.id}`);
 			addNotification(response.data);
-			loadSchedule();
+			loadSchedule(date);
 			showToast.success(`Agendamento de ${schedule.time} CANCELADO com sucesso`);
 		} catch (error) {
 			setLoading(false);
@@ -141,6 +150,7 @@ function Shedule() {
 			content: message,
 			user: userId,
 			read: false,
+			...appointment,
 		};
 		firebaseService.pushData(`notifications/user-${userId}`, notification);
 	}

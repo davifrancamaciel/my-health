@@ -49,7 +49,7 @@ function Shedule() {
 
 	useEffect(() => {
 		const [notification] = notificationsList;
-		if (isEqual(startOfDay(date), startOfDay(parseISO(notification.date)))) {
+		if (isEqual(startOfDay(date), startOfDay(parseISO(notification.date))) && !notification.read) {
 			loadSchedule(date);
 		}
 	}, [notificationsList]);
@@ -57,9 +57,7 @@ function Shedule() {
 	async function loadSchedule(date) {
 		setLoading(true);
 		const response = await api.get('schedule', {
-			params: {
-				date,
-			},
+			params: { date },
 		});
 
 		const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;

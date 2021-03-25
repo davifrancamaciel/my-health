@@ -65,7 +65,7 @@ function CreateEdit() {
 
 	useEffect(() => {
 		const [notification] = notificationsList;
-		if (isEqual(startOfDay(date), startOfDay(parseISO(notification.date)))) {
+		if (isEqual(startOfDay(date), startOfDay(parseISO(notification.date))) && !notification.read) {
 			loadSchedule(date);
 		}
 	}, [notificationsList]);
@@ -73,22 +73,10 @@ function CreateEdit() {
 	async function loadSchedule(date) {
 		try {
 			setLoading(true);
-			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
 			const response = await api.get(`/available/providers/${specialityId}`, {
-				params: { date: date.getTime() },
+				params: { date },
 			});
-
-			const data = response.data.map((a) => {
-				const value2 = utcToZonedTime(parseISO(a.value), timezone); // talvez tirar
-				return {
-					...a,
-					value2,
-				};
-			});
-			console.log(data);
-			setSchedules(data);
-			// setSchedules(response.data);
+			setSchedules(response.data);
 
 			setLoading(false);
 		} catch (error) {

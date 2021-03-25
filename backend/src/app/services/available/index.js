@@ -6,6 +6,7 @@ import {
   setSeconds,
   format,
   isAfter,
+  parseISO
 } from 'date-fns';
 import Appointment from '../../models/Appointment';
 import Speciality from '../../models/Speciality';

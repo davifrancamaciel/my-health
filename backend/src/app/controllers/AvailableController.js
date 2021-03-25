@@ -1,3 +1,4 @@
+import { parseISO } from 'date-fns';
 import AvailableService from '../services/available/index';
 
 class AvailableController {
@@ -8,7 +9,7 @@ class AvailableController {
       return res.status(400).json({ error: 'A data está inválida' });
     }
 
-    const searchDate = Number(date);
+    const searchDate = parseISO(date);
     const speciality_id = req.params.specialityId;
 
     const available = await AvailableService.run({

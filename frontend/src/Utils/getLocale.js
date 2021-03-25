@@ -11,7 +11,7 @@ export default async function getLocale (zip_code) {
     
     if (zip_code.length < 8) return
 
-    const url = `http://cep.republicavirtual.com.br/web_cep.php?cep=${zip_code}&formato=json`
+    const url = `https://viacep.com.br/ws/${zip_code}/json`
 
     const response = await axios.get(url)
 
@@ -19,9 +19,9 @@ export default async function getLocale (zip_code) {
 
     return {
       state: data.uf,
-      city: data.cidade,
+      city: data.localidade,
       neighborhood: data.bairro,
-      street: `${data.tipo_logradouro} ${data.logradouro}`
+      street: data.logradouro
     }
   } catch (error) {
     return null

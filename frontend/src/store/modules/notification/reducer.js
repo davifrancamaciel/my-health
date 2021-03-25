@@ -12,7 +12,6 @@ export default function notification(state = INITIAL_STATE, action) {
 				draft.list = action.payload.list;
 				break;
 			}
-
 			default:
 		}
 	});

@@ -6,7 +6,7 @@ import {
   setSeconds,
   format,
   isAfter,
-  parseISO
+  subHours,
 } from 'date-fns';
 import Appointment from '../../models/Appointment';
 import Speciality from '../../models/Speciality';
@@ -52,7 +52,7 @@ class AvailableService {
           0
         );
         const appointment = appointments.find(
-          a => format(a.date, 'HH:mm') === time.time
+          a => format(subHours(a.date, 3), 'HH:mm') === time.time
         );
 
         return {
@@ -60,7 +60,7 @@ class AvailableService {
           value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
           available:
             isAfter(value, new Date()) &&
-            !appointments.find(a => format(a.date, 'HH:mm') === time.time),
+            !appointments.find(a => format(subHours(a.date, 3), 'HH:mm') === time.time),
           isMine: appointment && appointment.user_id === user_id,
           id: appointment && appointment.user_id === user_id && appointment.id,
           appointment:

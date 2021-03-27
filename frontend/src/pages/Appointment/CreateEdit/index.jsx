@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { FaWhatsapp } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { FcCancel } from 'react-icons/fc';
-import { format, parseISO, formatRelative, isEqual, startOfDay } from 'date-fns';
+import { format, parseISO, formatRelative, isEqual, startOfDay, addHours } from 'date-fns';
 
 import { utcToZonedTime } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
@@ -60,37 +60,38 @@ function CreateEdit() {
 	}, []);
 
 	useEffect(() => {
-		specialityProvider.schedule && loadSchedule(date);
-	}, [date]);
-
-	useEffect(() => {
 		const [notification] = notificationsList;
 		if (isEqual(startOfDay(date), startOfDay(parseISO(notification.date))) && !notification.read) {
 			loadSchedule(date);
 		}
 	}, [notificationsList]);
 
+	useEffect(() => {
+		specialityProvider.schedule && loadSchedule(date);
+	}, [date]);
+
+	const handlePrevDay = () => setDate(setPrevtDate(date, specialityProvider.schedule));
+
+	const handleNextDay = () => setDate(setNextDate(date, specialityProvider.schedule));
+
 	async function loadSchedule(date) {
 		try {
 			setLoading(true);
 			const response = await api.get(`/available/providers/${specialityId}`, {
-				params: { date },
+				params: { date: startOfDay(date) },
 			});
-			setSchedules(response.data);
+
+			const data = response.data.map((appointment) => ({
+				...appointment,
+				value: format(addHours(parseISO(appointment.value), 3), "yyyy-MM-dd'T'HH:mm:ssxxx"),
+			}));
+			setSchedules(data);
 
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
 			getValidationErrors(error);
 		}
-	}
-
-	function handlePrevDay() {
-		setDate(setPrevtDate(date, specialityProvider.schedule));
-	}
-
-	function handleNextDay() {
-		setDate(setNextDate(date, specialityProvider.schedule));
 	}
 
 	function handleAddAppointment(schedule) {
@@ -100,7 +101,7 @@ function CreateEdit() {
 		}
 		ShowConfirm(
 			'Atenção',
-			`Confirma o agendamento com o médico ${specialityProvider.user.name} no valor de ${specialityProvider.priceFormated}?`,
+			`Confirma o agendamento com o médico ${specialityProvider.user.name} no horário de ${schedule.time}h e valor de ${specialityProvider.priceFormated}?`,
 			() => handleAddAppointmentConfirmed(schedule)
 		);
 	}
@@ -119,11 +120,8 @@ function CreateEdit() {
 
 			setLoading(true);
 			const responseCreate = await api.post('appointments', newAppointment);
-			const notification = {
-				...newAppointment,
-				...responseCreate.data,
-			};
-			addNotification(notification);
+
+			addNotification({ ...newAppointment, ...responseCreate.data });
 
 			loadSchedule(date);
 
@@ -134,7 +132,7 @@ function CreateEdit() {
 		}
 	}
 
-	async function addNotification(data) {
+	function addNotification(data) {
 		const notification = {
 			...data,
 			content: `Novo agendamento de ${data.speciality} com ${profile.name} para ${data.dateFormated}`,

@@ -78,7 +78,7 @@ function Appointment() {
 	}
 
 	return (
-		<Container title={`Agendar uma consulta`} loading={loading} showBack>
+		<Container title={`Agende uma consulta`} loading={loading} showBack>
 			<ContainerMapSelectProvider>
 				<Search>
 					<Select

@@ -57,7 +57,7 @@ function Shedule() {
 	async function loadSchedule(date) {
 		setLoading(true);
 		const response = await api.get('schedule', {
-			params: { date },
+			params: { date: startOfDay(date) },
 		});
 
 		const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;

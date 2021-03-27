@@ -19,19 +19,11 @@ export default function SimpleMenu() {
 	const handleClose = (option) => {
 		setAnchorEl(null);
 		switch (option) {
-			case 'profile':
-				history.push(`/profile`);
-				break;
 			case 'logout':
 				dispatch(signOut());
 				break;
-			case 'speciality':
-				history.push(`/speciality`);
-				break;
-			case 'schedule':
-				history.push(`/schedule`);
-				break;
 			default:
+				history.push(`/${option}`);
 				break;
 		}
 	};
@@ -50,7 +42,9 @@ export default function SimpleMenu() {
 			>
 				<MenuItem onClick={() => handleClose('profile')}>Minha conta</MenuItem>
 				<MenuItem onClick={() => handleClose('schedule')}>Minha agenda</MenuItem>
-				{profile.provider && <MenuItem onClick={() => handleClose('speciality')}>Especialidades</MenuItem>}
+				{profile.provider && (
+					<MenuItem onClick={() => handleClose('speciality')}>Minhas especialidades</MenuItem>
+				)}
 				<MenuItem onClick={() => handleClose('logout')}>Sair</MenuItem>
 			</Menu>
 		</div>

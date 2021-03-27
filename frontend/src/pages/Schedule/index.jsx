@@ -82,7 +82,6 @@ function Shedule() {
 				titlePosition,
 			};
 		});
-
 		setSchedules(data);
 		setLoading(false);
 	}

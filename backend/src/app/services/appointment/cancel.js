@@ -59,7 +59,7 @@ class AppointmentCancelService {
 
     const formatedDate = format(
       appointment.date,
-      "'dia' dd 'de' MMMM', às' H:mm'h'",
+      "'dia' dd 'de' MMMM', ' eeee', às' H:mm'h'",
       {
         locale: pt,
       }

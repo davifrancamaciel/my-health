@@ -47,7 +47,7 @@ export const Content = styled.div`
 	.as-btn-menu {
 		display: none;
 	}
-	@media (max-width: 863px) {
+	@media (max-width: 780px) {
 		.as-btn-menu {
 			display: initial;
 		}

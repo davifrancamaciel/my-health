@@ -4,7 +4,18 @@ import { useParams } from 'react-router-dom';
 import { FaWhatsapp } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { FcCancel } from 'react-icons/fc';
-import { format, parseISO, formatRelative, isEqual, startOfDay, addHours } from 'date-fns';
+import {
+	format,
+	parseISO,
+	formatRelative,
+	isEqual,
+	isAfter,
+	startOfDay,
+	setHours,
+	setMinutes,
+	setSeconds,
+	setMilliseconds,
+} from 'date-fns';
 
 import { utcToZonedTime } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
@@ -81,10 +92,27 @@ function CreateEdit() {
 				params: { date: startOfDay(date) },
 			});
 
-			const data = response.data.map((appointment) => ({
-				...appointment,
-				value: format(addHours(parseISO(appointment.value), 3), "yyyy-MM-dd'T'HH:mm:ssxxx"),
-			}));
+			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+			const data = response.data.available.map((time) => {
+				const [hour, minute] = time.time.split(':');
+
+				const checkDate = setMilliseconds(setSeconds(setMinutes(setHours(date, hour), minute), 0), 0);
+				const compareDate = utcToZonedTime(checkDate, timezone);
+				const appointment = response.data.appointments.find((a) => isEqual(parseISO(a.date), compareDate));
+
+				return {
+					time: `${hour}:${minute}h`,
+					value: format(checkDate, "yyyy-MM-dd'T'HH:mm:ssxxx"),
+					available:
+						isAfter(checkDate, new Date()) &&
+						!response.data.appointments.find((a) => format(parseISO(a.date), 'HH:mm') === time.time),
+					isMine: appointment && appointment.user_id === profile.id ? true : false,
+					id: appointment && appointment.user_id === profile.id && appointment.id,
+					appointment: appointment && appointment.user_id === profile.id ? appointment : {},
+				};
+			});
+			
 			setSchedules(data);
 
 			setLoading(false);
@@ -121,11 +149,11 @@ function CreateEdit() {
 			setLoading(true);
 			const responseCreate = await api.post('appointments', newAppointment);
 
-			addNotification({ ...newAppointment, ...responseCreate.data });
+			showToast.success(`Agendamento criado com sucesso para ${newAppointment.dateFormated}`);
 
 			loadSchedule(date);
 
-			showToast.success(`Agendamento criado com sucesso para ${newAppointment.dateFormated}`);
+			addNotification({ ...newAppointment, ...responseCreate.data });
 		} catch (error) {
 			setLoading(false);
 			getValidationErrors(error);
@@ -139,6 +167,7 @@ function CreateEdit() {
 			user: data.provider_id,
 			read: false,
 		};
+		
 		firebaseService.pushData(`notifications/user-${data.provider_id}`, notification);
 	}
 

@@ -53,7 +53,7 @@ class CreateAppontmentService {
 
     // INICIO notificações aos envolvidos
     const user = await User.findByPk(user_id);
-    const formatedDate = format(hourStart, "'dia' dd 'de' MMMM', às' H:mm'h'", {
+    const formatedDate = format(hourStart, "'dia' dd 'de' MMMM', ' eeee', às' H:mm'h'", {
       locale: pt,
     });
 

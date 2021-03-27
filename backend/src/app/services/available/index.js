@@ -1,13 +1,4 @@
-import {
-  startOfDay,
-  endOfDay,
-  setHours,
-  setMinutes,
-  setSeconds,
-  format,
-  isAfter,
-  subHours,
-} from 'date-fns';
+import { startOfDay, endOfDay } from 'date-fns';
 import Appointment from '../../models/Appointment';
 import Speciality from '../../models/Speciality';
 import User from '../../models/User';
@@ -34,41 +25,21 @@ class AvailableService {
           [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
         },
       },
+      attributes: ['id', 'user_id', 'date', 'cancelable'],
       include: [
         {
           model: User,
           as: 'provider',
-          attributes: ['name', 'url', 'image'],
+          attributes: ['name'],
         },
       ],
     });
 
     const available = speciality.scheduleFormated.scheduleConfig
       .filter(t => t.available === true)
-      .map(time => {
-        const [hour, minute] = time.time.split(':');
-        const value = setSeconds(
-          setMinutes(setHours(searchDate, hour), minute),
-          0
-        );
-        const appointment = appointments.find(
-          a => format(subHours(a.date, 3), 'HH:mm') === time.time
-        );
+      .map(time => ({ time: time.time }));
 
-        return {
-          time: time.time,
-          value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
-          available:
-            isAfter(value, new Date()) &&
-            !appointments.find(a => format(subHours(a.date, 3), 'HH:mm') === time.time),
-          isMine: appointment && appointment.user_id === user_id,
-          id: appointment && appointment.user_id === user_id && appointment.id,
-          appointment:
-            appointment && appointment.user_id === user_id && appointment,
-        };
-      });
-
-    return available;
+    return { available, appointments };
   }
 }
 

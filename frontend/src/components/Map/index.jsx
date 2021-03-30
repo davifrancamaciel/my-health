@@ -14,30 +14,28 @@ let DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-function Map({ selectedLocation, setSelectedLocation, setLocationSelectedClick }) {
+function Map({ selectedLocation, setSelectedLocation }) {
 	const [isLoadedPosition, setIsLoadedPosition] = useState(false);
-	// const [selectedPosition, setSelectedPosition] = useState([0, 0]);
+	const [selectedPositionMap, setSelectedPositionMap] = useState([0, 0]);
 
-	// useEffect(() => {
-	// 	console.log(selectedLocation);
-	// 	if (!!selectedLocation[0] && !!selectedLocation[1]) {
-	// 		setSelectedPosition([selectedLocation[0], selectedLocation[1]]);
-	// 		setIsLoadedPosition(true);
-	// 	} else {
-	// 		navigator.geolocation.getCurrentPosition((postition) => {
-	// 			const { latitude, longitude } = postition.coords;
-	// 			setSelectedPosition([latitude, longitude]);
-	// 			setIsLoadedPosition(true);
-	// 		});
-	// 	}
-	// }, []);
+	useEffect(() => {
+		const [latitude, longitude] = selectedLocation;
+		if (!!latitude && !!longitude) {
+			setSelectedPositionMap([latitude, longitude]);
+			setSelectedLocation([latitude, longitude]);
+			setIsLoadedPosition(true);
+		} else {
+			navigator.geolocation.getCurrentPosition((postition) => {
+				const { latitude, longitude } = postition.coords;
+				setSelectedPositionMap([latitude, longitude]);
+				setSelectedLocation([latitude, longitude]);
+				setIsLoadedPosition(true);
+			});
+		}
+	}, [selectedLocation]);
 
 	useEffect(() => {
 		console.log(selectedLocation);
-		if (!!selectedLocation[0] && !!selectedLocation[1]) {
-			// setSelectedLocation([selectedLocation[0], selectedLocation[1]]);
-			setIsLoadedPosition(true);
-		}
 	}, [selectedLocation]);
 
 	function LocationMarker() {
@@ -45,12 +43,13 @@ function Map({ selectedLocation, setSelectedLocation, setLocationSelectedClick }
 			click(e) {
 				map.locate();
 				map.flyTo(e.latlng, map.getZoom());
+				setSelectedPositionMap([e.latlng.lat, e.latlng.lng]);
 				setSelectedLocation([e.latlng.lat, e.latlng.lng]);
 			},
 		});
 
-		return selectedLocation === null ? null : (
-			<Marker position={selectedLocation}>
+		return selectedPositionMap === null ? null : (
+			<Marker position={selectedPositionMap}>
 				<Popup style={{ left: '-48px' }}>Você está aqui</Popup>
 			</Marker>
 		);
@@ -59,7 +58,7 @@ function Map({ selectedLocation, setSelectedLocation, setLocationSelectedClick }
 	return (
 		<Container>
 			{isLoadedPosition && (
-				<MapContainer center={selectedLocation} zoom={15}>
+				<MapContainer center={selectedPositionMap} zoom={15}>
 					<TileLayer
 						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

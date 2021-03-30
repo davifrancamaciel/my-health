@@ -10,7 +10,7 @@ export default function show (title, message, onClickYes, onClickNo) {
       return (
         <Container>
           <h1>{title}</h1>
-          <p>{message}</p>
+          <div dangerouslySetInnerHTML={{ __html: `${message}` }}></div>
           <button
             onClick={() => {
               onClickYes()

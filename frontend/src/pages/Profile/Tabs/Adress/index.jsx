@@ -10,7 +10,6 @@ import InputMask from 'components/Inputs/InputMask';
 
 import showToast from 'Utils/showToast';
 import getLocale from 'Utils/getLocale';
-import { getCoordinates } from 'Utils/getCoordinates';
 import Map from 'components/Map';
 import validation from './validation';
 
@@ -23,35 +22,30 @@ function Adress() {
 
 	const [userProvfile, setUserProvfile] = useState({ ...profile });
 	const [zipCodeChanged, setZipCodeChanged] = useState('');
-	const [selectedLocation, setSelectedLocation] = useState([profile.latitude || 0, profile.longitude || 0]);
+	const [selectedLocationLoaded, setSelectedLocationLoaded] = useState([
+		profile.latitude || 0,
+		profile.longitude || 0,
+	]);
+	const [selectedLocationClicked, setSelectedLocationClicked] = useState([
+		profile.latitude || 0,
+		profile.longitude || 0,
+	]);
 
 	useEffect(() => {
 		async function loadZipCode() {
 			const response = await getLocale(zipCodeChanged);
-			console.log(response);
-
-			if (response) {
-				const { location } = await getCoordinates(
-					`${response.state} ${response.city} ${response.neighborhood} ${response.street}`
-				);
-				console.log(location);
-				setSelectedLocation([location.lat, location.lng]);
-			}
-
-			setUserProvfile({
-				...userProvfile,
-				...response,
-			});
+			setUserProvfile({ ...userProvfile, ...response });
 		}
 		loadZipCode();
 	}, [zipCodeChanged]);
 
 	function handleSubmit(data) {
+		const [latitude, longitude] = selectedLocationClicked;
 		const user = {
 			...userProvfile,
 			...data,
-			latitude: selectedLocation[0],
-			longitude: selectedLocation[1],
+			latitude,
+			longitude,
 		};
 		if (data.oldPassword && (!data.password || !data.confirmPassword)) {
 			showToast.error('Para alterar a sua senha preencha também os campos de nova senha e confirmação');
@@ -112,7 +106,7 @@ function Adress() {
 						<h2>Localização</h2>
 						<span>Selecione sua localização no mapa</span>
 					</legend>
-					<Map selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+					<Map selectedLocation={selectedLocationLoaded} setSelectedLocation={setSelectedLocationClicked} />
 					<div className="field">
 						<SubmitButton loading={loading ? true : false} text={'Atualizar endereço'} />
 					</div>

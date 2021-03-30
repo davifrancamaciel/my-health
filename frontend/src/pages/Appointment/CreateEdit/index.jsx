@@ -112,7 +112,7 @@ function CreateEdit() {
 					appointment: appointment && appointment.user_id === profile.id ? appointment : {},
 				};
 			});
-			
+
 			setSchedules(data);
 
 			setLoading(false);
@@ -129,7 +129,7 @@ function CreateEdit() {
 		}
 		ShowConfirm(
 			'Atenção',
-			`Confirma o agendamento com o médico ${specialityProvider.user.name} no horário de ${schedule.time}h e valor de ${specialityProvider.priceFormated}?`,
+			`Confirma o agendamento com o médico <h2>${specialityProvider.user.name}</h2> no horário de <h2>${schedule.time}</h2> e valor de ${specialityProvider.priceFormated}?`,
 			() => handleAddAppointmentConfirmed(schedule)
 		);
 	}
@@ -167,7 +167,7 @@ function CreateEdit() {
 			user: data.provider_id,
 			read: false,
 		};
-		
+
 		firebaseService.pushData(`notifications/user-${data.provider_id}`, notification);
 	}
 
@@ -183,7 +183,7 @@ function CreateEdit() {
 		}
 		ShowConfirm(
 			'Atenção',
-			`Confirma o cancelamemto do agendamento com médico ${schedule.appointment.provider.name} no horário de ${schedule.time}h?`,
+			`Confirma o cancelamemto do agendamento com médico <h2>${schedule.appointment.provider.name}</h2> no horário de <h2>${schedule.time}?</h2>`,
 			() => handleCancelAppointmentConfirmed(schedule)
 		);
 	}

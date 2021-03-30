@@ -32,12 +32,13 @@ const SpecialityCreateEdit = function () {
 	const [loading, setLoading] = useState(false);
 	const [types, setTypes] = useState([]);
 	const [zipCodeChanged, setZipCodeChanged] = useState('');
-	const [selectedLocation, setSelectedLocation] = useState([0, 0]);
-	const [locationSelectedClick, setLocationSelectedClick] = useState([0, 0]);
+	const [selectedLocationLoaded, setSelectedLocationLoaded] = useState([0, 0]);
+	const [selectedLocationClicked, setSelectedLocationClicked] = useState([0, 0]);
 
 	const [scheduleConfig, setScheduleConfig] = useState(schedule);
 	const [daysWeekConfig, setDaysWeekConfig] = useState(daysWeek);
 	const [active, setActive] = useState(true);
+	const [showMap, setShowMap] = useState(false);
 
 	useEffect(() => {
 		if (!profile.provider) {
@@ -73,51 +74,52 @@ const SpecialityCreateEdit = function () {
 					}
 
 					setLoading(false);
+					setShowMap(true);
 				} catch (error) {
 					setLoading(false);
 					getValidationErrors(error);
 				}
 			}
 			loadSpeciality(id);
+		} else {
+			setShowMap(true);
 		}
-	}, []);
+	}, [id]);
 
 	useEffect(() => {
 		const { latitude, longitude } = speciality;
 		console.log(latitude, longitude);
-		setSelectedLocation([Number(latitude), Number(longitude)]);
-	}, [speciality]);
-
-	// useEffect(() => {
-	// 	console.log('Localização anterior', selectedLocation);
-	// 	setLocationSelectedClick(selectedLocation);
-	// }, [selectedLocation]);
-
-	// useEffect(() => {
-	// 	console.log('Localização a ser salva ', locationSelectedClick);
-	// }, [locationSelectedClick]);
+		if (latitude && longitude) {
+			setSelectedLocationLoaded([Number(latitude), Number(longitude)]);
+		}
+	}, [speciality.latitude, speciality.longitude]);
 
 	useEffect(() => {
 		async function loadZipCode() {
 			const response = await getLocale(zipCodeChanged);
-			setSpeciality({ ...speciality, ...response });
+			setSpeciality({ ...response, ...speciality });
 		}
 		loadZipCode();
 	}, [zipCodeChanged]);
+
+	useEffect(() => {
+		console.log(selectedLocationClicked)
+	}, [selectedLocationClicked]);
 
 	async function handleSubmit(data) {
 		try {
 			const daysAvailable = daysWeekConfig.find((x) => x.available === true);
 			const hoursAvailable = scheduleConfig.find((x) => x.available === true);
 			const checActive = daysAvailable && hoursAvailable ? active : false;
+			const [latitude, longitude] = selectedLocationClicked;
 
 			const saveSpeciality = {
 				...data,
 				active: checActive,
 				value: priceToNumber(data.value),
 				id: id ? Number(id) : 0,
-				latitude: selectedLocation[0],
-				longitude: selectedLocation[1],
+				latitude,
+				longitude,
 				schedule: {
 					scheduleConfig,
 					daysWeekConfig,
@@ -217,11 +219,12 @@ const SpecialityCreateEdit = function () {
 							<h2>Localização</h2>
 							<span>Selecione sua localização no mapa</span>
 						</legend>
-						<Map
-							selectedLocation={selectedLocation}
-							setSelectedLocation={setSelectedLocation}
-							setLocationSelectedClick={setLocationSelectedClick}
-						/>
+						{showMap && (
+							<Map
+								selectedLocation={selectedLocationLoaded}
+								setSelectedLocation={setSelectedLocationClicked}
+							/>
+						)}
 					</fieldset>
 
 					<SubmitButton loading={loading ? true : false} text={'Salvar'} />

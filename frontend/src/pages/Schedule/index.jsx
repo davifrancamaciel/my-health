@@ -111,9 +111,9 @@ function Shedule() {
 		}
 		ShowConfirm(
 			'Atenção',
-			`Confirma o cancelamemto do agendamento com ${schedule.titlePosition.toLowerCase()} ${
+			`Confirma o cancelamemto do agendamento com ${schedule.titlePosition.toLowerCase()} <h2>${
 				schedule.scheduledWithUser.name
-			} no horário de ${schedule.time}?`,
+			}</h2> no horário de <h2>${schedule.time}?</h2>`,
 			() => handleCancelAppointmentConfirmed(schedule)
 		);
 	}

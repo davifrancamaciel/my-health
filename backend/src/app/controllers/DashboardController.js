@@ -13,7 +13,6 @@ import Company from '../models/Company'
 import User from '../models/User'
 import Vehicle from '../models/Vehicle'
 import Speciality from '../models/Speciality'
-import SpecialityTypeEnum from '../enums/specialityTypes'
 import Sale from '../models/Sale'
 
 class DashboardController {
@@ -56,12 +55,12 @@ class DashboardController {
           attributes: ['value'],
           where: {
             company_id: userCompanyId,
-            speciality_type_id: {
-              [Op.notIn]: [
-                SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
-                SpecialityTypeEnum.MULTA_NAO_PAGA,
-              ],
-            },
+            // speciality_type_id: {
+            //   [Op.notIn]: [
+            //     SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+            //     SpecialityTypeEnum.MULTA_NAO_PAGA,
+            //   ],
+            // },
             createdAt: {
               [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
             },
@@ -124,12 +123,12 @@ class DashboardController {
       order: [['createdAt', 'ASC']],
       where: {
         company_id: userCompanyId,
-        speciality_type_id: {
-          [Op.notIn]: [
-            SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
-            SpecialityTypeEnum.MULTA_NAO_PAGA,
-          ],
-        },
+        // speciality_type_id: {
+        //   [Op.notIn]: [
+        //     SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+        //     SpecialityTypeEnum.MULTA_NAO_PAGA,
+        //   ],
+        // },
         createdAt: {
           [Op.between]: [subYears(new Date(), 1), endOfMonth(new Date())],
         },

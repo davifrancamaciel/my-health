@@ -13,7 +13,6 @@ import Datepicker from 'components/Inputs/Datepicker';
 import InputMask from 'components/Inputs/InputMask';
 import InputMaskPhone from 'components/Inputs/InputMaskPhone';
 import Dropzone from 'components/Inputs/Dropzone';
-import { SECONDARY_COLOR } from 'constants/colors';
 
 import getImage from 'Utils/getImage';
 

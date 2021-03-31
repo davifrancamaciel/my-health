@@ -2,8 +2,6 @@ import { Op } from 'sequelize';
 
 import Speciality from '../../models/Speciality';
 import SpecialityType from '../../models/SpecialityType';
-import Vehicle from '../../models/Vehicle';
-import SpecialityTypeEnum from '../../enums/specialityTypes';
 import { startOfDay, endOfDay, parseISO } from 'date-fns';
 
 class SpecialityIndexService {

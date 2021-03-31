@@ -35,6 +35,7 @@ export const Container = styled.div`
 		width: 260px;
 	}
 	@media (max-width: 720px) {
+		padding: 40px 5px;
 		button {
 			width: 100%;
 		}

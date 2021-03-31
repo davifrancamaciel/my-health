@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from 'react';
-// import { Select } from '@rocketseat/unform';
+import { useSelector } from 'react-redux';
 
-import { MapContainer, TileLayer } from 'react-leaflet';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import MarkerContainer from './Marker';
-
+import Container from 'components/_layouts/Container';
 import Select from 'components/Inputs/Select';
+import MarkerContainer from './Marker';
 
 import api from 'services/api';
 import getValidationErrors from 'Utils/getValidationErrors';
 import urlMessageWhatsapp from 'Utils/urlMessageWhatsapp';
-import Container from 'components/_layouts/Container';
+import showToast from 'Utils/showToast';
 
-import { Search, ContainerMapSelectProvider, PopupCustom, Card, Info } from './styles';
+import { Search, ContainerMapSelectProvider, Map, Location } from './styles';
 
 function Appointment() {
+	const profile = useSelector((state) => state.user.profile);
 	const [types, setTypes] = useState([]);
 	const [isLoadedPosition, setIsLoadedPosition] = useState(false);
-	const [initialPosition, setInitialPosition] = useState([0, 0]);
-	const [selectedPosition, setSelectedPosition] = useState([0, 0]);
+	const [useCurrentLocation, setUseCurrentLocation] = useState(false);
+	const [currentLocation, setCurrentLocation] = useState([0, 0]);
+	const [positionSearchMap, setPositionSearchMap] = useState([profile.latitude || 0, profile.longitude || 0]);
 	const [specialities, setSpecialityies] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -40,22 +45,38 @@ function Appointment() {
 		loadSpecialitiesTypes();
 		loadSpecialities();
 	}, []);
+
 	useEffect(() => {
-		// if (!!selectedLocation[0] && !!selectedLocation[1]) {
-		// 	setInitialPosition([selectedLocation[0], selectedLocation[1]]);
-		// 	setSelectedPosition([selectedLocation[0], selectedLocation[1]]);
-		// 	setIsLoadedPosition(true);
-		// } else {
+		if (!!profile.latitude && !!profile.longitude) {
+			setPositionSearchMap([profile.latitude, profile.longitude]);
+			setIsLoadedPosition(true);
+		} else {
+			setPositionSearchMap(currentLocation);
+			setIsLoadedPosition(true);
+		}
+	}, [currentLocation]);
+
+	useEffect(() => {
 		navigator.geolocation.getCurrentPosition((postition) => {
 			const { latitude, longitude } = postition.coords;
-
-			setInitialPosition([latitude, longitude]);
-			setSelectedPosition([latitude, longitude]);
-
-			setIsLoadedPosition(true);
+			setCurrentLocation([latitude, longitude]);
 		});
-		// }
 	}, []);
+
+	useEffect(() => {
+		if (useCurrentLocation) {
+			if (!profile.latitude) {
+				showToast.info(
+					'Já estamos usando sua localização atual, pois a mesma ainda não foi definida na sua conta. Verifique!'
+				);
+			}
+			setPositionSearchMap(currentLocation);
+		} else {
+			if (!!profile.latitude && !!profile.longitude) {
+				setPositionSearchMap([profile.latitude, profile.longitude]);
+			}
+		}
+	}, [useCurrentLocation]);
 
 	async function loadSpecialities(id) {
 		try {
@@ -77,28 +98,51 @@ function Appointment() {
 		}
 	}
 
+	function ChangeView({ center }) {
+		const map = useMap();
+		map.setView(center, map._zoom);
+		return null;
+	}
+
 	return (
-		<Container title={`Agende uma consulta`} loading={loading} showBack>
+		<Container loading={loading} full>
 			<ContainerMapSelectProvider>
 				<Search>
+					<h1>Agende uma consulta pertinho de você</h1>
 					<Select
 						placeholder="Informe uma especialidade"
 						name="speciality_type_id"
 						options={types}
 						onSelected={(e) => loadSpecialities(e.value)}
 					/>
-				</Search>
-				{isLoadedPosition && (
-					<MapContainer center={initialPosition} zoom={15}>
-						<TileLayer
-							attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+					<Location>
+						<FormControlLabel
+							control={
+								<Switch
+									color="primary"
+									checked={useCurrentLocation}
+									onChange={() => setUseCurrentLocation(!useCurrentLocation)}
+									name={`currentLocation`}
+								/>
+							}
+							label={`Usar minha localização atual`}
 						/>
-						{specialities.map((x) => (
-							<MarkerContainer key={x.id} item={x} />
-						))}
-					</MapContainer>
-				)}
+					</Location>
+				</Search>
+				<Map>
+					{isLoadedPosition && (
+						<MapContainer center={positionSearchMap} zoom={12} scrollWheelZoom={false}>
+							<ChangeView center={positionSearchMap} />
+							<TileLayer
+								attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+								url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+							/>
+							{specialities.map((x) => (
+								<MarkerContainer key={x.id} item={x} />
+							))}
+						</MapContainer>
+					)}
+				</Map>
 			</ContainerMapSelectProvider>
 		</Container>
 	);

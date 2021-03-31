@@ -7,8 +7,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 import BackPage from 'components/BackPage';
 import Adress from './Tabs/Adress';
@@ -28,11 +26,8 @@ function TabPanel(props) {
 			aria-labelledby={`scrollable-force-tab-${index}`}
 			{...other}
 		>
-			{value === index && (
-				<Box p={3}>
-					<Typography>{children}</Typography>
-				</Box>
-			)}
+		
+			{value === index && <div>{children}</div>}
 		</div>
 	);
 }
@@ -43,7 +38,7 @@ TabPanel.propTypes = {
 	value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
+function tabsProps(index) {
 	return {
 		id: `scrollable-force-tab-${index}`,
 		'aria-controls': `scrollable-force-tabpanel-${index}`,
@@ -73,7 +68,7 @@ function Profile() {
 				<BackPage />
 			</div>
 			<TabsContainer>
-				<AppBar position="static" color='inherit' elevation={0}>
+				<AppBar position="static" color="inherit" elevation={0}>
 					<Tabs
 						value={value}
 						onChange={handleChange}
@@ -84,9 +79,9 @@ function Profile() {
 						variant="fullWidth"
 						aria-label="full width tabs example"
 					>
-						<Tab icon={<FiUser />} label="Dados pessoais" {...a11yProps(0)} />
-						<Tab icon={<GrMapLocation />} label="Endereço" {...a11yProps(1)} />
-						<Tab icon={<FiLock />} label="Senha" {...a11yProps(2)} />
+						<Tab icon={<FiUser />} label="Dados pessoais" {...tabsProps(0)} />
+						<Tab icon={<GrMapLocation />} label="Endereço" {...tabsProps(1)} />
+						<Tab icon={<FiLock />} label="Senha" {...tabsProps(2)} />
 					</Tabs>
 				</AppBar>
 				<div className={classes.root}>

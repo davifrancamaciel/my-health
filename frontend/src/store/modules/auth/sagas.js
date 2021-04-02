@@ -24,7 +24,13 @@ export function* signIn({ payload }) {
 
 		yield put(signInSuccess(token, user));
 
-		history.push('/dashboard');
+		const returnUrl = localStorage.getItem('@returnUrl');
+		if (returnUrl) {
+			history.push(returnUrl);
+			localStorage.setItem('@returnUrl', ``);
+		} else {
+			history.push('/dashboard');
+		}
 	} catch (error) {
 		getValidationErrors(error);
 		yield put(signFailure());
@@ -41,7 +47,7 @@ export function* signUp({ payload }) {
 			password,
 			whatsapp,
 		});
-		
+
 		history.push('/');
 		const { message } = response.data;
 		showToast.success(message);

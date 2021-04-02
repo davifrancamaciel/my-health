@@ -19,6 +19,7 @@ import {
 import { utcToZonedTime } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
 import api from 'services/api';
+import history from 'services/browserhistory';
 import firebaseService from 'services/firebase';
 
 import { PRIMARY_COLOR } from 'constants/colors';
@@ -121,8 +122,18 @@ function Shedule() {
 	async function handleCancelAppointmentConfirmed(schedule) {
 		try {
 			setLoading(true);
-			const response = await api.delete(`appointments/${schedule.appointment.id}`);
-			addNotification(response.data);
+			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+			const date = utcToZonedTime(parseISO(schedule.value), timezone);
+
+			const dateFormatedComplete = format(date, "'dia' dd 'de' MMMM', ' eeee', às' H:mm'h'", {
+				locale: pt,
+			});
+
+			const response = await api.delete(`appointments/${schedule.appointment.id}`, {
+				data: { dateFormatedComplete },
+			});
+
+			addNotification({ ...response.data, dateFormatedComplete });
 			loadSchedule(date);
 			showToast.success(`Agendamento de ${schedule.time} CANCELADO com sucesso`);
 		} catch (error) {
@@ -131,14 +142,13 @@ function Shedule() {
 		}
 	}
 
-	function addNotification(data) {
-		const { appointment, formatedDate } = data;
+	function addNotification(appointment) {
 		let message = '';
 		if (profile.id === appointment.provider_id) {
-			message = `Consulta CANCELADA para ${appointment.speciality.type.name} agendada com ${appointment.provider.name} para o ${formatedDate}`;
+			message = `Consulta CANCELADA para ${appointment.speciality.type.name} agendada com ${appointment.provider.name} para o ${appointment.dateFormatedComplete}`;
 		}
 		if (profile.id === appointment.user_id) {
-			message = `Consulta CANCELADA para ${appointment.speciality.type.name} com ${appointment.user.name} para o ${formatedDate}`;
+			message = `Consulta CANCELADA para ${appointment.speciality.type.name} com ${appointment.user.name} para o ${appointment.dateFormatedComplete}`;
 		}
 
 		const userId = profile.id === appointment.provider_id ? appointment.user_id : appointment.provider_id;
@@ -150,6 +160,12 @@ function Shedule() {
 			...appointment,
 		};
 		firebaseService.pushData(`notifications/user-${userId}`, notification);
+	}
+
+	function onClickDetails(schedule) {
+		if (schedule.appointment) {
+			history.push(`/appointment/details/${schedule.appointment.id}`);						   
+		}
 	}
 
 	return (
@@ -172,6 +188,8 @@ function Shedule() {
 							available={!schedule.appointment}
 							scheduledWithUser={schedule.titlePosition}
 							provider={profile.provider}
+							isAppointment={schedule.appointment}
+							onClick={() => onClickDetails(schedule)}
 						>
 							<div>
 								<strong>{schedule.time}</strong>

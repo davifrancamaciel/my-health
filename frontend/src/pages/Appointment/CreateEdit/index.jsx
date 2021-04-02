@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { FaWhatsapp } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { FcCancel } from 'react-icons/fc';
 import {
@@ -27,10 +26,11 @@ import firebaseService from 'services/firebase';
 
 import { PRIMARY_COLOR } from 'constants/colors';
 import Container from 'components/_layouts/Container';
+import Profile from '../Profile';
 import showToast from 'Utils/showToast';
 import ShowConfirm from 'components/ShowConfirm';
 import { setNextDate, setPrevtDate, availableDay } from 'Utils/schedule';
-import { SheduleContainer, Time, Shedule, Profile, ProfileInfo } from './styles';
+import { SheduleContainer, Time, Shedule } from './styles';
 
 function CreateEdit() {
 	const profile = useSelector((state) => state.user.profile);
@@ -142,8 +142,11 @@ function CreateEdit() {
 				user_id: profile.id,
 				provider_id: specialityProvider.user.id,
 				speciality_id: specialityProvider.id,
-				dateFormated: formatRelative(parseISO(schedule.value), new Date(), { locale: pt }),
 				speciality: specialityProvider.type.name,
+				dateFormated: formatRelative(parseISO(schedule.value), new Date(), { locale: pt }),
+				dateFormatedComplete: format(parseISO(schedule.value), "'dia' dd 'de' MMMM', ' eeee', às' H:mm'h'", {
+					locale: pt,
+				}),
 			};
 
 			setLoading(true);
@@ -191,8 +194,19 @@ function CreateEdit() {
 	async function handleCancelAppointmentConfirmed(schedule) {
 		try {
 			setLoading(true);
-			const responseCancel = await api.delete(`appointments/${schedule.appointment.id}`);
-			addNotificationCancel(responseCancel.data);
+
+			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+			const date = utcToZonedTime(parseISO(schedule.value), timezone);
+
+			const dateFormatedComplete = format(date, "'dia' dd 'de' MMMM', ' eeee', às' H:mm'h'", {
+				locale: pt,
+			});
+
+			const response = await api.delete(`appointments/${schedule.appointment.id}`, {
+				data: { dateFormatedComplete },
+			});
+
+			addNotificationCancel({ ...response.data, dateFormatedComplete });
 
 			loadSchedule(date);
 
@@ -203,12 +217,10 @@ function CreateEdit() {
 		}
 	}
 
-	function addNotificationCancel(data) {
-		const { appointment, formatedDate } = data;
-
+	function addNotificationCancel(appointment) {
 		const notification = {
 			createdAt: appointment.canceled_at,
-			content: `Consulta CANCELADA para ${appointment.speciality.type.name} com ${appointment.user.name} para o ${formatedDate}`,
+			content: `Consulta CANCELADA para ${appointment.speciality.type.name} com ${appointment.user.name} para ${appointment.dateFormatedComplete}`,
 			user: appointment.provider_id,
 			read: false,
 			...appointment,
@@ -219,37 +231,7 @@ function CreateEdit() {
 	return (
 		<Container title={`Agenda do médico`} loading={loading} showBack>
 			<SheduleContainer>
-				{specialityProvider.user && (
-					<Profile>
-						<img src={specialityProvider.user.url} alt={specialityProvider.user.name} />
-						<ProfileInfo>
-							<strong>Especialidade {specialityProvider.type.name}</strong>
-							<strong>{specialityProvider.user.name}</strong>
-							<strong>
-								<a href={`mailto:${specialityProvider.user.email}`}>{specialityProvider.user.email}</a>{' '}
-							</strong>
-							{specialityProvider.user.crm && (
-								<div>
-									<p>CRM {specialityProvider.user.crm}</p>
-								</div>
-							)}
-							<div>
-								<p>
-									<FaWhatsapp size={20} />
-									<a href={specialityProvider.urlWhatsapp} target="_blank">
-										{specialityProvider.user.whatsapp}
-									</a>
-								</p>
-								<p>{specialityProvider.priceFormated}</p>
-							</div>
-							<p>{specialityProvider.description}</p>
-							<p>
-								{specialityProvider.street} {specialityProvider.neighborhood} {specialityProvider.city}{' '}
-								{specialityProvider.neighborhood} {specialityProvider.complement}
-							</p>
-						</ProfileInfo>
-					</Profile>
-				)}
+				{specialityProvider.user && <Profile profile={specialityProvider} />}
 				<Shedule>
 					{specialityProvider.schedule && (
 						<header>

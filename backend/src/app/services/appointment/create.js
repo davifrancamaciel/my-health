@@ -1,5 +1,4 @@
-import { parseISO, isBefore, format } from 'date-fns';
-import pt from 'date-fns/locale/pt';
+import { parseISO, isBefore } from 'date-fns';
 
 import User from '../../models/User';
 import Appointment from '../../models/Appointment';
@@ -7,7 +6,14 @@ import Mail from '../../../lib/Mail';
 import { Op } from 'sequelize';
 
 class CreateAppontmentService {
-  async run({ provider_id, user_id, date, speciality_id, speciality }) {
+  async run({
+    provider_id,
+    user_id,
+    date,
+    speciality_id,
+    speciality,
+    dateFormatedComplete,
+  }) {
     if (provider_id === user_id) {
       throw new Error('Não é possível marcar uma consuta para você mesmo');
     }
@@ -53,9 +59,6 @@ class CreateAppontmentService {
 
     // INICIO notificações aos envolvidos
     const user = await User.findByPk(user_id);
-    const formatedDate = format(hourStart, "'dia' dd 'de' MMMM', ' eeee', às' H:mm'h'", {
-      locale: pt,
-    });
 
     Mail.sendMail({
       to: `${provider.name} <${provider.email}>`,
@@ -64,8 +67,8 @@ class CreateAppontmentService {
       context: {
         name: provider.name,
         email: provider.email,
-        text: `Novo agendamento de ${speciality} com o paciente ${user.name} para o ${formatedDate}`,
-        url: `${process.env.APP_URL_WEB}`,
+        text: `Novo agendamento de ${speciality} com o paciente ${user.name} para o ${dateFormatedComplete}`,
+        url: `${process.env.APP_URL_WEB}/appointment/details/${appointment.id}`,
       },
     });
 
@@ -76,8 +79,8 @@ class CreateAppontmentService {
       context: {
         name: user.name,
         email: user.email,
-        text: `Você tem uma consulta de ${speciality} agendada com ${provider.name} para o ${formatedDate}`,
-        url: `${process.env.APP_URL_WEB}`,
+        text: `Você tem uma consulta de ${speciality} agendada com ${provider.name} para o ${dateFormatedComplete}`,
+        url: `${process.env.APP_URL_WEB}/appointment/details/${appointment.id}`,
       },
     });
     // FIM notificações aos envolvidos

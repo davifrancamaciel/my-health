@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { PRIMARY_COLOR } from 'constants/colors';
 
 export const SheduleContainer = styled.div`
@@ -42,6 +42,12 @@ export const Time = styled.li`
 	box-shadow: 0 0 14px 0 #00000033;
 	display: flex;
 	justify-content: space-between;
+
+	${(props) =>
+		props.isAppointment &&
+		css`
+			cursor: pointer;
+		`}
 
 	opacity: ${(props) => (props.past ? 0.6 : 1)};
 

@@ -1,15 +1,14 @@
-import { isBefore, subHours, format } from 'date-fns';
+import { isBefore, subHours } from 'date-fns';
 
 import User from '../../models/User';
 import Appointment from '../../models/Appointment';
 import Speciality from '../../models/Speciality';
 import SpecialityType from '../../models/SpecialityType';
-import pt from 'date-fns/locale/pt';
 
 import Mail from '../../../lib/Mail';
 
 class AppointmentCancelService {
-  async run({ id, user_id }) {
+  async run({ id, user_id, dateFormatedComplete }) {
     let appointment = await Appointment.findByPk(id, {
       include: [
         {
@@ -57,14 +56,6 @@ class AppointmentCancelService {
 
     // INICIO notificações aos envolvidos
 
-    const formatedDate = format(
-      appointment.date,
-      "'dia' dd 'de' MMMM', ' eeee', às' H:mm'h'",
-      {
-        locale: pt,
-      }
-    );
-
     Mail.sendMail({
       to: `${appointment.provider.name} <${appointment.provider.email}>`,
       subject: 'Agendamento cancelado',
@@ -75,7 +66,8 @@ class AppointmentCancelService {
         provider: appointment.provider.name,
         user: appointment.user.name,
         speciality: appointment.speciality.type.name,
-        date: formatedDate,
+        date: dateFormatedComplete,
+        url: `${process.env.APP_URL_WEB}/appointment/details/${appointment.id}`,
       },
     });
 
@@ -89,12 +81,13 @@ class AppointmentCancelService {
         user: appointment.user.name,
         provider: appointment.provider.name,
         speciality: appointment.speciality.type.name,
-        date: formatedDate,
+        date: dateFormatedComplete,
+        url: `${process.env.APP_URL_WEB}/appointment/details/${appointment.id}`,
       },
     });
     // FIM notificações aos envolvidos
 
-    return { appointment, formatedDate };
+    return appointment;
   }
 }
 

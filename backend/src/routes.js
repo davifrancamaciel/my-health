@@ -54,6 +54,7 @@ routes.get('/dashboard', DashboardController.index);
 routes.get('/dashboard-specialities-graph', DashboardController.getSpecialitiesGraph);
 
 routes.get('/appointments', AppointmentController.index);
+routes.get('/appointments/:id', AppointmentController.find);
 routes.post('/appointments', AppointmentController.store);
 routes.delete('/appointments/:id', AppointmentController.delete);
 

@@ -17,6 +17,7 @@ import SpecialityCreateEdit from '../pages/Speciality/CreateEdit';
 import Schedule from '../pages/Schedule';
 import Appointment from '../pages/Appointment/List';
 import AppointmentCreateEdit from '../pages/Appointment/CreateEdit';
+import AppointmentDatails from '../pages/Appointment/Details';
 
 import Profile from '../pages/Profile';
 
@@ -36,7 +37,7 @@ const Routes = () => {
 
 			<Route exact path="/appointment" component={Appointment} isPrivate />
 			<Route exact path="/appointment/:specialityId/create" component={AppointmentCreateEdit} isPrivate />
-			<Route exact path="/appointment/:specialityId/edit/:id" component={AppointmentCreateEdit} isPrivate />
+			<Route exact path="/appointment/details/:id" component={AppointmentDatails} isPrivate />
 			
 			<Route exact path="/user" component={UserList} isPrivate provider={true} />
 			<Route exact path="/user/create" component={UserCreateEdit} isPrivate />

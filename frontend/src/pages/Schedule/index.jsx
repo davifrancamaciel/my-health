@@ -125,7 +125,7 @@ function Shedule() {
 			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 			const date = utcToZonedTime(parseISO(schedule.value), timezone);
 
-			const dateFormatedComplete = format(date, "'dia' dd 'de' MMMM', ' eeee', às' H:mm'h'", {
+			const dateFormatedComplete = format(date, "'dia' dd 'de' MMMM',' eeee', às' H:mm'h'", {
 				locale: pt,
 			});
 
@@ -164,7 +164,7 @@ function Shedule() {
 
 	function onClickDetails(schedule) {
 		if (schedule.appointment) {
-			history.push(`/appointment/details/${schedule.appointment.id}`);						   
+			history.push(`/appointment/details/${schedule.appointment.id}`);
 		}
 	}
 
@@ -189,9 +189,8 @@ function Shedule() {
 							scheduledWithUser={schedule.titlePosition}
 							provider={profile.provider}
 							isAppointment={schedule.appointment}
-							onClick={() => onClickDetails(schedule)}
 						>
-							<div>
+							<div onClick={() => onClickDetails(schedule)}>
 								<strong>{schedule.time}</strong>
 								<span>
 									{schedule.scheduledWithUser
@@ -201,7 +200,11 @@ function Shedule() {
 								{schedule.scheduledWithUser && <span>{schedule.appointment.speciality.type.name}</span>}
 							</div>
 							{schedule.scheduledWithUser && (
-								<img src={schedule.scheduledWithUser.url} alt={schedule.scheduledWithUser.name} />
+								<img
+									src={schedule.scheduledWithUser.url}
+									alt={schedule.scheduledWithUser.name}
+									onClick={() => onClickDetails(schedule)}
+								/>
 							)}
 							{schedule.appointment && (
 								<button title="Cancelar agendamento" onClick={() => handleCancelAppointment(schedule)}>

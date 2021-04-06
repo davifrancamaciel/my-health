@@ -42,16 +42,14 @@ export const Time = styled.li`
 	box-shadow: 0 0 14px 0 #00000033;
 	display: flex;
 	justify-content: space-between;
-
-	${(props) =>
-		props.isAppointment &&
-		css`
-			cursor: pointer;
-		`}
-
 	opacity: ${(props) => (props.past ? 0.6 : 1)};
 
 	div {
+		${(props) =>
+			props.isAppointment &&
+			css`
+				cursor: pointer;
+			`}
 		strong {
 			display: block;
 			color: ${(props) =>
@@ -70,6 +68,11 @@ export const Time = styled.li`
 	}
 
 	img {
+		${(props) =>
+			props.isAppointment &&
+			css`
+				cursor: pointer;
+			`}
 		width: 60px;
 		height: 60px;
 		margin-left: 5px;

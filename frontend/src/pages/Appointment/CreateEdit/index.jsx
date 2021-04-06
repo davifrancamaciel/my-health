@@ -144,7 +144,7 @@ function CreateEdit() {
 				speciality_id: specialityProvider.id,
 				speciality: specialityProvider.type.name,
 				dateFormated: formatRelative(parseISO(schedule.value), new Date(), { locale: pt }),
-				dateFormatedComplete: format(parseISO(schedule.value), "'dia' dd 'de' MMMM', ' eeee', às' H:mm'h'", {
+				dateFormatedComplete: format(parseISO(schedule.value), "'dia' dd 'de' MMMM',' eeee', às' H:mm'h'", {
 					locale: pt,
 				}),
 			};
@@ -198,7 +198,7 @@ function CreateEdit() {
 			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 			const date = utcToZonedTime(parseISO(schedule.value), timezone);
 
-			const dateFormatedComplete = format(date, "'dia' dd 'de' MMMM', ' eeee', às' H:mm'h'", {
+			const dateFormatedComplete = format(date, "'dia' dd 'de' MMMM',' eeee', às' H:mm'h'", {
 				locale: pt,
 			});
 

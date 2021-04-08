@@ -53,11 +53,12 @@ function Details() {
 			});
 			setTitle(`Agendamento ${dateFormatedComplete}`);
 			const dataFormated = {
-				...response.data,				
+				...response.data,
 				priceFormated: formatPrice(data.speciality.value),
 				urlWhatsapp: urlMessageWhatsapp(data[toAppointmentProfile].whatsapp),
 				user: data[toAppointmentProfile],
 				titlePosition,
+				dateFormatedComplete,
 			};
 			console.log(dataFormated);
 			setAppointment(dataFormated);
@@ -86,19 +87,13 @@ function Details() {
 	async function handleCancelAppointmentConfirmed(appointment) {
 		try {
 			setLoading(true);
-			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-			const date = utcToZonedTime(parseISO(appointment.date), timezone);
-
-			const dateFormatedComplete = format(date, "'dia' dd 'de' MMMM',' eeee', às' H:mm'h'", {
-				locale: pt,
-			});
 
 			const response = await api.delete(`appointments/${appointment.id}`, {
-				data: { dateFormatedComplete },
+				data: { dateFormatedComplete: appointment.dateFormatedComplete },
 			});
 
-			addNotification({ ...response.data, dateFormatedComplete });
-			setAppointment({ ...appointment, canceled_at: new Date() });
+			addNotification({ ...response.data, dateFormatedComplete: appointment.dateFormatedComplete });
+			setAppointment({ ...appointment, canceled_at: response.data.canceled_at });
 			showToast.success(`${title} CANCELADO com sucesso`);
 			setLoading(false);
 		} catch (error) {
@@ -154,20 +149,21 @@ function Details() {
 								</p>
 							</div>
 						</ProfileInfo>
+						{!appointment.canceled_at && (
+							<Chip
+								icon={<FiCalendar size={20} />}
+								label="Cancelar agendamento"
+								onDelete={handleCancelAppointment}
+								color="secondary"
+							/>
+						)}
+						{!appointment.canceled_at && <strong>CANCELADO</strong>}
 					</Profile>
 					<Appointment>
 						<h2>Especialidade {appointment.speciality.type.name}</h2>
 						<div>
 							<p>{appointment.priceFormated}</p>
-							{appointment.canceled_at && <strong>CANCELADO</strong>}
-							{!appointment.canceled_at && (
-								<Chip
-									icon={<FiCalendar size={20} />}
-									label="Cancelar"
-									onDelete={handleCancelAppointment}
-									color="secondary"
-								/>
-							)}
+							
 						</div>
 
 						<p>{`Local do atendimento ${appointment.speciality.street} ${appointment.speciality.neighborhood} ${appointment.speciality.city} ${appointment.speciality.neighborhood} ${appointment.speciality.complement}`}</p>

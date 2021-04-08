@@ -20,7 +20,9 @@ export default function Search ({ onSearch, setPage }) {
   useEffect(() => {
     async function loadSpecialitiesTypes () {
       try {
-        const response = await api.get('specialities-types')
+        const response = await api.get('specialities-types-list', {
+					params: { active: true },
+				})
         setOptions(response.data)
       } catch (error) {
         getValidationErrors(error)

@@ -12,7 +12,6 @@ export const Container = styled.div`
 			bottom: 0;
 			z-index: 999;
 			background: rgba(255, 255, 255, 0.5);
-			left: 0;
 			display: flex;
 			flex-direction: row;
 			justify-content: center;

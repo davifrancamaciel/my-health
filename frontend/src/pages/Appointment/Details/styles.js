@@ -45,8 +45,7 @@ export const Profile = styled.div`
 	margin-top: 118px;
 	margin: 50px auto;
 	@media (max-width: 780px) {
-		margin-top: 0px;
-		padding: 0px 20px;
+		margin-top: 0px;		
 	}
 
 	> img {

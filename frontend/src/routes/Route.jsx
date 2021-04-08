@@ -7,6 +7,7 @@ import { store } from '../store';
 
 const RouterWrapper = ({ isPrivate = false, component: Component, ...rest }) => {
 	const { signed } = store.getState().auth;
+	const { profile } = store.getState().user;	
 
 	if (!signed && isPrivate) {
 		localStorage.setItem('@returnUrl', `${window.location.pathname}${window.location.search}`);
@@ -15,6 +16,12 @@ const RouterWrapper = ({ isPrivate = false, component: Component, ...rest }) => 
 
 	if (signed && !isPrivate) {
 		return <Redirect to="/dashboard" />;
+	}
+
+	if (rest.roules) {
+		if (signed && isPrivate && !profile.roules.includes(rest.roules)) {
+			return <Redirect to="/dashboard" />;
+		}
 	}
 
 	const Layout = signed ? DefaultLayout : AuthLayout;

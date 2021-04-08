@@ -58,7 +58,7 @@ function Map({ selectedLocation, setSelectedLocation }) {
 	return (
 		<Container>
 			{isLoadedPosition && (
-				<MapContainer center={selectedPositionMap} zoom={15}>
+				<MapContainer center={selectedPositionMap} zoom={15} scrollWheelZoom={false}>
 					<TileLayer
 						attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

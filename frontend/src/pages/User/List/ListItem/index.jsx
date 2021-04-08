@@ -1,61 +1,48 @@
-import React from 'react'
-import { FiEdit, FiDelete, FiPhone } from 'react-icons/fi'
-import { FaWhatsapp } from 'react-icons/fa'
+import React from 'react';
+import { FiEdit, FiDelete, FiPhone } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
 
-import {
-  Li,
-  Info,
-  Actions,
-  InfoStatus,
-  ActiveStatus
-} from '../../../../components/_layouts/ListContainer/styles'
+import { Li, Info, Actions, InfoStatus, ActiveStatus, ExpiredStatus } from 'components/_layouts/ListContainer/styles';
 
-function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
-  return (
-    <Li active={item.active}>
-      <header>
-        {provider && <img src={item.image} alt={item.name} />}
-        <Info>
-          <strong>{item.name}</strong>
-          <span>{item.email}</span>
-        </Info>
-        <Actions>
-          <button className='edit' onClick={() => onUpdateClick(item.id)}>
-            <FiEdit size={20} color='#FFFFFF' />
-          </button>
-          <button className='delete' onClick={() => onDeleteClick(item)}>
-            <FiDelete size={20} color='#FFFFFF' />
-          </button>
-        </Actions>
-      </header>
-      <p>
-        {item.state} {item.city} {item.neighborhood} {item.street}
-      </p>
-      <p>{item.crm}</p>
-      <p>
-        <span>
-          {item.whatsapp && <FaWhatsapp size={20} />}
-          <a
-            href={`https://api.whatsapp.com/send?phone=+55${item.whatsapp}&text=`}
-            target='_blank'
-          >
-            {item.whatsapp}
-          </a>
-        </span>
-        <span>
-          {item.phone && <FiPhone size={20} />}
-          {item.phone}
-        </span>
-      </p>
+function Item({ item, onDeleteClick, onUpdateClick }) {
+	return (
+		<Li active={item.active}>
+			<header>
+				<img src={item.url} alt={item.name} />
+				<Info>
+					<strong>{item.name}</strong>
+					<span>{item.email}</span>
+				</Info>
+				<Actions>
+					<button className="edit" onClick={() => onUpdateClick(item.id)}>
+						<FiEdit size={20} color="#FFFFFF" />
+					</button>
+					<button className="delete" onClick={() => onDeleteClick(item)}>
+						<FiDelete size={20} color="#FFFFFF" />
+					</button>
+				</Actions>
+			</header>
 
-      {item.provider && (
-        <InfoStatus>
-          <ActiveStatus active={item.active}>{`${
-            item.active ? 'Ativo' : 'Inativo'
-          }`}</ActiveStatus>
-        </InfoStatus>
-      )}
-    </Li>
-  )
+			<p>
+				<span>
+					<FaWhatsapp size={20} />
+					<a href={item.urlWhatsapp} target="_blank">
+						{item.whatsapp}
+					</a>
+				</span>
+				{item.phone && (
+					<span>
+						<FiPhone size={20} />
+						{item.phone}
+					</span>
+				)}
+			</p>
+
+			<InfoStatus>
+				<ExpiredStatus>{item.createdAtFormatedDate}</ExpiredStatus>
+				<ActiveStatus active={item.active}>{`${item.active ? 'Ativo' : 'Inativo'}`}</ActiveStatus>
+			</InfoStatus>
+		</Li>
+	);
 }
-export default Item
+export default Item;

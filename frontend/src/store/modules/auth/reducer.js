@@ -32,7 +32,6 @@ export default function auth(state = INITIAL_STATE, action) {
 			}
 
 			case AUTH_SIGN_UP_SUCCESS: {
-				// draft.token = action.payload.token
 				draft.loading = false;
 				break;
 			}

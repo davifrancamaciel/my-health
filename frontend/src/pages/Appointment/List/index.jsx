@@ -15,6 +15,7 @@ import api from 'services/api';
 import getValidationErrors from 'Utils/getValidationErrors';
 import urlMessageWhatsapp from 'Utils/urlMessageWhatsapp';
 import showToast from 'Utils/showToast';
+import { PRIMARY_COLOR } from 'constants/colors';
 
 import { Search, ContainerMapSelectProvider, Map, Location } from './styles';
 
@@ -32,7 +33,9 @@ function Appointment() {
 		async function loadSpecialitiesTypes() {
 			try {
 				setLoading(true);
-				const response = await api.get('specialities-types');
+				const response = await api.get('specialities-types-list', {
+					params: { active: true },
+				});
 
 				setTypes(response.data);
 
@@ -114,6 +117,7 @@ function Appointment() {
 						name="speciality_type_id"
 						options={types}
 						onSelected={(e) => loadSpecialities(e.value)}
+						color={PRIMARY_COLOR}
 					/>
 					<Location>
 						<FormControlLabel

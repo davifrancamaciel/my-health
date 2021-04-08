@@ -97,6 +97,13 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
+
+      roules: {
+        type: Sequelize.STRING(200),
+        allowNull: true,
+        defaultValue: 'USER',
+      },
+
       active: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -123,7 +130,6 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
-
     });
   },
 

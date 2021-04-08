@@ -4,6 +4,7 @@ import multer from 'multer';
 import multerConfig from './config/multerConfig';
 
 import authMiddleware from './app/middlewares/auth';
+import roulesMiddleware from './app/middlewares/roules';
 
 import DashboardController from './app/controllers/DashboardController';
 
@@ -62,13 +63,6 @@ routes.get('/available/providers/:specialityId', AvailableController.index)
 
 routes.get('/schedule', ScheduleController.index)
 
-routes.post('/users', validateUserStore, UserController.store);
-routes.put('/users', validateUserUpdate, UserController.update);
-routes.get('/users', UserController.index);
-routes.get('/users/:id', UserController.find);
-routes.delete('/users/:id', UserController.delete);
-routes.get('/users-list', UserController.list);
-
 routes.put(
   '/profile',
   upload.single('file'),
@@ -83,6 +77,19 @@ routes.get('/specialities', SpecialityController.index);
 routes.get('/specialities/:id', SpecialityController.find);
 routes.delete('/specialities/:id', SpecialityController.delete);
 
+routes.get('/specialities-types-list', SpecialityTypeController.list);
+
+routes.use(roulesMiddleware);
+routes.post('/specialities-types', SpecialityTypeController.store);
+routes.put('/specialities-types', SpecialityTypeController.update);
+routes.delete('/specialities-types/:id', SpecialityTypeController.delete);
 routes.get('/specialities-types', SpecialityTypeController.index);
+routes.get('/specialities-types/:id', SpecialityTypeController.find);
+
+routes.post('/users', validateUserStore, UserController.store);
+routes.put('/users', validateUserUpdate, UserController.update);
+routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.find);
+routes.delete('/users/:id', UserController.delete);
 
 export default routes;

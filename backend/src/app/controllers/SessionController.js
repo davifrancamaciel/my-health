@@ -35,7 +35,8 @@ class SessionController {
         'complement',
         'latitude',
         'longitude',
-        'validated'
+        'validated',
+        'roules'
       ],
     });
 
@@ -70,6 +71,7 @@ class SessionController {
       latitude,
       longitude,
       validated,
+      roules
     } = user;
 
     if (!validated) {
@@ -108,9 +110,10 @@ class SessionController {
         complement,
         latitude,
         longitude,
+        roules
       },
 
-      token: jwt.sign({ id, provider }, authConfig.secret, {
+      token: jwt.sign({ id, provider, roules }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),
     });

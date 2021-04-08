@@ -7,7 +7,7 @@ import Popper from '@material-ui/core/Popper'
 import MenuItem from '@material-ui/core/MenuItem'
 import MenuList from '@material-ui/core/MenuList'
 
-import history from '../../../services/browserhistory'
+import history from 'services/browserhistory'
 
 export default function MenuListComposition () {
   const [open, setOpen] = useState(false)
@@ -56,7 +56,7 @@ export default function MenuListComposition () {
         onClick={handleToggle}
         className='as-items-menu'
       >
-        Contratos
+        Sistema
       </Link>
       <Popper
         open={open}
@@ -80,11 +80,12 @@ export default function MenuListComposition () {
                   id='menu-list-grow'
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={() => handleRedirect('sale')}>
-                    Vendas
+                  <MenuItem onClick={() => handleRedirect('speciality-type')}>
+                    Tipos de especialidades
                   </MenuItem>
-                  {/* <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+                  <MenuItem onClick={() => handleRedirect('user')}>
+                    Usuários
+                  </MenuItem>                  
                 </MenuList>
               </ClickAwayListener>
             </Paper>

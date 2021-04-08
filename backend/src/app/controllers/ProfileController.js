@@ -68,6 +68,7 @@ class ProfileController {
         complement,
         latitude,
         longitude,
+        roules,
       } = await User.findByPk(req.userId);
 
       return res.json({
@@ -92,7 +93,7 @@ class ProfileController {
         complement,
         latitude,
         longitude,
-        token: jwt.sign({ id, provider }, authConfig.secret, {
+        token: jwt.sign({ id, provider, roules }, authConfig.secret, {
           expiresIn: authConfig.expiresIn,
         }),
       });

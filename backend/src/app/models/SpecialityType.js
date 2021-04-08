@@ -5,7 +5,7 @@ class SpecialityType extends Model {
     super.init(
       {
         name: Sequelize.STRING,
-        constant: Sequelize.STRING,
+        active: Sequelize.BOOLEAN,
       },
       { sequelize }
     );

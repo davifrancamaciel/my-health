@@ -1,14 +1,6 @@
-import styled, { keyframes, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { darken } from 'polished';
-import { SECONDARY_COLOR, PRIMARY_COLOR } from '../../constants/colors';
-
-const rotate = keyframes`
-from {
-    transform: rotate(0deg);
-}
-to {
-    transform: rotate(360deg);
-}`;
+import { SECONDARY_COLOR } from '../../constants/colors';
 
 export const Button = styled.button`
 	width: 100%;
@@ -36,7 +28,6 @@ export const Button = styled.button`
 			svg {
 				color: #fff;
 				font-weight: bold;
-				animation: ${rotate} 2s linear infinite;
 			}
 		`}
 `;

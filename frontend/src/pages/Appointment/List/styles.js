@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { PRIMARY_COLOR } from 'constants/colors';
 
 export const ContainerMapSelectProvider = styled.div`
 	width: 100%;
@@ -12,10 +13,9 @@ export const ContainerMapSelectProvider = styled.div`
 `;
 
 export const Search = styled.div`
-	/* margin: auto 0px; */
-	place-content: center;
-    display: flex;
-    flex-direction: column;
+	margin-top: 100px;
+	display: flex;
+	flex-direction: column;
 	padding: 0px 20px;
 	min-width: 300px;
 	max-width: 350px;
@@ -23,13 +23,18 @@ export const Search = styled.div`
 		color: var(--secondary-color);
 		margin-bottom: 30px;
 	}
+
 	@media (max-width: 720px) {
+		margin-top: 50px;
 		max-width: 100%;
 	}
 `;
 
 export const Location = styled.div`
 	text-align: center;
+	label {
+		color: ${PRIMARY_COLOR} !important;
+	}
 `;
 
 export const Map = styled.div`

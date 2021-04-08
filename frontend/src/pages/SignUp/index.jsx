@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
@@ -14,9 +14,14 @@ import { Content, BackgroundSignUp, AnimationContainerRight } from '../_layouts/
 const SignUp = () => {
 	const dispatch = useDispatch();
 	const loading = useSelector((state) => state.auth.loading);
+	const [provider, setProvider] = useState(false);
+
+	useEffect(() => {
+		setProvider(window.location.pathname.includes('provider'));
+	}, []);
 
 	function handleSubmit({ name, email, password, whatsapp }) {
-		dispatch(signUpRequest(name, email, password, whatsapp));
+		dispatch(signUpRequest(name, email, password, whatsapp, provider));
 	}
 
 	return (

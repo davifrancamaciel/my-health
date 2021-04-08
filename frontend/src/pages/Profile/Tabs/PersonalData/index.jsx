@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form } from '@rocketseat/unform';
 import { parseISO } from 'date-fns';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+// import Checkbox from '@material-ui/core/Checkbox';
 
 import { updateProfileRequest } from 'store/modules/user/actions';
 
@@ -111,7 +111,7 @@ function PersonalData() {
 						<div className="field"></div>
 					</div>
 
-					<FormControlLabel
+					{/* <FormControlLabel
 						control={
 							<Checkbox
 								color="primary"
@@ -123,7 +123,7 @@ function PersonalData() {
 							/>
 						}
 						label="Desejo realizar consultas (sou um médico)"
-					/>
+					/> */}
 
 					<div className="field">
 						<SubmitButton loading={loading ? true : false} text={'Atualizar perfil'} />

@@ -12,7 +12,6 @@ function load() {
   var list = [];
   for (let i = 1; i < specalities.length; i++) {
     list.push({
-      id: i,
       name: specalities[i],
       active: true,
       created_at: new Date(),

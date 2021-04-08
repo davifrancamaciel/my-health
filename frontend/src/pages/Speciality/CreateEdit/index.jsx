@@ -48,7 +48,13 @@ const SpecialityCreateEdit = function () {
 
 		async function loadSpecialitiesTypes() {
 			try {
-				const response = await api.get('specialities-types');
+				let params = {};
+				if (!id) {
+					params.active = true;
+				}
+				const response = await api.get('specialities-types-list', {
+					params: params,
+				});
 				setTypes(response.data);
 			} catch (error) {
 				getValidationErrors(error);
@@ -103,7 +109,7 @@ const SpecialityCreateEdit = function () {
 	}, [zipCodeChanged]);
 
 	useEffect(() => {
-		console.log(selectedLocationClicked)
+		console.log(selectedLocationClicked);
 	}, [selectedLocationClicked]);
 
 	async function handleSubmit(data) {

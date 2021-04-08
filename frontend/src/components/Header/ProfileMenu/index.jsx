@@ -16,7 +16,7 @@ export default function SimpleMenu() {
 		setAnchorEl(event.currentTarget);
 	};
 
-	const handleClose = (option) => {
+	const handleClickItem = (option) => {
 		setAnchorEl(null);
 		switch (option) {
 			case 'logout':
@@ -38,14 +38,14 @@ export default function SimpleMenu() {
 				anchorEl={anchorEl}
 				keepMounted
 				open={Boolean(anchorEl)}
-				onClose={() => handleClose('')}
+				onClose={() => setAnchorEl(null)}
 			>
-				<MenuItem onClick={() => handleClose('profile')}>Minha conta</MenuItem>
-				<MenuItem onClick={() => handleClose('schedule')}>Minha agenda</MenuItem>
+				<MenuItem onClick={() => handleClickItem('profile')}>Minha conta</MenuItem>
+				<MenuItem onClick={() => handleClickItem('schedule')}>Minha agenda</MenuItem>
 				{profile.provider && (
-					<MenuItem onClick={() => handleClose('speciality')}>Minhas especialidades</MenuItem>
-				)}
-				<MenuItem onClick={() => handleClose('logout')}>Sair</MenuItem>
+					<MenuItem onClick={() => handleClickItem('speciality')}>Minhas especialidades</MenuItem>
+				)}				
+				<MenuItem onClick={() => handleClickItem('logout')}>Sair</MenuItem>
 			</Menu>
 		</div>
 	);

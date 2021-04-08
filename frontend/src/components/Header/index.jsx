@@ -7,20 +7,21 @@ import { MdAttachMoney } from 'react-icons/md';
 
 import Drawer from '../Drawer';
 import ProfileMenu from './ProfileMenu';
-import ContractsMenu from './ContractsMenu';
+import SystemMenu from './SystemMenu';
 import Notifications from './Notifications';
 
 import logo from 'assets/logoupish.png';
 import getImage from 'Utils/getImage';
+import roulesEnum from 'enums/roulesEnum';
 import { Container, Content, Profile } from './styles';
 
 const itensMenu = [
-	{
-		path: 'dashboard',
-		label: 'Dashboard',
-		provider: 'false|true',
-		icon: <AiFillDashboard size={26} size={26} />,
-	},
+	// {
+	// 	path: 'dashboard',
+	// 	label: 'Dashboard',
+	// 	provider: 'false|true',
+	// 	icon: <AiFillDashboard size={26} size={26} />,
+	// },
 	{
 		path: 'appointment',
 		label: 'Especialidades',
@@ -79,7 +80,9 @@ const Header = () => {
 							{i.label}
 						</Link>
 					))}
-					{/* {!profile.provider && <ContractsMenu />} */}
+					{profile.roules === roulesEnum.ADMIN && (
+						<SystemMenu />
+					)}
 				</nav>
 				<aside>
 					<Notifications />

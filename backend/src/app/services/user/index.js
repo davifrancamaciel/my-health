@@ -3,15 +3,7 @@ import { Op } from 'sequelize';
 import User from '../../models/User';
 
 class UserIndexService {
-  async run({
-    name,
-    email,
-    provider,
-    page,
-    orderBy,
-    sorting,
-  }) {
-
+  async run({ name, email, provider, page, orderBy, sorting }) {
     let whereStatement = {};
 
     if (provider != undefined) whereStatement.provider = provider;
@@ -49,6 +41,9 @@ class UserIndexService {
         'street',
         'provider',
         'active',
+        'image',
+        'url',
+        'createdAt'
       ],
     });
 

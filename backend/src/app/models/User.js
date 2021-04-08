@@ -1,5 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 import bcrypty from 'bcryptjs';
+import roulesEnum from '../enums/roulesEnum';
 
 class User extends Model {
   static init(sequelize) {
@@ -30,6 +31,7 @@ class User extends Model {
         active: Sequelize.BOOLEAN,
         token_reset: Sequelize.STRING,
         validated: Sequelize.BOOLEAN,
+        roules: Sequelize.STRING,
         url: {
           type: Sequelize.VIRTUAL,
           get() {

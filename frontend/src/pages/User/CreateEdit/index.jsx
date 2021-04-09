@@ -22,7 +22,6 @@ const UserCreateEdit = () => {
 	const [user, setUser] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [active, setActive] = useState(true);
-	const [reset, setReset] = useState(false);
 	const [provider, setProvider] = useState(true);
 	const profile = useSelector((state) => state.user.profile);
 
@@ -31,8 +30,7 @@ const UserCreateEdit = () => {
 			async function loadUser(id) {
 				try {
 					setLoading(true);
-					const response = await api.get(`users/${id}`);
-					console.log(response.data);
+					const response = await api.get(`users/${id}`);					
 					setUser(response.data);
 					setActive(response.data.active);
 					setProvider(response.data.provider);
@@ -43,12 +41,7 @@ const UserCreateEdit = () => {
 				}
 			}
 			loadUser(id);
-		} else {
-			setUser({
-				...user,
-				active: true,
-			});
-		}
+		} 
 	}, []);
 
 	async function handleSubmit(data) {
@@ -56,18 +49,10 @@ const UserCreateEdit = () => {
 		try {
 			const saveUser = {
 				...data,
-				active,
-				reset,
+				active,			
 				provider,
 				id: id ? Number(id) : 0,
-			};
-
-			if (!saveUser.id) {
-				saveUser.password = process.env.REACT_APP_PASSWORD_DEFAULT;
-				saveUser.validated = true;
-			}
-
-			if (saveUser.reset) saveUser.password = process.env.REACT_APP_PASSWORD_DEFAULT;
+			};			
 
 			setLoading(true);
 
@@ -132,20 +117,6 @@ const UserCreateEdit = () => {
 								/>
 							}
 							label={`Realizará consultas (Médico)`}
-						/>
-					</fieldset>
-
-					<fieldset>
-						<FormControlLabel
-							control={
-								<Switch
-									color="primary"
-									checked={reset}
-									onChange={() => setReset(!reset)}
-									name={`reset`}
-								/>
-							}
-							label={`Restaurar senha para ${process.env.REACT_APP_PASSWORD_DEFAULT}`}
 						/>
 					</fieldset>
 

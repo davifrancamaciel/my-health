@@ -7,6 +7,7 @@ import { Container } from './styles';
 
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import showToast from 'Utils/showToast';
 
 let DefaultIcon = L.icon({
 	iconUrl: icon,
@@ -19,8 +20,9 @@ function Map({ selectedLocation, setSelectedLocation }) {
 	const [selectedPositionMap, setSelectedPositionMap] = useState([0, 0]);
 
 	useEffect(() => {
+		checkPermission();
 		const [latitude, longitude] = selectedLocation;
-		if (!!latitude && !!longitude) {
+		if (!!latitude && !!Number(latitude) && !!longitude && !!Number(longitude)) {
 			setSelectedPositionMap([latitude, longitude]);
 			setSelectedLocation([latitude, longitude]);
 			setIsLoadedPosition(true);
@@ -34,9 +36,15 @@ function Map({ selectedLocation, setSelectedLocation }) {
 		}
 	}, [selectedLocation]);
 
-	useEffect(() => {
-		console.log(selectedLocation);
-	}, [selectedLocation]);
+	function checkPermission() {
+		navigator.permissions.query({ name: 'geolocation' }).then((permission) => {
+			if (permission.state === 'denied') {
+				showToast.info(
+					'Será necessário permitir o acesso a sua localização atual para que o mapa funcione corretamente'
+				);
+			}
+		});
+	}
 
 	function LocationMarker() {
 		const map = useMapEvents({

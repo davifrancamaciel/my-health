@@ -50,7 +50,7 @@ function Appointment() {
 	}, []);
 
 	useEffect(() => {
-		if (!!profile.latitude && !!profile.longitude) {
+		if (!!profile.latitude && !!Number(profile.latitude) && !!profile.longitude && !!Number(profile.longitude)) {
 			setPositionSearchMap([profile.latitude, profile.longitude]);
 			setIsLoadedPosition(true);
 		} else {
@@ -60,6 +60,7 @@ function Appointment() {
 	}, [currentLocation]);
 
 	useEffect(() => {
+		checkPermission();
 		navigator.geolocation.getCurrentPosition((postition) => {
 			const { latitude, longitude } = postition.coords;
 			setCurrentLocation([latitude, longitude]);
@@ -68,14 +69,16 @@ function Appointment() {
 
 	useEffect(() => {
 		if (useCurrentLocation) {
-			if (!profile.latitude) {
-				showToast.info(
-					'Já estamos usando sua localização atual, pois a mesma ainda não foi definida na sua conta. Verifique!'
-				);
-			}
+			checkPermission();
+
 			setPositionSearchMap(currentLocation);
 		} else {
-			if (!!profile.latitude && !!profile.longitude) {
+			if (
+				!!profile.latitude &&
+				!!Number(profile.latitude) &&
+				!!profile.longitude &&
+				!!Number(profile.longitude)
+			) {
 				setPositionSearchMap([profile.latitude, profile.longitude]);
 			}
 		}
@@ -99,6 +102,25 @@ function Appointment() {
 			setLoading(false);
 			getValidationErrors(error);
 		}
+	}
+
+	function checkPermission() {
+		navigator.permissions.query({ name: 'geolocation' }).then((permission) => {
+			if (permission.state === 'denied') {
+				showToast.info(
+					'Será necessário permitir o acesso a sua localização atual para que o mapa funcione corretamente'
+				);
+			} else {
+				if (
+					useCurrentLocation &&
+					(!profile.latitude || !Number(profile.latitude) || !profile.longitude || !Number(profile.longitude))
+				) {
+					showToast.info(
+						'Já estamos usando sua localização atual, pois a mesma ainda não foi definida na sua conta. Verifique!'
+					);
+				}
+			}
+		});
 	}
 
 	function ChangeView({ center }) {

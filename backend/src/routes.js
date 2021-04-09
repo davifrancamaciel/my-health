@@ -86,7 +86,6 @@ routes.delete('/specialities-types/:id', SpecialityTypeController.delete);
 routes.get('/specialities-types', SpecialityTypeController.index);
 routes.get('/specialities-types/:id', SpecialityTypeController.find);
 
-routes.post('/users', validateUserStore, UserController.store);
 routes.put('/users', validateUserUpdate, UserController.update);
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.find);

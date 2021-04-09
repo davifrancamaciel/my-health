@@ -66,7 +66,6 @@ const Routes = () => {
 				roules={'ADMIN'}
 			/>
 			<Route exact path="/user" component={UserList} isPrivate roules={'ADMIN'} />
-			<Route exact path="/user/create" component={UserCreateEdit} isPrivate roules={'ADMIN'} />
 			<Route exact path="/user/edit/:id" component={UserCreateEdit} isPrivate roules={'ADMIN'} />
 
 			<Redirect from="*" to="/" />

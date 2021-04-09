@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { FiPlus } from 'react-icons/fi';
 import { parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
@@ -21,12 +19,7 @@ import Search from './Search';
 
 import { Main, Ul } from 'components/_layouts/ListContainer/styles';
 
-const orderByOptionsUser = [{ value: 'name', label: 'Nome' }];
-const orderByOptionsClient = [
-	{ value: 'name', label: 'Nome' },
-	{ value: 'city', label: 'Cidade' },
-	{ value: 'neighborhood', label: 'Bairro' },
-];
+const orderByOptions = [{ value: 'name', label: 'Nome' }];
 
 const UserList = ({ provider }) => {
 	const profile = useSelector((state) => state.user.profile);
@@ -103,15 +96,12 @@ const UserList = ({ provider }) => {
 		<Container title={'Usuários do sistema'} loading={loading} showBack>
 			<Search onSearch={setSearch} provider={provider} setPage={setPage} />
 			<span>
-				<span>{total > 0 && <span>Total {total}</span>}</span>
-				<Link to={`/user/create`}>
-					<FiPlus size={20} /> Cadastrar
-				</Link>
+				<span>{total > 0 && <span>Total {total}</span>}</span>				
 			</span>
 
 			<Order
 				onChangeOrder={setOnChangeOrder}
-				orderOptions={provider ? orderByOptionsUser : orderByOptionsClient}
+				orderOptions={orderByOptions}
 				setPage={setPage}
 				provider={provider}
 			/>

@@ -93,6 +93,7 @@ class ProfileController {
         complement,
         latitude,
         longitude,
+        roules,
         token: jwt.sign({ id, provider, roules }, authConfig.secret, {
           expiresIn: authConfig.expiresIn,
         }),

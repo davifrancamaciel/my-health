@@ -26,7 +26,6 @@ function Details() {
 
 	const [loading, setLoading] = useState(false);
 	const [appointment, setAppointment] = useState({});
-	const [title, setTitle] = useState('');
 
 	useEffect(() => {
 		loadAppointment(id);
@@ -48,10 +47,10 @@ function Details() {
 			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 			const date = utcToZonedTime(parseISO(data.date), timezone);
 
-			const dateFormatedComplete = format(date, "'dia' dd 'de' MMMM',' eeee', às' H:mm'h'", {
+			const dateFormatedComplete = format(date, "'dia' dd 'de' MMMM 'de' yyyy',' eeee', às' H:mm'h'", {
 				locale: pt,
 			});
-			setTitle(`Agendamento ${dateFormatedComplete}`);
+
 			const dataFormated = {
 				...response.data,
 				priceFormated: formatPrice(data.speciality.value),
@@ -94,7 +93,7 @@ function Details() {
 
 			addNotification({ ...response.data, dateFormatedComplete: appointment.dateFormatedComplete });
 			setAppointment({ ...appointment, canceled_at: response.data.canceled_at });
-			showToast.success(`${title} CANCELADO com sucesso`);
+			showToast.success(`Agendamento ${appointment.dateFormatedComplete} CANCELADO com sucesso`);
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
@@ -123,32 +122,11 @@ function Details() {
 	}
 
 	return (
-		<Container title={title} loading={loading} showBack>
+		<Container title={'Agendamento'} loading={loading} showBack>
 			{appointment.user && (
 				<ContainerDetail>
-					<Profile>
-						<img src={appointment.user.url} alt={appointment.user.name} />
-						<ProfileInfo>
-							<strong>
-								{appointment.titlePosition} {appointment.user.name}
-							</strong>
-							<strong>
-								<a href={`mailto:${appointment.user.email}`}>{appointment.user.email}</a>
-							</strong>
-							{appointment.user.crm && (
-								<div>
-									<p>CRM {appointment.user.crm}</p>
-								</div>
-							)}
-							<div>
-								<p>
-									<FaWhatsapp size={20} />
-									<a href={appointment.urlWhatsapp} target="_blank">
-										{appointment.user.whatsapp}
-									</a>
-								</p>
-							</div>
-						</ProfileInfo>
+					<header>
+						<h2>Especialidade {appointment.speciality.type.name}</h2>
 						{!appointment.canceled_at && (
 							<Chip
 								icon={<FiCalendar size={20} />}
@@ -157,18 +135,42 @@ function Details() {
 								color="secondary"
 							/>
 						)}
-						{!appointment.canceled_at && <strong>CANCELADO</strong>}
-					</Profile>
-					<Appointment>
-						<h2>Especialidade {appointment.speciality.type.name}</h2>
-						<div>
+						{appointment.canceled_at && <strong>CANCELADO</strong>}
+					</header>
+					<div>
+						<Profile>
+							<img src={appointment.user.url} alt={appointment.user.name} />
+							<ProfileInfo>
+								<strong>
+									{appointment.titlePosition} {appointment.user.name}
+								</strong>
+								<strong>
+									<a href={`mailto:${appointment.user.email}`}>{appointment.user.email}</a>
+								</strong>
+								{appointment.user.crm && (
+									<div>
+										<p>CRM {appointment.user.crm}</p>
+									</div>
+								)}
+								<div>
+									<p>
+										<FaWhatsapp size={20} />
+										<a href={appointment.urlWhatsapp} target="_blank">
+											{appointment.user.whatsapp}
+										</a>
+									</p>
+								</div>
+							</ProfileInfo>
+						</Profile>
+						<Appointment>
+							<strong>Agendado para {appointment.dateFormatedComplete}</strong>
 							<p>{appointment.priceFormated}</p>
-							
-						</div>
-
-						<p>{`Local do atendimento ${appointment.speciality.street} ${appointment.speciality.neighborhood} ${appointment.speciality.city} ${appointment.speciality.neighborhood} ${appointment.speciality.complement}`}</p>
+							<p>{`Local do atendimento ${appointment.speciality.street} ${appointment.speciality.neighborhood} ${appointment.speciality.city} ${appointment.speciality.neighborhood} ${appointment.speciality.complement}`}</p>
+						</Appointment>
+					</div>
+					<div>
 						<p>{appointment.speciality.description}</p>
-					</Appointment>
+					</div>
 				</ContainerDetail>
 			)}
 		</Container>

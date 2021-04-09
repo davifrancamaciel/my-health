@@ -44,42 +44,6 @@ class UserController {
     return res.json(user);
   }
 
-  async store(req, res) {
-    const userExist = await User.findOne({
-      where: { email: req.body.email },
-    });
-
-    if (userExist) {
-      return res.status(400).json({
-        error: `Já existe alguém com este email`,
-      });
-    }
-
-    const newUser = {
-      ...req.body,
-    };
-
-    const {
-      id,
-      name,
-      email,
-      provider,
-      whatsapp,
-      city,
-      state,
-    } = await User.create(newUser);
-
-    return res.json({
-      id,
-      name,
-      email,
-      provider,
-      whatsapp,
-      city,
-      state,
-    });
-  }
-
   async update(req, res) {
     const { id, email } = req.body;
     const user = await User.findByPk(id);

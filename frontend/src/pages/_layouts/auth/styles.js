@@ -1,10 +1,10 @@
 import styled, { keyframes } from 'styled-components';
-import { darken, lighten } from 'polished';
-import { PRIMARY_COLOR } from '../../../constants/colors';
-import bgIn from '../../../assets/bg_doctors.svg';
-import bgUp from '../../../assets/bg_medicine.svg';
-import bgForgot from '../../../assets/bg_forgot_password.svg';
-import bgReset from '../../../assets/bg_my_password.svg';
+import { darken } from 'polished';
+import { PRIMARY_COLOR } from 'constants/colors';
+import bgIn from 'assets/bg_doctors.svg';
+import bgUp from 'assets/bg_medicine.svg';
+import bgForgot from 'assets/bg_forgot_password.svg';
+import bgReset from 'assets/bg_my_password.svg';
 
 export const Wrapper = styled.div`
 	min-height: 100%;
@@ -102,16 +102,12 @@ export const AnimationContainerLeft = styled.div`
 
 export const BackgroundSignUp = styled.div`
 	flex: 1;
-	/* background: #f8f8f5 url(${bgUp}) no-repeat 40% top; */
-	/* background-size: cover; */
 	background: #f8f8f5 url(${bgUp}) no-repeat center;
 	background-size: 450px;
 `;
 
 export const BackgroundSignIn = styled.div`
 	flex: 1;
-	/* background: url(${bgIn}) no-repeat center;
-	background-size: cover; */
 	background: #f8f8f5 url(${bgIn}) no-repeat center;
 	background-size: 450px;
 `;

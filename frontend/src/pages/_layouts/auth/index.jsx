@@ -1,24 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import useQuery from 'hooks/queryString';
-
+import Splash from 'components/Splash';
 import { Wrapper } from './styles';
 
 const AuthLayout = ({ children }) => {
-	const query = useQuery();
-	const [loadind, setLoadind] = useState(false);
-
-	useEffect(() => {
-		const reload = query.get('r');
-		if (reload) {
-			setLoadind(true);
-			window.location.href = `${window.location.origin}${window.location.pathname}`;
-		} else {
-			setLoadind(false);
-		}
-	}, []);
-	if (loadind) return <div />;
-	else return <Wrapper>{children}</Wrapper>;
+	return (
+		<Splash>
+			<Wrapper>{children}</Wrapper>
+		</Splash>
+	);
 };
 
 export default AuthLayout;

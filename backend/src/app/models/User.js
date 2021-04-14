@@ -1,6 +1,5 @@
-import Sequelize, { Model } from 'sequelize';
+import Sequelize, { Model , DataTypes } from 'sequelize';
 import bcrypty from 'bcryptjs';
-import roulesEnum from '../enums/roulesEnum';
 
 class User extends Model {
   static init(sequelize) {
@@ -25,6 +24,7 @@ class User extends Model {
         complement: Sequelize.STRING,
         latitude: Sequelize.DECIMAL,
         longitude: Sequelize.DECIMAL,
+        // location: DataTypes.GEOMETRY('POINT',4326 ),
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
         provider: Sequelize.BOOLEAN,

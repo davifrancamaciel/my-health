@@ -46,7 +46,7 @@ function Appointment() {
 			}
 		}
 		loadSpecialitiesTypes();
-		loadSpecialities();
+		
 	}, []);
 
 	useEffect(() => {
@@ -82,13 +82,16 @@ function Appointment() {
 				setPositionSearchMap([profile.latitude, profile.longitude]);
 			}
 		}
+		loadSpecialities();
 	}, [useCurrentLocation]);
 
 	async function loadSpecialities(id) {
 		try {
 			setLoading(true);
+			const [latitude, longitude] = positionSearchMap;
+			
 			const response = await api.get('appointments', {
-				params: { speciality_type_id: id },
+				params: { speciality_type_id: id, latitude, longitude },
 			});
 			setLoading(false);
 

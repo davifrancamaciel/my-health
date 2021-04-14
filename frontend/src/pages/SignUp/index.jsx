@@ -3,18 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 
-import { signUpRequest } from '../../store/modules/auth/actions';
-import SubmitButton from '../../components/SubmitButton';
-import InputMask from '../../components/Inputs/InputMask';
+import { signUpRequest } from 'store/modules/auth/actions';
+import SubmitButton from 'components/SubmitButton';
+import InputMask from 'components/Inputs/InputMask';
 import validation from './validation';
 
-import logo from '../../assets/logo.png';
+import Term from './Term'
+
+import logo from 'assets/logo.png';
 import { Content, BackgroundSignUp, AnimationContainerRight } from '../_layouts/auth/styles';
 
 const SignUp = () => {
 	const dispatch = useDispatch();
 	const loading = useSelector((state) => state.auth.loading);
 	const [provider, setProvider] = useState(false);
+	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
 		setProvider(window.location.pathname.includes('provider'));
@@ -26,6 +29,7 @@ const SignUp = () => {
 
 	return (
 		<>
+			<Term open={open} setOpen={setOpen} provider={provider}/>
 			<BackgroundSignUp />
 			<Content>
 				<AnimationContainerRight>
@@ -35,6 +39,7 @@ const SignUp = () => {
 						<InputMask mask="(99) 99999-9999" name="whatsapp" type="tel" placeholder="Seu whatsapp" />
 						<Input name="email" type="email" placeholder="Seu email para acesso" />
 						<Input name="password" type="password" placeholder="Sua senha" />
+						{/* <a onClick={() => setOpen(!open)}>Termo de adesão</a> */}
 						<SubmitButton loading={loading} text={'Criar conta'} />
 						<Link to="/">Já tenho conta</Link>
 						<Link to="/forgot">Esqueci minha senha</Link>

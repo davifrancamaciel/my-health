@@ -35,7 +35,7 @@ const Routes = () => {
 			<Route exact path="/forgot" component={Forgot} />
 			<Route exact path="/reset" component={Reset} />
 
-			{/* <Route exact path="/dashboard" component={Dashboard} isPrivate /> */}
+			<Route exact path="/dashboard2" component={Dashboard} isPrivate />
 			<Route exact path="/dashboard" component={Appointment} isPrivate />
 
 			<Route exact path="/schedule" component={Schedule} isPrivate />
@@ -68,7 +68,7 @@ const Routes = () => {
 			<Route exact path="/user" component={UserList} isPrivate roules={'ADMIN'} />
 			<Route exact path="/user/edit/:id" component={UserCreateEdit} isPrivate roules={'ADMIN'} />
 
-			<Redirect from="*" to="/" />
+			<Redirect from="*" to="/?r=true" />
 		</Switch>
 	);
 };

@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import sequelize, { Op } from 'sequelize';
 
 import SpecialityType from '../models/SpecialityType';
 import Speciality from '../models/Speciality';
@@ -9,9 +9,9 @@ import AppointmentFindService from '../services/appointment/find';
 
 class AppointmentController {
   async index(req, res) {
-    const { userProvider, userId } = req;
+    const { userId } = req;
 
-    const { speciality_type_id, page = 1 } = req.query;
+    const { speciality_type_id, latitude, longitude, page = 1 } = req.query;
 
     let whereStatement = {
       active: true,
@@ -22,6 +22,11 @@ class AppointmentController {
 
     if (speciality_type_id)
       whereStatement.speciality_type_id = speciality_type_id;
+
+    // if (latitude && longitude) {
+    //   whereStatement.latitude = latitude;
+    //   whereStatement.longitude = longitude;
+    // }
 
     const { count, rows } = await Speciality.findAndCountAll({
       where: whereStatement,

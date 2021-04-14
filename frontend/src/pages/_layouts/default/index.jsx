@@ -1,15 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 
-import Header from '../../../components/Header'
-import { Wrapper } from './styles'
+import useQuery from 'hooks/queryString';
+
+import Header from 'components/Header';
+import { Wrapper } from './styles';
 
 const DefaultLayout = ({ children }) => {
-  return (
-    <Wrapper className='as-layout-default'>
-      <Header />
-      {children}
-    </Wrapper>
-  )
-}
+	const query = useQuery();
+	const [loadind, setLoadind] = useState(false);
 
-export default DefaultLayout
+	useEffect(() => {
+		const reload = query.get('r');
+		if (reload) {
+			setLoadind(true);
+			window.location.href = `${window.location.origin}${window.location.pathname}`;
+		} else {
+			setLoadind(false);
+		}
+	}, []);
+	if (loadind) return <div />;
+	else
+		return (
+			<Wrapper className="as-layout-default">
+				<Header />
+				{children}
+			</Wrapper>
+		);
+};
+
+export default DefaultLayout;

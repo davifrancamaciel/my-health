@@ -7,20 +7,20 @@ import { store } from '../store';
 
 const RouterWrapper = ({ isPrivate = false, component: Component, ...rest }) => {
 	const { signed } = store.getState().auth;
-	const { profile } = store.getState().user;	
+	const { profile } = store.getState().user;
 
 	if (!signed && isPrivate) {
 		localStorage.setItem('@returnUrl', `${window.location.pathname}${window.location.search}`);
-		return <Redirect to="/" />;
+		return <Redirect to="/?r=true" />;		
 	}
 
 	if (signed && !isPrivate) {
-		return <Redirect to="/dashboard" />;
+		return <Redirect to="/dashboard?r=true" />;
 	}
 
 	if (rest.roules) {
 		if (signed && isPrivate && !profile.roules.includes(rest.roules)) {
-			return <Redirect to="/dashboard" />;
+			 return <Redirect to="/dashboard?r=true" />;
 		}
 	}
 
@@ -31,7 +31,7 @@ const RouterWrapper = ({ isPrivate = false, component: Component, ...rest }) => 
 			{...rest}
 			render={(props) => (
 				<Layout>
-					<Component {...props} {...rest} />
+					<Component {...props} />
 				</Layout>
 			)}
 		/>

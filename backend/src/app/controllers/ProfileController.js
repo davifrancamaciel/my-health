@@ -24,9 +24,7 @@ class ProfileController {
         return res.status(401).json({ error: 'A Senha antiga está icorreta' });
       }
       const userUpdate = req.body;
-      // if (!userProvider) {
-      //   userUpdate.provider = false;
-      // }
+
 
       const image = (req.file && req.file.filename) || user.image;
       if (image !== user.image) {
@@ -45,6 +43,19 @@ class ProfileController {
         latitude: propertyValidate(userUpdate.latitude),
         longitude: propertyValidate(userUpdate.longitude),
       };
+      // userUpdateFormated.location = {
+      //   type: 'point',
+      //   coordinates: [
+      //     Number(userUpdateFormated.latitude),
+      //     Number(userUpdateFormated.longitude),
+      //   ],
+      // };
+      // userUpdateFormated.location = {
+      //   type: 'Point',
+      //   coordinates: [39.807222, -76.984722],
+      //   crs: { type: 'name', properties: { name: 'EPSG:4326' } },
+      // };
+      // console.log(userUpdateFormated);
 
       await user.update({ ...userUpdateFormated, image });
 

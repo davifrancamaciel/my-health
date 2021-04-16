@@ -36,7 +36,7 @@ const CompanyCreateEdit = props => {
   const [expireDate, setExpireDate] = useState()
 
   const handleChange = date => {
-    console.log(date)
+    
     setExpireDate(date)
   }
 
@@ -96,7 +96,7 @@ const CompanyCreateEdit = props => {
         provider: false,
         image: selectedImage
       }
-      console.log(saveCompany)
+      
       let formData = new FormData()
 
       formData.append('name', saveCompany.name)

@@ -39,20 +39,18 @@ function PersonalData() {
 		}
 		setUserProfile(profileFormated);
 		setIsProvider(profile.provider);
-		console.log(profileFormated);
+		
 	}, [profile]);
 
 	function handleSubmit(data) {
-		console.log(data);
+		
 		const user = {
 			...userProfile,
 			...data,
 			image: selectedImage,
 			provider: isProvider,
 		};
-
-		console.log(user);
-
+		
 		dispatch(updateProfileRequest(user));
 	}
 	return (
@@ -80,17 +78,17 @@ function PersonalData() {
 					</div>
 					<div className="field-group">
 						<div className="field">
-							<Input name="crm" type="text" label="CRM" />
+							<InputMask mask="999.999.999-99" name="cpf_cnpj" type="tel" label="CPF" />
 						</div>
 						<div className="field">
-							<InputMask mask="999.999.999-99" name="cpf_cnpj" type="tel" label="CPF" />
+							<InputMask mask="99.999.999-9" name="rg" type="tel" label="RG" />
 						</div>
 
 						<div className="field">
 							<InputMask mask="99999999999" name="cnh" type="tel" label="CNH" />
 						</div>
 						<div className="field">
-							<InputMask mask="99.999.999-9" name="rg" type="tel" label="RG" />
+							<Input name="crm" type="text" label="CRM" />
 						</div>
 					</div>
 					<div className="field-group">

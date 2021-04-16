@@ -64,6 +64,7 @@ function Appointment() {
 		navigator.geolocation.getCurrentPosition((postition) => {
 			const { latitude, longitude } = postition.coords;
 			setCurrentLocation([latitude, longitude]);
+			console.log(latitude, longitude)
 		});
 	}, []);
 

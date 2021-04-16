@@ -32,7 +32,7 @@ function SignatureControl({ company }) {
 				locale: pt,
 			})}`,
 		};
-		console.log(companyFormatedObj);
+		
 		setCompanyFormated(companyFormatedObj);
 	}, [company]);
 

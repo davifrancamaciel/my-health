@@ -59,7 +59,7 @@ function Details() {
 				titlePosition,
 				dateFormatedComplete,
 			};
-			console.log(dataFormated);
+			
 			setAppointment(dataFormated);
 
 			setLoading(false);

@@ -77,7 +77,6 @@ const Files = () => {
 
   useEffect(() => {
     return () => {
-      console.log('will unmount')
       uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview))
     }
   }, [])

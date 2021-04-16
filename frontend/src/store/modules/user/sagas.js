@@ -14,33 +14,40 @@ export function* updateProfile({ payload }) {
 
 		let formData = new FormData();
 
-		formData.append('name', profile.name);
-		formData.append('email', profile.email);
-		formData.append('whatsapp', profile.whatsapp);
-		formData.append('phone', profile.phone);
-		formData.append('cpf_cnpj', profile.cpf_cnpj);
-		formData.append('cnh', profile.cnh);
-		formData.append('rg', profile.rg);
-		formData.append('crm', profile.crm);
-		formData.append('profession', profile.profession);
-		formData.append('birth_date', profile.birth_date);
+		if (profile.email) {
+			//dados pessoais
+			formData.append('name', profile.name);
+			formData.append('email', profile.email);
+			formData.append('whatsapp', profile.whatsapp);
+			formData.append('phone', profile.phone);
+			formData.append('cpf_cnpj', profile.cpf_cnpj);
+			formData.append('cnh', profile.cnh);
+			formData.append('rg', profile.rg);
+			formData.append('crm', profile.crm);
+			formData.append('profession', profile.profession);
+			formData.append('birth_date', profile.birth_date);
+		}
 
-		formData.append('zip_code', profile.zip_code);
-		formData.append('state', profile.state ? profile.state : '');
-		formData.append('city', profile.city);
-		formData.append('neighborhood', profile.neighborhood);
-		formData.append('street', profile.street);
-		formData.append('complement', profile.complement);
-		formData.append('latitude', profile.latitude);
-		formData.append('longitude', profile.longitude);
-		formData.append('provider', profile.provider);
-
+		if (profile.latitude) {
+			// endereço
+			formData.append('zip_code', profile.zip_code);
+			formData.append('state', profile.state ? profile.state : '');
+			formData.append('city', profile.city);
+			formData.append('neighborhood', profile.neighborhood);
+			formData.append('street', profile.street);
+			formData.append('complement', profile.complement);
+			formData.append('latitude', profile.latitude);
+			formData.append('longitude', profile.longitude);
+			formData.append('provider', profile.provider);
+		}
 		if (profile.oldPassword) {
+			// troca de senha
 			formData.append('oldPassword', profile.oldPassword);
 			formData.append('password', profile.password);
 			formData.append('confirmPassword', profile.confirmPassword);
 		}
 		if (image) {
+			//adição ou troca de imagem
 			formData.append('file', image);
 		}
 

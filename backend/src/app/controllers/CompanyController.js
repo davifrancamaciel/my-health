@@ -109,7 +109,6 @@ class CompanyController {
   }
 
   async update (req, res) {
-    console.log(req.body)
     try {
       const { email, id } = req.body
       const { userCompanyProvider, userProvider, userCompanyId } = req

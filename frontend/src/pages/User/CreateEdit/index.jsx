@@ -45,7 +45,7 @@ const UserCreateEdit = () => {
 	}, []);
 
 	async function handleSubmit(data) {
-		console.log(data);
+		
 		try {
 			const saveUser = {
 				...data,

@@ -8,10 +8,6 @@ import FormSearchContainer from 'components/_layouts/FormSearchContainer'
 export default function Search ({ onSearch, provider, setPage }) {
   const profile = useSelector(state => state.user.profile)
 
-  useEffect(() => {
-    console.log('reset form', profile)
-  }, [provider])
-
   function handleSubmit (data) {
     onSearch(data)
     setPage(1)

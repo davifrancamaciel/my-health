@@ -9,8 +9,7 @@ const InputMaskWrapper = (
   const { defaultValue } = useField(name)
   const ref = useRef(null)
   const [maskValue, setmaskValue] = useState(defaultValue || '')
-  // console.log(name, defaultValue)
-
+  
   useEffect(() => {
     setmaskValue(defaultValue || '')
   }, [defaultValue])

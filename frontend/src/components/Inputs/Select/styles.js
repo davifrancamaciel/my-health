@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Select from 'react-select';
 
 export const SelectCustom = styled(Select)`
+	color: ${(props) => (props.color ? props.color : '#6c6c80')};
 	.react-select__control--is-focused {
 		> .react-select__value-container {
 			> .react-select__placeholder {

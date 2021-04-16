@@ -64,11 +64,9 @@ export default function ReactSelect({ name, label, options, multiple, onSelected
 				getOptionValue={(option) => option.value}
 				getOptionLabel={(option) => option.label}
 				onChange={(data) => {
-					console.log(data);
 					onSelected && onSelected(data);
 					setItemSelected(data);
-					setvalueDefault(data.id);
-				
+					setvalueDefault(data.id);				
 				}}
 				{...rest}
 			/>

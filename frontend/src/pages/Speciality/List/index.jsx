@@ -67,7 +67,7 @@ const SpecialityList = function () {
 						days,
 					};
 				});
-				console.log(data);
+				
 				if (page > 1) setSpecialities([...specialities, ...data]);
 				else setSpecialities(data);
 

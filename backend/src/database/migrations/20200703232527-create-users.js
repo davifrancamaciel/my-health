@@ -87,10 +87,10 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: true,
       },
-    //   location: {
-    //     type: Sequelize.GEOMETRY('POINT',4326 ),
-    //     allowNull: true
-    //  },
+      location: {
+        type: Sequelize.GEOMETRY('POINT',4326 ),
+        allowNull: true
+     },
 
       password_hash: {
         type: Sequelize.STRING,

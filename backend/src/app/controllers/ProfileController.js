@@ -8,7 +8,6 @@ import propertyValidate from '../utils/propertyValidate';
 class ProfileController {
   async update(req, res) {
     try {
-      const { userProvider } = req;
       const { email, oldPassword } = req.body;
       const user = await User.findByPk(req.userId);
 
@@ -23,16 +22,22 @@ class ProfileController {
       if (oldPassword && !(await user.checkPassword(oldPassword))) {
         return res.status(401).json({ error: 'A Senha antiga está icorreta' });
       }
-      const userUpdate = req.body;
-
 
       const image = (req.file && req.file.filename) || user.image;
       if (image !== user.image) {
         removeFile(user.image);
       }
 
+      const userUpdate = req.body;
+
       const userUpdateFormated = {
         ...userUpdate,
+        phone: propertyValidate(userUpdate.phone),
+        cpf_cnpj: propertyValidate(userUpdate.cpf_cnpj),
+        cnh: propertyValidate(userUpdate.cnh),
+        rg: propertyValidate(userUpdate.rg),
+        crm: propertyValidate(userUpdate.crm),
+        profession: propertyValidate(userUpdate.profession),
         birth_date: propertyValidate(userUpdate.birth_date),
         zip_code: propertyValidate(userUpdate.zip_code),
         state: propertyValidate(userUpdate.state),

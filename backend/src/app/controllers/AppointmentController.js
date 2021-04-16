@@ -1,4 +1,4 @@
-import sequelize, { Op } from 'sequelize';
+import { Op } from 'sequelize';
 
 import SpecialityType from '../models/SpecialityType';
 import Speciality from '../models/Speciality';

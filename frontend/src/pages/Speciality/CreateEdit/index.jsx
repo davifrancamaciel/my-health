@@ -94,7 +94,6 @@ const SpecialityCreateEdit = function () {
 
 	useEffect(() => {
 		const { latitude, longitude } = speciality;
-		console.log(latitude, longitude);
 		if (latitude && longitude) {
 			setSelectedLocationLoaded([Number(latitude), Number(longitude)]);
 		}
@@ -107,10 +106,6 @@ const SpecialityCreateEdit = function () {
 		}
 		loadZipCode();
 	}, [zipCodeChanged]);
-
-	useEffect(() => {
-		console.log(selectedLocationClicked);
-	}, [selectedLocationClicked]);
 
 	async function handleSubmit(data) {
 		try {

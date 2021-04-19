@@ -39,15 +39,7 @@ export function* signIn({ payload }) {
 
 export function* signUp({ payload }) {
 	try {
-		const { name, email, password, whatsapp, provider } = payload;
-
-		const response = yield call(api.post, 'register', {
-			name,
-			email,
-			password,
-			whatsapp,
-			provider
-		});
+		const response = yield call(api.post, 'register', payload);
 
 		history.push('/');
 		const { message } = response.data;

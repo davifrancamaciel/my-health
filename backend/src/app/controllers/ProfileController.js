@@ -48,19 +48,7 @@ class ProfileController {
         latitude: propertyValidate(userUpdate.latitude),
         longitude: propertyValidate(userUpdate.longitude),
       };
-      // userUpdateFormated.location = {
-      //   type: 'point',
-      //   coordinates: [
-      //     Number(userUpdateFormated.latitude),
-      //     Number(userUpdateFormated.longitude),
-      //   ],
-      // };
-      // userUpdateFormated.location = {
-      //   type: 'Point',
-      //   coordinates: [39.807222, -76.984722],
-      //   crs: { type: 'name', properties: { name: 'EPSG:4326' } },
-      // };
-      // console.log(userUpdateFormated);
+
 
       await user.update({ ...userUpdateFormated, image });
 
@@ -85,6 +73,7 @@ class ProfileController {
         latitude,
         longitude,
         roules,
+        type,
       } = await User.findByPk(req.userId);
 
       return res.json({
@@ -110,7 +99,8 @@ class ProfileController {
         latitude,
         longitude,
         roules,
-        token: jwt.sign({ id, provider, roules }, authConfig.secret, {
+        type,
+        token: jwt.sign({ id, provider, roules, type }, authConfig.secret, {
           expiresIn: authConfig.expiresIn,
         }),
       });

@@ -19,7 +19,7 @@ class SessionController {
         'active',
         'password_hash',
         'image',
-
+        'type',
         'phone',
         'cpf_cnpj',
         'cnh',
@@ -36,7 +36,7 @@ class SessionController {
         'latitude',
         'longitude',
         'validated',
-        'roules'
+        'roules',
       ],
     });
 
@@ -71,16 +71,15 @@ class SessionController {
       latitude,
       longitude,
       validated,
-      roules
+      roules,
+      type,
     } = user;
 
     if (!validated) {
-      return res
-        .status(401)
-        .json({
-          error: `Usuario ainda não foi validado no E-mail ${email}`,
-          user,
-        });
+      return res.status(401).json({
+        error: `Usuario ainda não foi validado no E-mail ${email}`,
+        user,
+      });
     }
 
     if (!active) {
@@ -110,10 +109,11 @@ class SessionController {
         complement,
         latitude,
         longitude,
-        roules
+        roules,
+        type,
       },
 
-      token: jwt.sign({ id, provider, roules }, authConfig.secret, {
+      token: jwt.sign({ id, provider, roules, type }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),
     });

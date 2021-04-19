@@ -23,15 +23,10 @@ class AppointmentController {
     if (speciality_type_id)
       whereStatement.speciality_type_id = speciality_type_id;
 
-    // if (latitude && longitude) {
-    //   whereStatement.latitude = latitude;
-    //   whereStatement.longitude = longitude;
-    // }
-
     const { count, rows } = await Speciality.findAndCountAll({
       where: whereStatement,
       limit: 20,
-      offset: (page - 1) * 20,
+      offset: (page - 1) * 2000,
       attributes: ['id', 'latitude', 'longitude'],
       include: [
         {

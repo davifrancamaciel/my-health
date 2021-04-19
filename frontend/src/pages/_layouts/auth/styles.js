@@ -8,7 +8,8 @@ import bgReset from 'assets/bg_my_password.svg';
 
 export const Wrapper = styled.div`
 	min-height: 100%;
-	height: 100vh;
+	min-height: 100vh;
+	height: 100%;
 	background: linear-gradient(-90deg, ${darken(0.15, `${PRIMARY_COLOR}`)}, ${PRIMARY_COLOR});
 	display: flex;
 	justify-content: center;
@@ -25,18 +26,33 @@ export const Content = styled.div`
 	align-items: center;
 
 	img {
+		margin-top: 20px;
 		max-width: 275px;
 	}
+
 	form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		place-content: center;
-
 		margin: 30px auto;
-		width: 340px;
+		width: 100%;
 		max-width: 340px;
+		
+		.field-group {
+			flex: 1;
+			display: flex;
+		}
 
+		.field {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+		}
+		.field-group .field + .field {
+			margin-left: 24px;
+		}
+		select,
 		input {
 			background: rgba(0, 0, 0, 0.1);
 			border: 0;
@@ -49,6 +65,10 @@ export const Content = styled.div`
 			&::placeholder {
 				color: rgba(255, 255, 255, 0.7);
 			}
+		}
+		select option {
+			background: #333;
+			color: #fff;
 		}
 
 		span {
@@ -68,6 +88,20 @@ export const Content = styled.div`
 			}
 		}
 	}
+	@media (max-width: 600px) {
+		padding: 15px;
+		img {
+			width: 100%;
+		}
+
+		form .field-group {
+			width: 100%;
+			display: block;
+		}
+		form .field-group .field + .field {
+			margin-left: 0px;
+		}
+	}
 `;
 
 const appearFromRight = keyframes`
@@ -82,6 +116,7 @@ const appearFromRight = keyframes`
 `;
 
 export const AnimationContainerRight = styled.div`
+	width: 100%;
 	animation: ${appearFromRight} 1s;
 `;
 
@@ -97,6 +132,7 @@ const appearFromLeft = keyframes`
 `;
 
 export const AnimationContainerLeft = styled.div`
+	width: 100%;
 	animation: ${appearFromLeft} 1s;
 `;
 

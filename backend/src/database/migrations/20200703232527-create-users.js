@@ -24,6 +24,12 @@ module.exports = {
         allowNull: true,
       },
 
+      type: {
+        type: Sequelize.STRING(1),
+        allowNull: true,
+        defaultValue: 'F',
+      },
+
       cpf_cnpj: {
         type: Sequelize.STRING(20),
         allowNull: true,
@@ -87,10 +93,6 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: true,
       },
-      location: {
-        type: Sequelize.GEOMETRY('POINT',4326 ),
-        allowNull: true
-     },
 
       password_hash: {
         type: Sequelize.STRING,

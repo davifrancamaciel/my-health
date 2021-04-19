@@ -13,6 +13,7 @@ import Datepicker from 'components/Inputs/Datepicker';
 import InputMask from 'components/Inputs/InputMask';
 import InputMaskPhone from 'components/Inputs/InputMaskPhone';
 import Dropzone from 'components/Inputs/Dropzone';
+import { typePersonEnum } from 'enums/typePersonEnum';
 
 import getImage from 'Utils/getImage';
 
@@ -39,18 +40,16 @@ function PersonalData() {
 		}
 		setUserProfile(profileFormated);
 		setIsProvider(profile.provider);
-		
 	}, [profile]);
 
 	function handleSubmit(data) {
-		
 		const user = {
 			...userProfile,
 			...data,
 			image: selectedImage,
 			provider: isProvider,
 		};
-		
+
 		dispatch(updateProfileRequest(user));
 	}
 	return (
@@ -78,7 +77,16 @@ function PersonalData() {
 					</div>
 					<div className="field-group">
 						<div className="field">
-							<InputMask mask="999.999.999-99" name="cpf_cnpj" type="tel" label="CPF" />
+							<InputMask
+								mask={
+									profile.type && profile.type === typePersonEnum.LEGAL
+										? '99.999.999/9999-99'
+										: '999.999.999-99'
+								}
+								label={profile.type && profile.type === typePersonEnum.LEGAL ? 'CNPJ' : 'CPF'}
+								name="cpf_cnpj"
+								type="tel"
+							/>
 						</div>
 						<div className="field">
 							<InputMask mask="99.999.999-9" name="rg" type="tel" label="RG" />

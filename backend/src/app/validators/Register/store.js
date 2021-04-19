@@ -1,4 +1,4 @@
-import * as Yup from 'yup'
+import * as Yup from 'yup';
 
 export default async (req, res, next) => {
   try {
@@ -13,38 +13,35 @@ export default async (req, res, next) => {
       whatsapp: Yup.string()
         .required()
         .max(20, 'Máximo 20 caracteres'),
-      phone: Yup.string()
-        .optional()
-        .max(20, 'Máximo 20 caracteres'),
-      cpf_cnpj: Yup.string()
-        .optional()
-        .max(20, 'Máximo 20 caracteres'),
+      type: Yup.string()
+        .nullable()
+        .max(1, 'Máximo 1 caractere'),
       street: Yup.string()
-        .optional()
+        .nullable()
         .max(250, 'Máximo 250 caracteres'),
       zip_code: Yup.string()
-        .optional()
+        .nullable()
         .max(10, 'Máximo 10 caracteres'),
       city: Yup.string()
-        .optional()
+        .nullable()
         .max(100, 'Máximo 100 caracteres'),
       state: Yup.string()
         .max(2, 'Máximo 2 caracteres')
-        .optional(),
-      latitude: Yup.number().optional(),
-      longitude: Yup.number().optional(),
+        .nullable(),
+      latitude: Yup.number().nullable(),
+      longitude: Yup.number().nullable(),
       password: Yup.string()
         .min(6)
         .required(),
-    })
+    });
 
     await schema.validate(req.body, {
       abortEarly: false,
-    })
-    return next()
+    });
+    return next();
   } catch (err) {
     return res
       .status(400)
-      .json({ error: 'A validação falhou', messages: err.inner })
+      .json({ error: 'A validação falhou', messages: err.inner });
   }
-}
+};

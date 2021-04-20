@@ -18,6 +18,7 @@ export default async (req, res, next) => {
     req.userId = decoded.id;
     req.userProvider = decoded.provider;
     req.roules = decoded.roules;
+    req.type = decoded.type;
 
     return next();
   } catch (error) {

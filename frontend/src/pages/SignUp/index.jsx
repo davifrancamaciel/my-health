@@ -64,6 +64,7 @@ const SignUp = () => {
 					<img src={logo} alt="UPIS Saúde" />
 					<Form schema={validation()} onSubmit={handleSubmit} initialData={{ type: typePersonEnum.PHYSICAL }}>
 						<Input name="name" type="text" placeholder="Seu nome completo" />
+						<Input name="email" type="email" placeholder="Seu email para acesso" />
 						<div className="field-group">
 							<div className="field">
 								<InputMask
@@ -83,8 +84,6 @@ const SignUp = () => {
 								/>
 							</div>
 						</div>
-						<Input name="email" type="email" placeholder="Seu email para acesso" />
-
 						<Select
 							style={{ display: provider ? 'initial' : 'none' }}
 							placeholder="Desejo entrar como"

@@ -24,10 +24,10 @@ export function* signIn({ payload }) {
 
 		yield put(signInSuccess(token, user));
 
-		const returnUrl = localStorage.getItem('@returnUrl');
+		const returnUrl = localStorage.getItem('@UpisSaudeReturnUrl');
 		if (returnUrl) {
 			history.push(returnUrl);
-			localStorage.setItem('@returnUrl', ``);
+			localStorage.setItem('@UpisSaudeReturnUrl', ``);
 		} else {
 			history.push('/dashboard');
 		}
@@ -50,6 +50,7 @@ export function* signUp({ payload }) {
 		yield put(signFailure());
 	}
 }
+
 function setToken({ payload }) {
 	if (!payload) return;
 
@@ -63,6 +64,7 @@ function setToken({ payload }) {
 function signOut() {
 	history.push('/');
 }
+
 export default all([
 	takeLatest('persist/REHYDRATE', setToken),
 	takeLatest(AUTH_SIGN_IN_REQUEST, signIn),

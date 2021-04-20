@@ -27,6 +27,7 @@ function Notifications() {
 	]);
 
 	useEffect(() => {
+
 		if (!!notifications.length) {
 			dispatch(notificationListSuccess(notifications));
 		}

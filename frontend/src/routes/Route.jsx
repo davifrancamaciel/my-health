@@ -10,7 +10,7 @@ const RouterWrapper = ({ isPrivate = false, component: Component, ...rest }) => 
 	const { profile } = store.getState().user;
 
 	if (!signed && isPrivate) {
-		localStorage.setItem('@returnUrl', `${window.location.pathname}${window.location.search}`);
+		localStorage.setItem('@UpisSaudeReturnUrl', `${window.location.pathname}${window.location.search}`);
 		return <Redirect to="/?r=true" />;		
 	}
 

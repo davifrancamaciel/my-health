@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-
 import useQuery from 'hooks/queryString';
 
 const Splash = ({ children }) => {
@@ -10,6 +9,7 @@ const Splash = ({ children }) => {
 			window.location.href = `${window.location.origin}${window.location.pathname}`;
 		}
 	}, []);
+
 	if (query.get('r')) return <div />;
 	else return <div>{children}</div>;
 };

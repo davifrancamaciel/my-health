@@ -50,7 +50,7 @@ function Shedule() {
 
 	useEffect(() => {
 		const [notification] = notificationsList;
-		if (isEqual(startOfDay(date), startOfDay(parseISO(notification.date))) && !notification.read) {
+		if (notification && isEqual(startOfDay(date), startOfDay(parseISO(notification.date))) && !notification.read) {
 			loadSchedule(date);
 		}
 	}, [notificationsList]);

@@ -1,0 +1,562 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20210420.141638.25220.0.001.json",
+    "dumpEventTime": "2021-04-20T14:16:38Z",
+    "dumpEventTimeStamp": "1618938998279",
+    "processId": 25220,
+    "cwd": "C:\\Users\\DAVI\\Documents\\DESENVOLVIMENTO\\react\\roket-seat\\upis-saude\\backend",
+    "commandLine": [
+      "node",
+      "C:\\Users\\DAVI\\Documents\\DESENVOLVIMENTO\\react\\roket-seat\\upis-saude\\backend\\node_modules\\.bin\\\\..\\sucrase\\bin\\sucrase-node",
+      "src/server.js"
+    ],
+    "nodejsVersion": "v12.14.1",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.14.1",
+      "v8": "7.7.299.13-node.16",
+      "uv": "1.33.1",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.40.0",
+      "napi": "5",
+      "llhttp": "2.0.1",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019c",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "lts": "Erbium",
+      "headersUrl": "https://nodejs.org/download/release/v12.14.1/node-v12.14.1-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.14.1/node-v12.14.1.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.14.1/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.18363",
+    "osVersion": "Windows 10 Home Single Language",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i5-3230M CPU @ 2.60GHz",
+        "speed": 2594,
+        "user": 92649734,
+        "nice": 0,
+        "sys": 94335250,
+        "idle": 382897828,
+        "irq": 7326000
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-3230M CPU @ 2.60GHz",
+        "speed": 2594,
+        "user": 98539500,
+        "nice": 0,
+        "sys": 78013750,
+        "idle": 393329281,
+        "irq": 1020453
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-3230M CPU @ 2.60GHz",
+        "speed": 2594,
+        "user": 111256484,
+        "nice": 0,
+        "sys": 82853687,
+        "idle": 375772375,
+        "irq": 797406
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-3230M CPU @ 2.60GHz",
+        "speed": 2594,
+        "user": 120037921,
+        "nice": 0,
+        "sys": 81173296,
+        "idle": 368671312,
+        "irq": 600812
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "Ethernet 3",
+        "internal": false,
+        "mac": "00:09:0f:aa:00:01",
+        "address": "fe80::e48a:849b:5bd4:3d0c",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 25
+      },
+      {
+        "name": "Ethernet 3",
+        "internal": false,
+        "mac": "00:09:0f:aa:00:01",
+        "address": "10.212.140.118",
+        "netmask": "255.255.255.255",
+        "family": "IPv4"
+      },
+      {
+        "name": "VirtualBox Host-Only Network",
+        "internal": false,
+        "mac": "0a:00:27:00:00:13",
+        "address": "fe80::4de6:83f4:a3f8:6c5f",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 19
+      },
+      {
+        "name": "VirtualBox Host-Only Network",
+        "internal": false,
+        "mac": "0a:00:27:00:00:13",
+        "address": "192.168.56.1",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "VirtualBox Host-Only Network #2",
+        "internal": false,
+        "mac": "0a:00:27:00:00:0d",
+        "address": "fe80::707a:cbce:b179:94bf",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 13
+      },
+      {
+        "name": "VirtualBox Host-Only Network #2",
+        "internal": false,
+        "mac": "0a:00:27:00:00:0d",
+        "address": "192.168.172.1",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "VirtualBox Host-Only Network #3",
+        "internal": false,
+        "mac": "0a:00:27:00:00:0f",
+        "address": "fe80::60bf:5c12:e1ff:cc74",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 15
+      },
+      {
+        "name": "VirtualBox Host-Only Network #3",
+        "internal": false,
+        "mac": "0a:00:27:00:00:0f",
+        "address": "192.168.99.1",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "50:b7:c3:c9:7c:7c",
+        "address": "2804:d41:a75f:fc00:4488:3fb8:ebdb:ea17",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "50:b7:c3:c9:7c:7c",
+        "address": "2804:d41:a75f:fc00:18bf:a6e3:c49d:8fa0",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "50:b7:c3:c9:7c:7c",
+        "address": "fe80::4488:3fb8:ebdb:ea17",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 3
+      },
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "50:b7:c3:c9:7c:7c",
+        "address": "192.168.1.67",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      }
+    ],
+    "host": "DAVI-PC"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff6df0d1759",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+10873"
+    },
+    {
+      "pc": "0x00007ff6df0d5b7c",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+28316"
+    },
+    {
+      "pc": "0x00007ff6df0d4b38",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+24152"
+    },
+    {
+      "pc": "0x00007ff6df1c433b",
+      "symbol": "v8::base::CPU::has_sse+37723"
+    },
+    {
+      "pc": "0x00007ff6df9c8c5e",
+      "symbol": "v8::Isolate::ReportExternalAllocationLimitReached+94"
+    },
+    {
+      "pc": "0x00007ff6df9b0ca1",
+      "symbol": "v8::SharedArrayBuffer::Externalize+833"
+    },
+    {
+      "pc": "0x00007ff6df87e56c",
+      "symbol": "v8::internal::Heap::EphemeronKeyWriteBarrierFromCode+1436"
+    },
+    {
+      "pc": "0x00007ff6df886671",
+      "symbol": "v8::internal::Heap::PageFlagsAreConsistent+3761"
+    },
+    {
+      "pc": "0x00007ff6df87bcd3",
+      "symbol": "v8::internal::Heap::CollectGarbage+1283"
+    },
+    {
+      "pc": "0x00007ff6df87a4a4",
+      "symbol": "v8::internal::Heap::AddRetainedMap+2356"
+    },
+    {
+      "pc": "0x00007ff6df8a2333",
+      "symbol": "v8::internal::Factory::NewRawOneByteString+83"
+    },
+    {
+      "pc": "0x00007ff6df6c965a",
+      "symbol": "v8::internal::String::SlowFlatten+442"
+    },
+    {
+      "pc": "0x00007ff6df59291f",
+      "symbol": "unibrow::Utf8::EncodeOneByte+687"
+    },
+    {
+      "pc": "0x00007ff6df5cbedf",
+      "symbol": "v8::internal::StubCache::value_reference+7471"
+    },
+    {
+      "pc": "0x00007ff6dfdf463d",
+      "symbol": "v8::internal::SetupIsolateDelegate::SetupHeap+567949"
+    },
+    {
+      "pc": "0x0000020dc0a4bc88",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 20365312,
+    "totalCommittedMemory": 20365312,
+    "usedMemory": 18941168,
+    "availableMemory": 2179517168,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 261872,
+        "used": 32296,
+        "available": 229576
+      },
+      "new_space": {
+        "memorySize": 1048576,
+        "committedMemory": 1048576,
+        "capacity": 1047488,
+        "used": 1047488,
+        "available": 0
+      },
+      "old_space": {
+        "memorySize": 15052800,
+        "committedMemory": 15052800,
+        "capacity": 15034392,
+        "used": 14292064,
+        "available": 742328
+      },
+      "code_space": {
+        "memorySize": 425984,
+        "committedMemory": 425984,
+        "capacity": 302272,
+        "used": 298080,
+        "available": 4192
+      },
+      "map_space": {
+        "memorySize": 1052672,
+        "committedMemory": 1052672,
+        "capacity": 859520,
+        "used": 815920,
+        "available": 43600
+      },
+      "large_object_space": {
+        "memorySize": 2473984,
+        "committedMemory": 2473984,
+        "capacity": 2451768,
+        "used": 2451768,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 49152,
+        "committedMemory": 49152,
+        "capacity": 3552,
+        "used": 3552,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 1047488,
+        "used": 0,
+        "available": 1047488
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 3.421,
+    "kernelCpuSeconds": 2.718,
+    "cpuConsumptionPercent": 4.48102,
+    "maxRss": 66129920,
+    "pageFaults": {
+      "IORequired": 34348,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 892,
+      "writes": 6
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "=C:": "C:\\Users\\DAVI\\Documents\\DESENVOLVIMENTO\\react\\roket-seat\\upis-saude\\backend",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "ANDROID_HOME": "C:\\Users\\DAVI\\AppData\\Local\\Android\\Sdk",
+    "APPDATA": "C:\\Users\\DAVI\\AppData\\Roaming",
+    "APP_PORT": "3333",
+    "APP_SECRET": "templatenoderocketseat",
+    "APP_URL": "http://localhost:3333",
+    "APP_URL_WEB": "http://localhost:3000",
+    "ChocolateyInstall": "C:\\ProgramData\\chocolatey",
+    "ChocolateyLastPathUpdate": "132244495535092897",
+    "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\crashpad_12872_TRIBHEDBGUUJNYNF",
+    "COLORTERM": "truecolor",
+    "COMMONPROGRAMFILES": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPOSE_CONVERT_WINDOWS_PATHS": "true",
+    "COMPUTERNAME": "DAVI-PC",
+    "COMSPEC": "C:\\WINDOWS\\system32\\cmd.exe",
+    "DAYS_EXPIRES": "15",
+    "DB_HOST": "167.172.30.192",
+    "DB_NAME": "upis_saude",
+    "DB_PASS": "86801qaz",
+    "DB_USER": "postgres",
+    "DOCKER_CERT_PATH": "C:\\Users\\DAVI\\.docker\\machine\\machines\\default",
+    "DOCKER_HOST": "tcp://192.168.99.101:2376",
+    "DOCKER_MACHINE_NAME": "default",
+    "DOCKER_TLS_VERIFY": "1",
+    "DOCKER_TOOLBOX_INSTALL_PATH": "C:\\Program Files\\Docker Toolbox",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "EXEPATH": "C:\\Program Files\\Git\\bin",
+    "GIT_ASKPASS": "c:\\Program Files\\Microsoft VS Code\\resources\\app\\extensions\\git\\dist\\askpass.sh",
+    "HOME": "C:\\Users\\DAVI",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\DAVI",
+    "INIT_CWD": "C:\\Users\\DAVI\\Documents\\DESENVOLVIMENTO\\react\\roket-seat\\upis-saude\\backend",
+    "JAVA_HOME": "C:\\Program Files\\Java\\jdk1.8.0_211",
+    "LANG": "en_US.UTF-8",
+    "LOCALAPPDATA": "C:\\Users\\DAVI\\AppData\\Local",
+    "LOGONSERVER": "\\\\DAVI-PC",
+    "MAIL_FROM_DEFAULT": "UPIS Saúde <naoresponda@upissaude.com.br>",
+    "MAIL_HOST": "smtp.mailtrap.io",
+    "MAIL_PASS": "429aaafb4500a1",
+    "MAIL_PORT": "2525",
+    "MAIL_SECURE": "",
+    "MAIL_USER": "83ca7841561d0f",
+    "MSYSTEM": "MINGW64",
+    "NODE": "C:\\Program Files\\nodejs\\node.exe",
+    "NODE_ENV": "development",
+    "NO_PROXY": "192.168.99.100,192.168.99.101",
+    "npm_config_argv": "{\"remain\":[],\"cooked\":[\"run\",\"dev\"],\"original\":[\"dev\"]}",
+    "npm_config_bin_links": "true",
+    "npm_config_ignore_optional": "",
+    "npm_config_ignore_scripts": "",
+    "npm_config_init_license": "MIT",
+    "npm_config_init_version": "1.0.0",
+    "npm_config_registry": "https://registry.yarnpkg.com",
+    "npm_config_save_prefix": "^",
+    "npm_config_strict_ssl": "true",
+    "npm_config_user_agent": "yarn/1.21.1 npm/? node/v12.14.1 win32 x64",
+    "npm_config_version_commit_hooks": "true",
+    "npm_config_version_git_message": "v%s",
+    "npm_config_version_git_sign": "",
+    "npm_config_version_git_tag": "true",
+    "npm_config_version_tag_prefix": "v",
+    "npm_execpath": "C:\\Program Files (x86)\\Yarn\\bin\\yarn.js",
+    "npm_lifecycle_event": "dev",
+    "npm_lifecycle_script": "nodemon src/server.js",
+    "npm_node_execpath": "C:\\Program Files\\nodejs\\node.exe",
+    "npm_package_dependencies_bcryptjs": "^2.4.3",
+    "npm_package_dependencies_celebrate": "^12.1.2",
+    "npm_package_dependencies_cors": "^2.8.5",
+    "npm_package_dependencies_crypto": "^1.0.1",
+    "npm_package_dependencies_date_fns": "^2.15.0",
+    "npm_package_dependencies_dotenv": "^8.0.0",
+    "npm_package_dependencies_env_cmd": "^10.1.0",
+    "npm_package_dependencies_express": "^4.17.1",
+    "npm_package_dependencies_express_async_errors": "^3.1.1",
+    "npm_package_dependencies_express_handlebars": "^5.2.1",
+    "npm_package_dependencies_jsonwebtoken": "^8.5.1",
+    "npm_package_dependencies_multer": "^1.4.2",
+    "npm_package_dependencies_nodemailer": "^6.4.18",
+    "npm_package_dependencies_nodemailer_express_handlebars": "^4.0.0",
+    "npm_package_dependencies_pg": "^7.12.1",
+    "npm_package_dependencies_pg_hstore": "^2.3.3",
+    "npm_package_dependencies_sequelize": "^5.9.4",
+    "npm_package_dependencies_uuidv4": "^6.2.6",
+    "npm_package_dependencies_youch": "^2.0.10",
+    "npm_package_dependencies_yup": "^0.29.1",
+    "npm_package_devDependencies_eslint": "^5.16.0",
+    "npm_package_devDependencies_eslint_config_airbnb_base": "^13.2.0",
+    "npm_package_devDependencies_eslint_config_prettier": "^6.0.0",
+    "npm_package_devDependencies_eslint_plugin_import": "^2.18.0",
+    "npm_package_devDependencies_eslint_plugin_prettier": "^3.1.0",
+    "npm_package_devDependencies_nodemon": "^1.19.1",
+    "npm_package_devDependencies_prettier": "^1.18.2",
+    "npm_package_devDependencies_sequelize_cli": "^5.5.0",
+    "npm_package_devDependencies_sucrase": "^3.17.1",
+    "npm_package_license": "MIT",
+    "npm_package_main": "index.js",
+    "npm_package_name": "template-node",
+    "npm_package_scripts_build": "env-cmd -f.env.production sucrase ./src -d ./dist --transforms imports",
+    "npm_package_scripts_dev": "nodemon src/server.js",
+    "npm_package_scripts_dev_prod": "env-cmd -f.env.production nodemon src/server.js",
+    "npm_package_scripts_migrate": "yarn sequelize db:migrate",
+    "npm_package_scripts_migrate_prod": "set NODE_ENV=.env.production && sequelize db:migrate",
+    "npm_package_scripts_seeds": "yarn sequelize db:seed:all",
+    "npm_package_scripts_start": "env-cmd -f.env.production node dist/server.js",
+    "npm_package_scripts_undo": "yarn sequelize db:migrate:undo:all",
+    "npm_package_version": "1.0.0",
+    "NUMBER_OF_PROCESSORS": "4",
+    "OneDrive": "C:\\Users\\DAVI\\OneDrive",
+    "OneDriveConsumer": "C:\\Users\\DAVI\\OneDrive",
+    "ORIGINAL_XDG_CURRENT_DESKTOP": "undefined",
+    "OS": "Windows_NT",
+    "PATH": "C:\\Users\\DAVI\\Documents\\DESENVOLVIMENTO\\react\\roket-seat\\upis-saude\\backend/node_modules/.bin:C:\\Users\\DAVI\\AppData\\Local\\Temp\\yarn--1618938780669-0.9264047915902389;C:\\Users\\DAVI\\Documents\\DESENVOLVIMENTO\\react\\roket-seat\\upis-saude\\backend\\node_modules\\.bin;C:\\Users\\DAVI\\AppData\\Local\\Yarn\\Data\\link\\node_modules\\.bin;C:\\Program Files\\libexec\\lib\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\lib\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\node-gyp-bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\DAVI\\bin;C:\\Program Files (x86)\\Intel\\iCLS Client;C:\\Program Files\\Intel\\iCLS Client;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0;C:\\WINDOWS\\System32\\OpenSSH;C:\\Program Files\\Microsoft VS Code\\bin;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\IPT;C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\IPT;C:\\Program Files (x86)\\GnuWin32\\bin;C:\\Program Files (x86)\\dotnet;C:\\Program Files\\Java\\jdk1.8.0_211;C:\\Users\\DAVI\\AppData\\Local\\Android\\Sdk\\tools;C:\\Users\\DAVI\\AppData\\Local\\Android\\Sdk\\platform-tools;C:\\Program Files\\MongoDB\\Server\\4.2\\bin;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0;C:\\WINDOWS\\System32\\OpenSSH;C:\\Program Files\\dotnet;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\nodejs;C:\\Program Files (x86)\\Yarn\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\PuTTY;C:\\Users\\DAVI\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files (x86)\\GnuWin32\\bin;C:\\Users\\DAVI\\.dotnet\\tools;C:\\Users\\DAVI\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\DAVI\\AppData\\Roaming\\npm;C:\\Users\\DAVI\\AppData\\Local\\Yarn\\bin;C:\\Program Files\\Java\\jdk1.8.0_211\\bin;C:\\Users\\DAVI\\AppData\\Local\\Android\\Sdk\\tools;C:\\Users\\DAVI\\AppData\\Local\\Android\\Sdk\\tools\\bin;C:\\Users\\DAVI\\AppData\\Local\\Android\\Sdk\\platform-tools;C:\\Users\\DAVI\\AppData\\Local\\Android\\Sdk\\emulator;C:\\Program Files\\nodejs;C:\\Program Files\\Docker Toolbox",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JSE;.WSF;.WSH;.MSC",
+    "PLINK_PROTOCOL": "ssh",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 58 Stepping 9, GenuineIntel",
+    "PROCESSOR_LEVEL": "6",
+    "PROCESSOR_REVISION": "3a09",
+    "ProgramData": "C:\\ProgramData",
+    "PROGRAMFILES": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PROMPT": "$P$G",
+    "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "PUBLIC": "C:\\Users\\Public",
+    "PWD": "/c/Users/DAVI/Documents/DESENVOLVIMENTO/react/roket-seat/upis-saude/backend",
+    "SESSIONNAME": "Console",
+    "SHLVL": "2",
+    "SYSTEMDRIVE": "C:",
+    "SYSTEMROOT": "C:\\WINDOWS",
+    "TEMP": "C:\\Users\\DAVI\\AppData\\Local\\Temp",
+    "TERM": "cygwin",
+    "TERM_PROGRAM": "vscode",
+    "TERM_PROGRAM_VERSION": "1.52.1",
+    "TMP": "C:\\Users\\DAVI\\AppData\\Local\\Temp",
+    "USERDOMAIN": "DAVI-PC",
+    "USERDOMAIN_ROAMINGPROFILE": "DAVI-PC",
+    "USERNAME": "DAVI",
+    "USERPROFILE": "C:\\Users\\DAVI",
+    "VBOX_MSI_INSTALL_PATH": "C:\\Program Files\\Oracle\\VirtualBox\\",
+    "VSCODE_GIT_ASKPASS_MAIN": "c:\\Program Files\\Microsoft VS Code\\resources\\app\\extensions\\git\\dist\\askpass-main.js",
+    "VSCODE_GIT_ASKPASS_NODE": "C:\\Program Files\\Microsoft VS Code\\Code.exe",
+    "VSCODE_GIT_IPC_HANDLE": "\\\\.\\pipe\\vscode-git-fa05c0412f-sock",
+    "WINDIR": "C:\\WINDOWS",
+    "YARN_WRAP_OUTPUT": "false",
+    "_": "/usr/bin/winpty"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+    "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+    "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+    "C:\\WINDOWS\\System32\\WS2_32.dll",
+    "C:\\WINDOWS\\System32\\RPCRT4.dll",
+    "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+    "C:\\WINDOWS\\System32\\msvcrt.dll",
+    "C:\\WINDOWS\\System32\\sechost.dll",
+    "C:\\WINDOWS\\System32\\USER32.dll",
+    "C:\\WINDOWS\\System32\\win32u.dll",
+    "C:\\WINDOWS\\System32\\GDI32.dll",
+    "C:\\WINDOWS\\System32\\gdi32full.dll",
+    "C:\\WINDOWS\\System32\\msvcp_win.dll",
+    "C:\\WINDOWS\\System32\\ucrtbase.dll",
+    "C:\\WINDOWS\\System32\\PSAPI.DLL",
+    "C:\\WINDOWS\\System32\\CRYPT32.dll",
+    "C:\\WINDOWS\\System32\\MSASN1.dll",
+    "C:\\WINDOWS\\System32\\bcrypt.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+    "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+    "C:\\WINDOWS\\System32\\profapi.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMMBASE.dll",
+    "C:\\WINDOWS\\System32\\cfgmgr32.dll",
+    "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+    "C:\\WINDOWS\\System32\\IMM32.DLL",
+    "C:\\WINDOWS\\System32\\powrprof.dll",
+    "C:\\WINDOWS\\System32\\UMPDC.dll",
+    "C:\\WINDOWS\\SYSTEM32\\CRYPTBASE.DLL",
+    "C:\\WINDOWS\\system32\\uxtheme.dll",
+    "C:\\WINDOWS\\System32\\combase.dll",
+    "C:\\WINDOWS\\system32\\mswsock.dll",
+    "C:\\WINDOWS\\System32\\kernel.appcore.dll",
+    "C:\\WINDOWS\\System32\\NSI.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+    "C:\\WINDOWS\\system32\\napinsp.dll",
+    "C:\\WINDOWS\\system32\\pnrpnsp.dll",
+    "C:\\WINDOWS\\System32\\winrnr.dll",
+    "C:\\WINDOWS\\system32\\NLAapi.dll",
+    "C:\\WINDOWS\\system32\\wshbth.dll"
+  ]
+}

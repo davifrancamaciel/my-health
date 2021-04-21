@@ -11,7 +11,7 @@ const RouterWrapper = ({ isPrivate = false, component: Component, ...rest }) => 
 
 	if (!signed && isPrivate) {
 		localStorage.setItem('@UpisSaudeReturnUrl', `${window.location.pathname}${window.location.search}`);
-		return <Redirect to="/?r=true" />;		
+		return <Redirect to="/?r=true" />;
 	}
 
 	if (signed && !isPrivate) {
@@ -20,7 +20,7 @@ const RouterWrapper = ({ isPrivate = false, component: Component, ...rest }) => 
 
 	if (rest.roules) {
 		if (signed && isPrivate && !profile.roules.includes(rest.roules)) {
-			 return <Redirect to="/dashboard?r=true" />;
+			return <Redirect to="/dashboard?r=true" />;
 		}
 	}
 

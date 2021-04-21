@@ -4,7 +4,6 @@ import Route from './Route';
 
 import SignUp from '../pages/SignUp';
 import SignIn from '../pages/SignIn';
-import SignOut from '../pages/SignOut';
 import Forgot from '../pages/Forgot';
 import Reset from '../pages/Reset';
 import Dashboard from '../pages/Dashboard';
@@ -36,7 +35,6 @@ const Routes = () => {
 			<Route exact path="/forgot" component={Forgot} />
 			<Route exact path="/reset" component={Reset} />
 			
-			<Route exact path="/logout" component={SignOut} />
 			<Route exact path="/dashboard2" component={Dashboard} isPrivate />
 			<Route exact path="/dashboard" component={Appointment} isPrivate />
 

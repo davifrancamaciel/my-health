@@ -45,7 +45,7 @@ export default function SimpleMenu() {
 				{profile.provider && (
 					<MenuItem onClick={() => handleClickItem('speciality')}>Minhas especialidades</MenuItem>
 				)}				
-				<MenuItem onClick={() => handleClickItem('logout')}>Sair</MenuItem>
+				<MenuItem id='logout' onClick={() => handleClickItem('logout')}>Sair</MenuItem>
 			</Menu>
 		</div>
 	);

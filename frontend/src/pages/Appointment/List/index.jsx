@@ -63,8 +63,7 @@ function Appointment() {
 		checkPermission();
 		navigator.geolocation.getCurrentPosition((postition) => {
 			const { latitude, longitude } = postition.coords;
-			setCurrentLocation([latitude, longitude]);
-			console.log(latitude, longitude)
+			setCurrentLocation([latitude, longitude]);			
 		});
 	}, []);
 
@@ -82,8 +81,7 @@ function Appointment() {
 			) {
 				setPositionSearchMap([profile.latitude, profile.longitude]);
 			}
-		}
-		loadSpecialities();
+		}		
 	}, [useCurrentLocation]);
 
 	async function loadSpecialities(id) {

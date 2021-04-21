@@ -22,6 +22,6 @@ export default async (req, res, next) => {
 
     return next();
   } catch (error) {
-    res.status(401).json({ error: 'Token inválido' });
+    res.status(403).json({ error: 'Sua autenticação expirou. Faça o login novamente' });
   }
 };

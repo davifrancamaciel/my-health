@@ -1,0 +1,83 @@
+[debug] [2021-04-26T22:59:40.972Z] ----------------------------------------------------------------------
+[debug] [2021-04-26T22:59:40.980Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\DAVI\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2021-04-26T22:59:40.981Z] CLI Version:   9.2.2
+[debug] [2021-04-26T22:59:40.982Z] Platform:      win32
+[debug] [2021-04-26T22:59:40.982Z] Node Version:  v12.14.1
+[debug] [2021-04-26T22:59:41.136Z] Time:          Mon Apr 26 2021 19:59:40 GMT-0300 (GMT-03:00)
+[debug] [2021-04-26T22:59:41.137Z] ----------------------------------------------------------------------
+[debug] [2021-04-26T22:59:41.138Z] 
+[debug] [2021-04-26T22:59:41.168Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2021-04-26T22:59:41.321Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-04-26T22:59:41.324Z] > authorizing via signed-in user
+[debug] [2021-04-26T22:59:41.325Z] [iam] checking project upis-saude for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2021-04-26T22:59:41.334Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-04-26T22:59:41.335Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-26T22:59:41.440Z] [iam] error while checking permissions, command may fail: FirebaseError: Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2021-04-26T22:59:41.443Z] > refreshing access token with scopes: []
+[debug] [2021-04-26T22:59:41.444Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-26T22:59:41.484Z] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2021-04-26T22:59:41.523Z] FirebaseError: Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+    at Object.<anonymous> (C:\Users\DAVI\AppData\Roaming\npm\node_modules\firebase-tools\lib\auth.js:23:32)
+    at Module._compile (internal/modules/cjs/loader.js:955:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:991:10)
+    at Module.load (internal/modules/cjs/loader.js:811:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:723:14)
+    at Module.require (internal/modules/cjs/loader.js:848:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (C:\Users\DAVI\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\hosting\github.js:11:16)
+    at Module._compile (internal/modules/cjs/loader.js:955:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:991:10)
+    at Module.load (internal/modules/cjs/loader.js:811:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:723:14)
+    at Module.require (internal/modules/cjs/loader.js:848:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (C:\Users\DAVI\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\hosting\index.js:5:24)
+    at Module._compile (internal/modules/cjs/loader.js:955:30)
+[error] 
+[error] Error: Failed to get Firebase project upis-saude. Please make sure the project exists and your account has permission to access it.
+[debug] [2021-04-26T23:04:42.769Z] ----------------------------------------------------------------------
+[debug] [2021-04-26T23:04:42.778Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\DAVI\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2021-04-26T23:04:42.779Z] CLI Version:   9.2.2
+[debug] [2021-04-26T23:04:42.780Z] Platform:      win32
+[debug] [2021-04-26T23:04:42.780Z] Node Version:  v12.14.1
+[debug] [2021-04-26T23:04:42.786Z] Time:          Mon Apr 26 2021 20:04:42 GMT-0300 (GMT-03:00)
+[debug] [2021-04-26T23:04:42.787Z] ----------------------------------------------------------------------
+[debug] [2021-04-26T23:04:42.787Z] 
+[debug] [2021-04-26T23:04:42.797Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2021-04-26T23:04:42.902Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-04-26T23:04:42.904Z] > authorizing via signed-in user
+[debug] [2021-04-26T23:04:42.904Z] [iam] checking project upis-saude for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2021-04-26T23:04:42.911Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-04-26T23:04:42.912Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-26T23:04:43.181Z] <<< HTTP RESPONSE 200 {"expires":"Mon, 01 Jan 1990 00:00:00 GMT","date":"Mon, 26 Apr 2021 23:04:44 GMT","pragma":"no-cache","cache-control":"no-cache, no-store, max-age=0, must-revalidate","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-26T23:04:43.246Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/upis-saude:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2021-04-26T23:04:43.554Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2021-04-26T23:04:43.555Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2021-04-26T23:04:44.141Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 26 Apr 2021 23:04:45 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=731","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-26T23:04:44.146Z] > refreshing access token with scopes: []
+[debug] [2021-04-26T23:04:44.148Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-26T23:04:44.398Z] <<< HTTP RESPONSE 200 {"date":"Mon, 26 Apr 2021 23:04:45 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","expires":"Mon, 01 Jan 1990 00:00:00 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-26T23:04:44.457Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/upis-saude [none]
+[debug] [2021-04-26T23:04:44.906Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/upis-saude 200
+[debug] [2021-04-26T23:04:44.906Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/upis-saude {"projectId":"upis-saude","projectNumber":"103012935424","displayName":"upis-saude","name":"projects/upis-saude","resources":{"hostingSite":"upis-saude","realtimeDatabaseInstance":"upis-saude-default-rtdb"},"state":"ACTIVE"}
+[info] 
+[info] === Deploying to 'upis-saude'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2021-04-26T23:04:44.925Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-04-26T23:04:44.926Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-26T23:04:45.135Z] <<< HTTP RESPONSE 200 {"date":"Mon, 26 Apr 2021 23:04:46 GMT","expires":"Mon, 01 Jan 1990 00:00:00 GMT","pragma":"no-cache","cache-control":"no-cache, no-store, max-age=0, must-revalidate","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-26T23:04:45.265Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/upis-saude/versions  
+ {"config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"}}

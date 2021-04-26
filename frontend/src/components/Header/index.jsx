@@ -16,13 +16,12 @@ import roulesEnum from 'enums/roulesEnum';
 import { Container, Content, Profile } from './styles';
 
 const itensMenu = [
-	{
-		path: 'logout',
-		// path: 'dashboard',
-		label: 'Dashboard',
-		provider: 'false|true',
-		icon: <AiFillDashboard size={26} size={26} />,
-	},
+	// {
+	// 	path: 'dashboard',
+	// 	label: 'Dashboard',
+	// 	provider: 'false|true',
+	// 	icon: <AiFillDashboard size={26} size={26} />,
+	// },
 	{
 		path: 'appointment',
 		label: 'Especialidades',

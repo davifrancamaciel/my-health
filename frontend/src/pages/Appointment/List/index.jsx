@@ -108,7 +108,7 @@ function Appointment() {
 
 	function checkPermission() {
 		navigator.permissions.query({ name: 'geolocation' }).then((permission) => {
-			if (permission.state === 'denied') {
+			if (permission.state !== 'granted') {
 				showToast.info(
 					'Será necessário permitir o acesso a sua localização atual para que o mapa funcione corretamente'
 				);

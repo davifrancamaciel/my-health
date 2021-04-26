@@ -121,9 +121,10 @@ function Shedule() {
 
 	async function handleCancelAppointmentConfirmed(schedule) {
 		try {
+			
 			setLoading(true);
 			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-			const date = utcToZonedTime(parseISO(schedule.value), timezone);
+			const date = utcToZonedTime(parseISO(schedule.appointment.date), timezone);
 
 			const dateFormatedComplete = format(date, "'dia' dd 'de' MMMM',' eeee', às' H:mm'h'", {
 				locale: pt,

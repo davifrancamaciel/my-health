@@ -16,6 +16,7 @@ import urlMessageWhatsapp from 'Utils/urlMessageWhatsapp';
 import showToast from 'Utils/showToast';
 import ListItem from './ListItem';
 import Search from './Search';
+import Map from './Map';
 
 import { Main, Ul } from 'components/_layouts/ListContainer/styles';
 
@@ -46,6 +47,8 @@ const UserList = ({ provider }) => {
 					createdAtFormatedDate: `Cadastrado dia ${format(parseISO(user.createdAt), "d 'de' MMMM 'de' yyyy", {
 						locale: pt,
 					})}`,
+					latitude: user.latitude ? user.latitude : 0,
+					longitude: user.longitude ? user.longitude : 0,
 				}));
 
 				if (page > 1) setUsers([...users, ...usersFormated]);
@@ -96,7 +99,7 @@ const UserList = ({ provider }) => {
 		<Container title={'Usuários do sistema'} loading={loading} showBack>
 			<Search onSearch={setSearch} provider={provider} setPage={setPage} />
 			<span>
-				<span>{total > 0 && <span>Total {total}</span>}</span>				
+				<span>{total > 0 && <span>Total {total}</span>}</span>
 			</span>
 
 			<Order
@@ -121,6 +124,10 @@ const UserList = ({ provider }) => {
 				</Ul>
 			</Main>
 			<LoadMore onClick={() => setPage(page + 1)} total={total} loadedItens={users.length} />
+
+			{/* <div style={{ height: '100vh', width: '100%' }}>
+				<Map users={users} />
+			</div> */}
 		</Container>
 	);
 };

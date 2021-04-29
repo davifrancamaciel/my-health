@@ -43,7 +43,9 @@ class UserIndexService {
         'active',
         'image',
         'url',
-        'createdAt'
+        'createdAt',
+        'latitude',
+        'longitude'
       ],
     });
 

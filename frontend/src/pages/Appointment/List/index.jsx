@@ -4,12 +4,9 @@ import { useSelector } from 'react-redux';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-
 import Container from 'components/_layouts/Container';
 import Select from 'components/Inputs/Select';
-import MarkerContainer from './Marker';
+import MapPositionList from 'components/MapPositionList';
 
 import api from 'services/api';
 import getValidationErrors from 'Utils/getValidationErrors';
@@ -46,7 +43,6 @@ function Appointment() {
 			}
 		}
 		loadSpecialitiesTypes();
-		
 	}, []);
 
 	useEffect(() => {
@@ -63,7 +59,7 @@ function Appointment() {
 		checkPermission();
 		navigator.geolocation.getCurrentPosition((postition) => {
 			const { latitude, longitude } = postition.coords;
-			setCurrentLocation([latitude, longitude]);			
+			setCurrentLocation([latitude, longitude]);
 		});
 	}, []);
 
@@ -81,14 +77,14 @@ function Appointment() {
 			) {
 				setPositionSearchMap([profile.latitude, profile.longitude]);
 			}
-		}		
+		}
 	}, [useCurrentLocation]);
 
 	async function loadSpecialities(id) {
 		try {
 			setLoading(true);
 			const [latitude, longitude] = positionSearchMap;
-			
+
 			const response = await api.get('appointments', {
 				params: { speciality_type_id: id, latitude, longitude },
 			});
@@ -97,6 +93,11 @@ function Appointment() {
 			const data = response.data.rows.map((x) => ({
 				...x,
 				urlWhatsapp: urlMessageWhatsapp(x.user.whatsapp),
+				email: x.user.email,
+				name: x.user.name,
+				whatsapp: x.user.whatsapp,
+				url: x.user.url,
+				urlAppointment: `/appointment/${x.id}/create`,
 			}));
 
 			setSpecialityies(data);
@@ -123,12 +124,6 @@ function Appointment() {
 				}
 			}
 		});
-	}
-
-	function ChangeView({ center }) {
-		const map = useMap();
-		map.setView(center, map._zoom);
-		return null;
 	}
 
 	return (
@@ -158,18 +153,7 @@ function Appointment() {
 					</Location>
 				</Search>
 				<Map>
-					{isLoadedPosition && (
-						<MapContainer center={positionSearchMap} zoom={12} scrollWheelZoom={false}>
-							<ChangeView center={positionSearchMap} />
-							<TileLayer
-								attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-								url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-							/>
-							{specialities.map((x) => (
-								<MarkerContainer key={x.id} item={x} />
-							))}
-						</MapContainer>
-					)}
+					{isLoadedPosition && <MapPositionList center={positionSearchMap} positions={specialities} />}
 				</Map>
 			</ContainerMapSelectProvider>
 		</Container>

@@ -10,7 +10,7 @@ import InputMask from 'components/Inputs/InputMask';
 
 import showToast from 'Utils/showToast';
 import getLocale from 'Utils/getLocale';
-import Map from 'components/Map';
+import Map from 'components/MapPositionSelect';
 import validation from './validation';
 
 import { FormContainer } from '../../styles';

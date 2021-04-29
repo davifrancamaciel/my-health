@@ -10,7 +10,7 @@ import Input from 'components/Inputs/Input';
 import InputMoney from 'components/Inputs/InputMoney';
 import Select from 'components/Inputs/Select';
 import InputMask from 'components/Inputs/InputMask';
-import Map from 'components/Map';
+import Map from 'components/MapPositionSelect';
 import Config from './Config';
 
 import showToast from 'Utils/showToast';

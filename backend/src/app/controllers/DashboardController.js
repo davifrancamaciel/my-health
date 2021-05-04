@@ -13,6 +13,7 @@ import Company from '../models/Company'
 import User from '../models/User'
 import Vehicle from '../models/Vehicle'
 import Speciality from '../models/Speciality'
+import Appointment from '../models/Appointment'
 import Sale from '../models/Sale'
 
 class DashboardController {
@@ -115,14 +116,16 @@ class DashboardController {
     }
   }
 
-  async getSpecialitiesGraph (req, res) {
-    const { userCompanyId } = req
+  async getAppointmentsGraph (req, res) {
+    const { userId } = req
 
-    const rows = await Speciality.findAll({
-      attributes: ['value', 'createdAt'],
+    const rows = await Appointment.findAll({
+      attributes: [//'value',
+      'canceled_at',
+       'createdAt'],
       order: [['createdAt', 'ASC']],
       where: {
-        company_id: userCompanyId,
+        provider_id: userId,
         // speciality_type_id: {
         //   [Op.notIn]: [
         //     SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
@@ -134,6 +137,8 @@ class DashboardController {
         },
       },
     })
+
+    return res.json(rows)
 
     const specialities = rows.map(speciality => {
       const date = setMilliseconds(
@@ -155,6 +160,7 @@ class DashboardController {
       res[value.date].value += Number(value.value)
       return res
     }, {})
+
 
     return res.json(result)
   }

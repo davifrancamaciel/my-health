@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
-import { PRIMARY_COLOR } from '../../../constants/colors';
+import { PRIMARY_COLOR } from 'constants/colors';
 
 export const Main = styled.main`
 	flex: 1;
@@ -17,8 +17,6 @@ export const Ul = styled.ul`
 `;
 
 export const Li = styled.li`
-	// opacity: ${(props) => (props.active == false ? 0.5 : 1)};
-	// background: #fff;
 	background: ${(props) => (props.active == false ? '#00000000' : '#fff')};
 
 	box-shadow: 0 0 14px 0 #00000033;

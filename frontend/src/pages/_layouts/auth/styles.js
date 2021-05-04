@@ -7,7 +7,6 @@ import bgForgot from 'assets/bg_forgot_password.svg';
 import bgReset from 'assets/bg_my_password.svg';
 
 export const Wrapper = styled.div`
-	min-height: 100%;
 	min-height: 100vh;
 	height: 100%;
 	background: linear-gradient(-90deg, ${darken(0.15, `${PRIMARY_COLOR}`)}, ${PRIMARY_COLOR});

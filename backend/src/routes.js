@@ -52,7 +52,7 @@ routes.put('/forgot', ForgotController.update);
 routes.use(authMiddleware);
 
 routes.get('/dashboard', DashboardController.index);
-routes.get('/dashboard-specialities-graph', DashboardController.getSpecialitiesGraph);
+routes.get('/dashboard-appointments-graph', DashboardController.getAppointmentsGraph);
 
 routes.get('/appointments', AppointmentController.index);
 routes.get('/appointments/:id', AppointmentController.find);

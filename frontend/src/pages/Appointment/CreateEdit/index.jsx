@@ -166,7 +166,7 @@ function CreateEdit() {
 	function addNotification(data) {
 		const notification = {
 			...data,
-			content: `Novo agendamento de ${data.speciality} com ${profile.name} para ${data.dateFormated}`,
+			content: `Novo agendamento de ${data.speciality} com ${profile.name} para ${data.dateFormatedComplete}`,
 			user: data.provider_id,
 			read: false,
 		};

@@ -58,7 +58,6 @@ const SignUp = () => {
 	return (
 		<>
 			<Term open={open} setOpen={setOpen} provider={provider} />
-			<BackgroundSignUp />
 			<Content>
 				<AnimationContainerRight>
 					<img src={logo} alt="UPIS Saúde" />
@@ -99,6 +98,7 @@ const SignUp = () => {
 					</Form>
 				</AnimationContainerRight>
 			</Content>
+			<BackgroundSignUp />
 		</>
 	);
 };

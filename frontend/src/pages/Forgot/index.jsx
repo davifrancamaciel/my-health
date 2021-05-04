@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 
-import SubmitButton from '../../components/SubmitButton';
+import SubmitButton from 'components/SubmitButton';
 import { Content, BackgroundForgot, AnimationContainerLeft } from '../_layouts/auth/styles';
 
-import logo from '../../assets/logo.png';
+import logo from 'assets/logo.png';
 import validation from './validation';
 import getValidationErrors from 'Utils/getValidationErrors';
 import showToast from 'Utils/showToast';

@@ -4,7 +4,7 @@ import { MdCheckCircle, MdError, MdLink } from 'react-icons/md'
 import { CircularProgressbar } from 'react-circular-progressbar'
 
 import { Container, FileInfo, Preview } from './styles'
-import { SECONDARY_COLOR } from '../../constants/colors'
+import { SECONDARY_COLOR } from 'constants/colors'
 
 function FileList ({ files, onDelete }) {
   return (

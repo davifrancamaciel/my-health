@@ -120,6 +120,11 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
+      i_accept_term: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       birth_date: {
         type: Sequelize.DATE,
         allowNull: true,

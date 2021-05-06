@@ -8,6 +8,7 @@ import { notificationListSuccess } from 'store/modules/notification/actions';
 import { SECONDARY_COLOR } from 'constants/colors';
 
 import firebaseService from 'services/firebase';
+import history from 'services/browserhistory';
 
 import { Container, Badge, NotificationList, Notification, Scroll } from './styles';
 
@@ -27,7 +28,6 @@ function Notifications() {
 	]);
 
 	useEffect(() => {
-
 		if (!!notifications.length) {
 			dispatch(notificationListSuccess(notifications));
 		}
@@ -44,6 +44,7 @@ function Notifications() {
 					}),
 				}));
 
+				console.log(data);
 				setNotification(data);
 			});
 		}
@@ -51,7 +52,7 @@ function Notifications() {
 		loadNotifications();
 	}, []);
 
-	function handleToggleVisible(params) {
+	function handleToggleVisible() {
 		setVisible(!visible);
 	}
 
@@ -66,6 +67,11 @@ function Notifications() {
 		);
 	}
 
+	function handleDetails(notification) {
+		handleMarkAsRead(notification.key);
+		history.push(`/appointment/details/${notification.id}`);
+	}
+
 	return (
 		<Container>
 			<Badge onClick={handleToggleVisible} hasUnread={hasUnread}>
@@ -75,7 +81,7 @@ function Notifications() {
 				<Scroll>
 					{notifications.map((n) => (
 						<Notification key={n.key} unread={!n.read}>
-							<p>{n.content}</p>
+							<p onClick={() => handleDetails(n)}>{n.content}</p>
 							<time>{n.timeDistance}</time>
 							{!n.read && (
 								<button type="button" onClick={() => handleMarkAsRead(n.key)}>

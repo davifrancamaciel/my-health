@@ -1,4 +1,4 @@
-import Sequelize, { Model , DataTypes } from 'sequelize';
+import Sequelize, { Model, DataTypes } from 'sequelize';
 import bcrypty from 'bcryptjs';
 
 class User extends Model {
@@ -31,6 +31,7 @@ class User extends Model {
         active: Sequelize.BOOLEAN,
         token_reset: Sequelize.STRING,
         validated: Sequelize.BOOLEAN,
+        i_accept_term: Sequelize.BOOLEAN,
         roules: Sequelize.STRING,
         url: {
           type: Sequelize.VIRTUAL,

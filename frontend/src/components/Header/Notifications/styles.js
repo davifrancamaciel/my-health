@@ -60,6 +60,7 @@ export const Notification = styled.div`
 	p {
 		font-size: 13px;
 		line-height: 18px;
+		cursor: pointer;
 	}
 
 	time {
@@ -100,7 +101,7 @@ export const Scroll = styled.div`
 	overflow-y: scroll;
 
 	&::-webkit-scrollbar {
-		width: 10px;		
+		width: 10px;
 	}
 
 	/* Track */

@@ -37,7 +37,7 @@ export const Content = styled.div`
 		margin: 30px auto;
 		width: 100%;
 		max-width: 340px;
-		
+
 		.field-group {
 			flex: 1;
 			display: flex;
@@ -84,6 +84,18 @@ export const Content = styled.div`
 			opacity: 0.8;
 			&:hover {
 				opacity: 1;
+			}
+		}
+		.dfm-i-accept-term {
+			display: grid;
+
+			label {
+				span {
+					margin: auto 0;
+				}
+			}
+			a {
+				margin-top: 0;
 			}
 		}
 	}

@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Input, Select } from '@rocketseat/unform';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 import { signUpRequest } from 'store/modules/auth/actions';
 import SubmitButton from 'components/SubmitButton';
 import InputMask from 'components/Inputs/InputMask';
 import validation from './validation';
 import getLocale from 'Utils/getLocale';
+import showToast from 'Utils/showToast';
 import { typePersonEnumList, typePersonEnum } from 'enums/typePersonEnum';
-
-import Term from './Term';
 
 import logo from 'assets/logo.png';
 import { Content, BackgroundSignUp, AnimationContainerRight } from '../_layouts/auth/styles';
@@ -19,7 +20,7 @@ const SignUp = () => {
 	const dispatch = useDispatch();
 	const loading = useSelector((state) => state.auth.loading);
 	const [provider, setProvider] = useState(false);
-	const [open, setOpen] = useState(false);
+	const [i_accept_term, setI_accept_term] = useState(false);
 	const [zipCodeChanged, setZipCodeChanged] = useState('');
 	const [adress, setAdress] = useState({});
 	const [currentLocation, setCurrentLocation] = useState([0, 0]);
@@ -41,10 +42,15 @@ const SignUp = () => {
 	}, [zipCodeChanged]);
 
 	function handleSubmit(data) {
+		if (provider && !i_accept_term) {
+			showToast.warning('É necessário aceitar os termos de contratação');
+			return;
+		}
 		const user = {
 			...data,
 			...adress,
 			provider,
+			i_accept_term,
 		};
 		const [latitude, longitude] = currentLocation;
 		if (!!latitude && !!longitude) {
@@ -57,7 +63,6 @@ const SignUp = () => {
 
 	return (
 		<>
-			<Term open={open} setOpen={setOpen} provider={provider} />
 			<Content>
 				<AnimationContainerRight>
 					<img src={logo} alt="UPIS Saúde" />
@@ -91,7 +96,22 @@ const SignUp = () => {
 						/>
 
 						<Input name="password" type="password" placeholder="Sua senha" />
-						{/* <a onClick={() => setOpen(!open)}>Termo de adesão</a> */}
+						<div className="dfm-i-accept-term" style={{ display: provider ? 'grid' : 'none' }}>
+							<FormControlLabel
+								control={
+									<Switch
+										color="primary"
+										checked={i_accept_term}
+										onChange={() => setI_accept_term(!i_accept_term)}
+										name={`i_accept_term`}
+									/>
+								}
+								label={`Eu aceito os termos`}
+							/>
+							<a target="_blank" href={`${process.env.REACT_APP_API_URL}/files/termos-upis-saude.pdf`}>
+								Termo de adesão
+							</a>
+						</div>
 						<SubmitButton loading={loading} text={'Criar conta'} />
 						<Link to="/">Já tenho conta</Link>
 						<Link to="/forgot">Esqueci minha senha</Link>

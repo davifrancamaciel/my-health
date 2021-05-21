@@ -1,5 +1,5 @@
 
-# Auto store
+# My health
 
 
 <h2 align="center">  
@@ -9,7 +9,7 @@
 </h2>
 
 <h3 align="center">
-  O projeto foi desenvolvido com a finalidade de gerenciar lojas automotivas
+  O projeto foi desenvolvido com a finalidade de facilitar e aproximar pacientes e médicos para marcação de consultas e procedimentos médicos.
 </h3>
 
 ## Crie sua conta no link abaixo:
@@ -26,12 +26,12 @@
 Pelo terminal, acesse o diretório em que deseja ter o repositório clonado e execute o comando a seguir.
 ```bash
 # clonando o repositório
-git clone https://github.com/davifrancamaciel/auto-store.git
+git clone https://github.com/davifrancamaciel/my-health.git
 ```
 ### :computer: Iniciando o projeto
 
 
-Pelo terminal, acesse o diretório auto-store/frontend do repositório clonado e execute os seguintes comandos separadamente para executar a aplicação (frontend).
+Pelo terminal, acesse o diretório my-health/frontend do repositório clonado e execute os seguintes comandos separadamente para executar a aplicação (frontend).
 Obs antes de rodar os comandos abaixo copie e cole o arquivo .env.example remomei o mesmo para somente .env e adicione as configurações de sua preferência
 ```bash
 # instalando as dependências
@@ -41,7 +41,7 @@ yarn install
 yarn start
 ```
 
-Pelo terminal, acesse o diretório auto-store/backend do repositório clonado e execute os seguintes comandos separadamente para executar a API (backend). 
+Pelo terminal, acesse o diretório my-health/backend do repositório clonado e execute os seguintes comandos separadamente para executar a API (backend). 
 Obs antes de rodar os comandos abaixo copie e cole o arquivo .env.example remomei o mesmo para somente .env e adicione as configurações de sua preferência
 ```bash
 # instalando as dependências

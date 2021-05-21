@@ -19,7 +19,7 @@ module.exports = {
         references: { model: 'users', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
-        allowNull: true,
+        allowNull: true, // aqui pode ficar nulo pois o usario pode encerra a conta dele no sistema
       },
       //pestador do serviço
       provider_id: {
@@ -27,7 +27,7 @@ module.exports = {
         references: { model: 'users', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
-        allowNull: true,
+        allowNull: true, // aqui pode ficar nulo pois o usario pode encerra a conta dele no sistema
       },
       speciality_id: {
         type: Sequelize.INTEGER,

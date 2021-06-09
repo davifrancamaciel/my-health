@@ -32,6 +32,8 @@ import validateSpecialityUpdate from './app/validators/Speciality/update';
 
 import SpecialityTypeController from './app/controllers/SpecialityTypeController';
 
+import SegmentController from './app/controllers/SegmentController';
+
 import ForgotController from './app/controllers/ForgotController';
 
 const routes = new Router();
@@ -78,8 +80,15 @@ routes.get('/specialities/:id', SpecialityController.find);
 routes.delete('/specialities/:id', SpecialityController.delete);
 
 routes.get('/specialities-types-list', SpecialityTypeController.list);
+routes.get('/segments-list', SegmentController.list);
 
 routes.use(roulesMiddleware);
+routes.post('/segments', SegmentController.store);
+routes.put('/segments', SegmentController.update);
+routes.delete('/segments/:id', SegmentController.delete);
+routes.get('/segments', SegmentController.index);
+routes.get('/segments/:id', SegmentController.find);
+
 routes.post('/specialities-types', SpecialityTypeController.store);
 routes.put('/specialities-types', SpecialityTypeController.update);
 routes.delete('/specialities-types/:id', SpecialityTypeController.delete);

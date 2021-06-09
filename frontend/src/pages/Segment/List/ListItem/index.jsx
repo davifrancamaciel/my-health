@@ -9,7 +9,7 @@ function Item({ item, onDeleteClick, onUpdateClick }) {
 			<header>
 				<Info>
 					<strong>{item.name}</strong>
-					<span>{item.priceFormated}</span>
+					<span>Porcentagem {item.percentage}%</span>
 				</Info>
 				<Actions>
 					<button className="edit" onClick={() => onUpdateClick(item.id)}>
@@ -20,12 +20,6 @@ function Item({ item, onDeleteClick, onUpdateClick }) {
 					</button>
 				</Actions>
 			</header>
-			{item.segment && (
-				<p>
-					<span>{item.segment.name}</span>
-					<span>Porcentagem {item.segment.percentage}%</span>
-				</p>
-			)}
 			<InfoStatus>
 				<ExpiredStatus>{item.createdAtFormatedDate}</ExpiredStatus>
 				<ActiveStatus active={item.active}>{`${item.active ? 'Disponível' : 'Indisponível'}`}</ActiveStatus>

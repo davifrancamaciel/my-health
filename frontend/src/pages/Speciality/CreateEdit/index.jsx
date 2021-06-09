@@ -15,7 +15,6 @@ import Config from './Config';
 
 import showToast from 'Utils/showToast';
 import getLocale from 'Utils/getLocale';
-import { getCoordinates } from 'Utils/getCoordinates';
 import api from 'services/api';
 import history from 'services/browserhistory';
 import getValidationErrors from 'Utils/getValidationErrors';

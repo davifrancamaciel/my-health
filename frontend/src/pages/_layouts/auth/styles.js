@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { darken } from 'polished';
 import { PRIMARY_COLOR } from 'constants/colors';
 import bgIn from 'assets/bg_doctors.svg';
@@ -9,7 +9,11 @@ import bgReset from 'assets/bg_my_password.svg';
 export const Wrapper = styled.div`
 	min-height: 100vh;
 	height: 100%;
-	background: linear-gradient(-90deg, ${darken(0.15, `${PRIMARY_COLOR}`)}, ${PRIMARY_COLOR});
+	${(props) =>
+		!props.isBgNone &&
+		css`
+			background: linear-gradient(-90deg, ${darken(0.15, `${PRIMARY_COLOR}`)}, ${PRIMARY_COLOR});
+		`}
 	display: flex;
 	justify-content: center;
 	align-items: stretch;

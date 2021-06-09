@@ -19,7 +19,7 @@ class App {
 
     this.middlewares()
     this.routes()
-    this.exzip_codetionHandler()
+    this.exceptionHandler()
   }
 
   middlewares () {
@@ -38,7 +38,7 @@ class App {
     this.server.use(routes)
   }
 
-  exzip_codetionHandler () {
+  exceptionHandler () {
     this.server.use(async (err, req, res, next) => {
       if (process.env.NODE_ENV === 'development') {
         const errors = await new Youch(err, req).toJSON()

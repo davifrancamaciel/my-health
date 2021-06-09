@@ -10,6 +10,8 @@ class Appointment extends Model {
                 speciality_id: Sequelize.NUMBER,
                 date: Sequelize.DATE,
                 canceled_at: Sequelize.DATE,
+                value: Sequelize.DECIMAL,
+                provider_value: Sequelize.DECIMAL,
                 past: {
                     type: Sequelize.VIRTUAL,
                     get () {

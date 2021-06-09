@@ -10,9 +10,9 @@ module.exports = {
 
 function load() {
   var list = [];
-  for (let i = 1; i < specalities.length; i++) {
+  for (let i = 1; i < data_array.length; i++) {
     list.push({
-      name: specalities[i],
+      name: data_array[i],
       active: true,
       created_at: new Date(),
       updated_at: new Date(),
@@ -21,7 +21,7 @@ function load() {
   return list;
 }
 
-var specalities = [
+var data_array = [
   'Acupuntura',
   'Alergia e Imunologia',
   'Anestesiologia',

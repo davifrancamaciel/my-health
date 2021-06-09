@@ -90,6 +90,9 @@ export default function TemporaryDrawer({ itensMenuUser }) {
 							onClick={toggleDrawer(anchor, false)}
 							onKeyDown={toggleDrawer(anchor, false)}
 						>
+							<ListItem button className={classes.nested} onClick={() => history.push(`/segment`)}>
+								<ListItemText primary="Segmentos" />
+							</ListItem>
 							<ListItem
 								button
 								className={classes.nested}

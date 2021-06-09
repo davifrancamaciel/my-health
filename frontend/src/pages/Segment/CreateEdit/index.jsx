@@ -8,10 +8,7 @@ import Container from 'components/_layouts/Container';
 import SubmitButton from 'components/SubmitButton';
 import FormContainer from 'components/_layouts/FormContainer';
 import Input from 'components/Inputs/Input';
-import InputMoney from 'components/Inputs/InputMoney';
-import Select from 'components/Inputs/Select';
 import showToast from 'Utils/showToast';
-import { priceToNumber } from 'Utils/formatPrice';
 
 import api from 'services/api';
 import history from 'services/browserhistory';
@@ -19,39 +16,20 @@ import getValidationErrors from 'Utils/getValidationErrors';
 
 import validation from './validation';
 
-const SpecialityCreateEdit = function () {
+const SegmentCreateEdit = function () {
 	const { id } = useParams();
-	const [speciality, setSpeciality] = useState({});
+	const [segment, setSegment] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [active, setActive] = useState(true);
-	const [segments, setSegments] = useState([]);
-
-	useEffect(() => {
-		async function loadSegments() {
-			try {
-				let params = {};
-				if (!id) {
-					params.active = true;
-				}
-				const response = await api.get('segments-list', {
-					params: params,
-				});
-				setSegments(response.data);
-			} catch (error) {
-				getValidationErrors(error);
-			}
-		}
-		loadSegments();
-	}, []);
 
 	useEffect(() => {
 		if (id) {
 			async function loadSpeciality(id) {
 				try {
 					setLoading(true);
-					const response = await api.get(`specialities-types/${id}`);
+					const response = await api.get(`segments/${id}`);
 
-					setSpeciality(response.data);
+					setSegment(response.data);
 
 					setActive(response.data.active);
 
@@ -67,25 +45,24 @@ const SpecialityCreateEdit = function () {
 
 	async function handleSubmit(data) {
 		try {
-			const saveSpeciality = {
+			const saveSegment = {
 				...data,
 				id: id ? Number(id) : 0,
-				value: priceToNumber(data.value),
 				active,
 			};
 
 			setLoading(true);
 
-			if (saveSpeciality.id) {
-				await api.put('specialities-types', saveSpeciality);
+			if (saveSegment.id) {
+				await api.put('segments', saveSegment);
 			} else {
-				await api.post('specialities-types', saveSpeciality);
+				await api.post('segments', saveSegment);
 			}
 
-			showToast.success(`Especialidade salva com sucesso!`);
+			showToast.success(`Segmento salvo com sucesso!`);
 
 			setLoading(false);
-			history.push(`/speciality-type`);
+			history.push(`/segment`);
 		} catch (error) {
 			getValidationErrors(error);
 			setLoading(false);
@@ -93,23 +70,19 @@ const SpecialityCreateEdit = function () {
 	}
 
 	return (
-		<Container title={`Cadastro de especialidades do sistema`} loading={loading} showBack>
+		<Container title={`Cadastro de segmentos do sistema`} loading={loading} showBack>
 			<FormContainer loading={loading}>
-				<Form schema={validation()} onSubmit={handleSubmit} initialData={speciality}>
+				<Form schema={validation()} onSubmit={handleSubmit} initialData={segment}>
 					<fieldset>
 						<legend>
 							<h2>Dados</h2>
 						</legend>
-
-						<div className="field">
-							<Input name="name" label="Nome" />
-						</div>
 						<div className="field-group">
 							<div className="field">
-								<Select label="Segmento" name="segment_id" options={segments} />
+								<Input name="name" label="Nome" />
 							</div>
 							<div className="field">
-								<InputMoney name="value" label="Valor" />
+								<Input name="percentage" label="Porcentagem" />
 							</div>
 						</div>
 						<FormControlLabel
@@ -132,4 +105,4 @@ const SpecialityCreateEdit = function () {
 	);
 };
 
-export default SpecialityCreateEdit;
+export default SegmentCreateEdit;

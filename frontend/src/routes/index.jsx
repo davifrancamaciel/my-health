@@ -14,6 +14,9 @@ import UserCreateEdit from '../pages/User/CreateEdit';
 import SpecialityList from '../pages/Speciality/List';
 import SpecialityCreateEdit from '../pages/Speciality/CreateEdit';
 
+import SegmentList from '../pages/Segment/List';
+import SegmentCreateEdit from '../pages/Segment/CreateEdit';
+
 import SpecialityTypeList from '../pages/SpecialityType/List';
 import SpecialityTypeCreateEdit from '../pages/SpecialityType/CreateEdit';
 
@@ -34,7 +37,7 @@ const Routes = () => {
 
 			<Route exact path="/forgot" component={Forgot} />
 			<Route exact path="/reset" component={Reset} />
-			
+
 			<Route exact path="/dashboard2" component={Dashboard} isPrivate />
 			<Route exact path="/dashboard" component={Appointment} isPrivate />
 
@@ -49,6 +52,10 @@ const Routes = () => {
 			<Route exact path="/speciality" component={SpecialityList} isPrivate />
 			<Route exact path="/speciality/create" component={SpecialityCreateEdit} isPrivate />
 			<Route exact path="/speciality/edit/:id" component={SpecialityCreateEdit} isPrivate />
+
+			<Route exact path="/segment" component={SegmentList} isPrivate roules={'ADMIN'} />
+			<Route exact path="/segment/create" component={SegmentCreateEdit} isPrivate roules={'ADMIN'} />
+			<Route exact path="/segment/edit/:id" component={SegmentCreateEdit} isPrivate roules={'ADMIN'} />
 
 			<Route exact path="/speciality-type" component={SpecialityTypeList} isPrivate roules={'ADMIN'} />
 			<Route
@@ -65,6 +72,9 @@ const Routes = () => {
 				isPrivate
 				roules={'ADMIN'}
 			/>
+			<Route exact path="/user" component={UserList} isPrivate roules={'ADMIN'} />
+			<Route exact path="/user/edit/:id" component={UserCreateEdit} isPrivate roules={'ADMIN'} />
+
 			<Route exact path="/user" component={UserList} isPrivate roules={'ADMIN'} />
 			<Route exact path="/user/edit/:id" component={UserCreateEdit} isPrivate roules={'ADMIN'} />
 

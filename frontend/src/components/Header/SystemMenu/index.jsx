@@ -76,6 +76,7 @@ export default function MenuListComposition() {
 						<Paper>
 							<ClickAwayListener onClickAway={handleClose}>
 								<MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+									<MenuItem onClick={() => handleRedirect('segment')}>Segmentos</MenuItem>
 									<MenuItem onClick={() => handleRedirect('speciality-type')}>
 										Tipos de especialidades
 									</MenuItem>

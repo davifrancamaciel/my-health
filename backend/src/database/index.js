@@ -4,9 +4,10 @@ import databaseConfig from '../config/database';
 import User from '../app/models/User';
 import Speciality from '../app/models/Speciality';
 import SpecialityType from '../app/models/SpecialityType';
+import Segment from '../app/models/Segment';
 import Appointment from '../app/models/Appointment';
 
-const models = [User, Speciality, SpecialityType, Appointment];
+const models = [User, Speciality, SpecialityType, Appointment, Segment];
 
 class Database {
   constructor() {
@@ -14,7 +15,6 @@ class Database {
   }
 
   init() {
-
     this.connection = new Sequelize(databaseConfig);
 
     models
@@ -34,6 +34,7 @@ modo para criar migrations
 yarn sequelize migration:create --name create-users
 yarn sequelize migration:create --name create-files
 yarn sequelize migration:create --name add-avatar-field-to-users
+yarn sequelize migration:seed --name create-segments
 yarn sequelize db:migrate
 
 multer biblioteca para upload de arquivos

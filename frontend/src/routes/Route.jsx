@@ -30,8 +30,8 @@ const RouterWrapper = ({ isPrivate = false, component: Component, ...rest }) => 
 		<ReactDOMRoute
 			{...rest}
 			render={(props) => (
-				<Layout>
-					<Component {...props} />
+				<Layout {...rest} >
+					<Component {...props} {...rest} />
 				</Layout>
 			)}
 		/>

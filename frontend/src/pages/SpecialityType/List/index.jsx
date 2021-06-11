@@ -33,7 +33,6 @@ const SpecialityList = function () {
 	const [onChangeOrder, setOnChangeOrder] = useState();
 
 	useEffect(() => {
-		
 		async function loadSpecialities() {
 			try {
 				setLoading(true);
@@ -42,14 +41,24 @@ const SpecialityList = function () {
 					params: { ...search, page, ...onChangeOrder },
 				});
 
-				const data = response.data.rows.map((speciality) => ({
-					...speciality,
-					priceFormated: formatPrice(speciality.value),
-					createdAtFormatedDate: `Cadastrada no dia ${format(parseISO(speciality.createdAt), "d 'de' MMMM", {
-						locale: pt,
-					})}`,
-				}));
-				
+				const data = response.data.rows.map((speciality) => {
+					const { percentage } = speciality.segment;
+					const valueCompany = speciality.value * (percentage / 100);
+
+					return {
+						...speciality,
+						priceFormated: formatPrice(speciality.value),
+						valueCompany: formatPrice(valueCompany),
+						createdAtFormatedDate: `Cadastrada no dia ${format(
+							parseISO(speciality.createdAt),
+							"d 'de' MMMM",
+							{
+								locale: pt,
+							}
+						)}`,
+					};
+				});
+
 				if (page > 1) setSpecialities([...specialities, ...data]);
 				else setSpecialities(data);
 
@@ -66,9 +75,7 @@ const SpecialityList = function () {
 	}, [search, page, onChangeOrder]);
 
 	async function handleDelete(item) {
-		ShowConfirm('Atenção', `Confirma a remoção da especialidade ${item.name}?`, () =>
-			handleDeleteConfirm(item.id)
-		);
+		ShowConfirm('Atenção', `Confirma a remoção da especialidade ${item.name}?`, () => handleDeleteConfirm(item.id));
 	}
 
 	async function handleDeleteConfirm(id) {

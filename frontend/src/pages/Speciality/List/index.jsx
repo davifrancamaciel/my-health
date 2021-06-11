@@ -54,9 +54,14 @@ const SpecialityList = function () {
 						.map((day) => day.day)
 						.join(', ');
 
+					const { percentage } = speciality.type.segment;
+					const valueCompany = speciality.type.value * (percentage / 100);
+
 					return {
 						...speciality,
-						valueFormated: formatPrice(speciality.value),
+						valueFormated: formatPrice(speciality.type.value),
+						valueCompanyFormated: formatPrice(valueCompany),
+						valueProviderFormated: formatPrice(speciality.type.value - valueCompany),
 						createdAtFormatedDate: `Cadastrada no dia ${format(
 							parseISO(speciality.createdAt),
 							"d 'de' MMMM",
@@ -67,7 +72,9 @@ const SpecialityList = function () {
 						days,
 					};
 				});
-				
+
+				console.log(data);
+
 				if (page > 1) setSpecialities([...specialities, ...data]);
 				else setSpecialities(data);
 

@@ -20,7 +20,10 @@ import showToast from 'Utils/showToast';
 
 import { Main, Ul } from 'components/_layouts/ListContainer/styles';
 
-const orderByOptions = [{ value: 'name', label: 'Nome' }];
+const orderByOptions = [
+	{ value: 'name', label: 'Nome' },
+	{ value: 'percentage', label: 'Porcentagem' },
+];
 
 const SegmentList = function () {
 	const [loading, setLoading] = useState(false);
@@ -32,7 +35,6 @@ const SegmentList = function () {
 	const [onChangeOrder, setOnChangeOrder] = useState();
 
 	useEffect(() => {
-		
 		async function loadSpecialities() {
 			try {
 				setLoading(true);
@@ -47,7 +49,7 @@ const SegmentList = function () {
 						locale: pt,
 					})}`,
 				}));
-				
+
 				if (page > 1) setSegments([...segments, ...data]);
 				else setSegments(data);
 
@@ -64,9 +66,7 @@ const SegmentList = function () {
 	}, [search, page, onChangeOrder]);
 
 	async function handleDelete(item) {
-		ShowConfirm('Atenção', `Confirma a remoção do segmento ${item.name}?`, () =>
-			handleDeleteConfirm(item.id)
-		);
+		ShowConfirm('Atenção', `Confirma a remoção do segmento ${item.name}?`, () => handleDeleteConfirm(item.id));
 	}
 
 	async function handleDeleteConfirm(id) {

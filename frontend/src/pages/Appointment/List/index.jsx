@@ -25,25 +25,21 @@ function Appointment() {
 	const [positionSearchMap, setPositionSearchMap] = useState([profile.latitude || 0, profile.longitude || 0]);
 	const [specialities, setSpecialityies] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [segments, setSegments] = useState([]);
 
 	useEffect(() => {
-		async function loadSpecialitiesTypes() {
+		async function loadSegments() {
 			try {
-				setLoading(true);
-				const response = await api.get('specialities-types-list', {
+				const response = await api.get('segments-list', {
 					params: { active: true },
 				});
-
-				setTypes(response.data);
-
-				setLoading(false);
+				setSegments(response.data);
 			} catch (error) {
-				setLoading(false);
 				getValidationErrors(error);
 			}
 		}
-		loadSpecialitiesTypes();
-	}, []);
+		loadSegments();
+	}, []);		
 
 	useEffect(() => {
 		if (!!profile.latitude && !!Number(profile.latitude) && !!profile.longitude && !!Number(profile.longitude)) {
@@ -79,6 +75,23 @@ function Appointment() {
 			}
 		}
 	}, [useCurrentLocation]);
+	
+	
+	async function loadSpecialitiesTypes(segment_id) {
+		try {
+			setLoading(true);
+			const response = await api.get('specialities-types-list', {
+				params: { active: true , segment_id},
+			});
+
+			setTypes(response.data);
+
+			setLoading(false);
+		} catch (error) {
+			setLoading(false);
+			getValidationErrors(error);
+		}
+	}
 
 	async function loadSpecialities(id) {
 		try {
@@ -132,6 +145,13 @@ function Appointment() {
 				<Search>
 					<h1>Agende uma consulta pertinho de você</h1>
 					<Select
+						placeholder="Informe um segmento"
+						name="segment_id"
+						options={segments}
+						onSelected={(e) => loadSpecialitiesTypes(e.value)}
+						color={PRIMARY_COLOR}
+					/>
+					<Select
 						placeholder="Informe uma especialidade"
 						name="speciality_type_id"
 						options={types}
@@ -152,9 +172,7 @@ function Appointment() {
 						/>
 					</Location>
 				</Search>
-				<Map>
-					{isLoadedPosition && <MapPositionList center={positionSearchMap} positions={specialities} />}
-				</Map>
+				<Map>{isLoadedPosition && <MapPositionList center={positionSearchMap} positions={specialities} />}</Map>
 			</ContainerMapSelectProvider>
 		</Container>
 	);

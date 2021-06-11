@@ -9,7 +9,7 @@ function Item({ item, onDeleteClick, onUpdateClick }) {
 			<header>
 				<Info>
 					<strong>{item.name}</strong>
-					<span>Porcentagem {item.percentage}%</span>
+					<span>Porcentagem para a empresa {item.percentage}%</span>
 				</Info>
 				<Actions>
 					<button className="edit" onClick={() => onUpdateClick(item.id)}>

@@ -2,6 +2,7 @@ import { Op } from 'sequelize';
 
 import Speciality from '../../models/Speciality';
 import SpecialityType from '../../models/SpecialityType';
+import Segment from '../../models/Segment';
 import { startOfDay, endOfDay, parseISO } from 'date-fns';
 
 class SpecialityIndexService {
@@ -20,7 +21,8 @@ class SpecialityIndexService {
       user_id,
     };
 
-    if (speciality_type_id) whereStatement.speciality_type_id = speciality_type_id;
+    if (speciality_type_id)
+      whereStatement.speciality_type_id = speciality_type_id;
 
     if (description)
       whereStatement.description = {
@@ -55,7 +57,14 @@ class SpecialityIndexService {
         {
           model: SpecialityType,
           as: 'type',
-          attributes: ['name'],
+          attributes: ['name', 'value'],
+          include: [
+            {
+              model: Segment,
+              as: 'segment',
+              attributes: ['name', 'percentage'],
+            },
+          ],
         },
       ],
     });

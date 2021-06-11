@@ -1,4 +1,6 @@
+import Segment from '../models/Segment';
 import Speciality from '../models/Speciality';
+import SpecialityType from '../models/SpecialityType';
 import SpecialityIndexService from '../services/speciality/index';
 
 class SpecialityController {
@@ -44,7 +46,22 @@ class SpecialityController {
 
     const { userCompanyId, userCompanyProvider } = req;
 
-    const speciality = await Speciality.findByPk(id);
+    const speciality = await Speciality.findByPk(id, {
+      include: [
+        {
+          model: SpecialityType,
+          as: 'type',
+          attributes: ['name', 'value','segment_id'],
+          include: [
+            {
+              model: Segment,
+              as: 'segment',
+              attributes: ['name', 'percentage'],
+            },
+          ],
+        },
+      ],
+    });
     if (!speciality) {
       return res.status(400).json({ error: 'Especialidade não encontrada' });
     }

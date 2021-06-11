@@ -38,28 +38,28 @@ const SpecialityCreateEdit = function () {
 	const [daysWeekConfig, setDaysWeekConfig] = useState(daysWeek);
 	const [active, setActive] = useState(true);
 	const [showMap, setShowMap] = useState(false);
+	const [segments, setSegments] = useState([]);
 
 	useEffect(() => {
 		if (!profile.provider) {
 			history.goBack();
 			showToast.error('Para acessar esta as especialidades você precisa ser um Médico');
 		}
-
-		async function loadSpecialitiesTypes() {
+		async function loadSegments() {
 			try {
 				let params = {};
 				if (!id) {
 					params.active = true;
 				}
-				const response = await api.get('specialities-types-list', {
+				const response = await api.get('segments-list', {
 					params: params,
 				});
-				setTypes(response.data);
+				setSegments(response.data);
 			} catch (error) {
 				getValidationErrors(error);
 			}
 		}
-		loadSpecialitiesTypes();
+		loadSegments();
 	}, []);
 
 	useEffect(() => {
@@ -68,8 +68,20 @@ const SpecialityCreateEdit = function () {
 				try {
 					setLoading(true);
 					const response = await api.get(`specialities/${id}`);
+					const { type } = response.data;
 
-					setSpeciality(response.data);
+					console.log(response.data);
+					const company_value = type.value * (type.segment.percentage / 100);
+					setSpeciality({
+						...response.data,
+						segment_id: type.segment_id,
+						percentage: type.segment.percentage,
+						value_type: type.value,
+						provider_value: type.value - company_value,
+						company_value,
+					});
+
+					loadSpecialitiesTypes(id, type.segment_id);
 
 					setActive(response.data.active);
 					const { scheduleFormated } = response.data;
@@ -105,6 +117,22 @@ const SpecialityCreateEdit = function () {
 		}
 		loadZipCode();
 	}, [zipCodeChanged]);
+
+	async function loadSpecialitiesTypes(id, segment_id) {
+		try {
+			let params = { segment_id };
+			if (!id) {
+				params.active = true;
+			}
+
+			const response = await api.get('specialities-types-list', {
+				params: params,
+			});
+			setTypes(response.data);
+		} catch (error) {
+			getValidationErrors(error);
+		}
+	}
 
 	async function handleSubmit(data) {
 		try {
@@ -144,6 +172,35 @@ const SpecialityCreateEdit = function () {
 		}
 	}
 
+	async function changeSegment(segment) {
+		setSpeciality({
+			...speciality,
+			segment_id: segment.id,
+			speciality_type_id: 0,
+			percentage: segment.percentage,
+			value_type: 0,
+			provider_value: 0,
+			company_value: 0,
+		});
+
+		setLoading(true);
+		await loadSpecialitiesTypes(id, segment.id);
+		setLoading(false);
+	}
+
+	function changeType(type) {
+		const company_value = Number(type.value_type) * (Number(speciality.percentage) / 100);
+		const newSpeciality = {
+			...speciality,
+			speciality_type_id: type.id,
+			value_type: Number(type.value_type),
+			provider_value: Number(type.value_type) - company_value,
+			company_value,
+		};
+		console.log(newSpeciality)
+		setSpeciality(newSpeciality);
+	}
+
 	return (
 		<Container title={`Cadastro de especialidades`} loading={loading} showBack>
 			<FormContainer loading={loading} large>
@@ -163,11 +220,29 @@ const SpecialityCreateEdit = function () {
 
 						<div className="field-group">
 							<div className="field">
-								<Select label="Tipo" name="speciality_type_id" options={types} />
+								<Select
+									label="Segmento"
+									name="segment_id"
+									options={segments}
+									onChange={changeSegment}
+								/>
 							</div>
-
 							<div className="field">
-								<InputMoney name="value" label="Valor" />
+								<Select label="Tipo" name="speciality_type_id" options={types} onChange={changeType} />
+							</div>
+						</div>
+						<div className="field-group">
+							<div className="field">
+								<InputMoney name="value_type" label="Valor" disabled />
+							</div>
+							<div className="field">
+								<InputMoney name="percentage" label="Porcentagem" disabled />
+							</div>
+							<div className="field">
+								<InputMoney name="provider_value" label="Valor a receber" disabled />
+							</div>
+							<div className="field">
+								<InputMoney name="company_value" label="Valor UPIS" disabled />
 							</div>
 						</div>
 						<div className="field">

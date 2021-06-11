@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 export default function validation() {
 	const schema = Yup.object().shape({
 		description: Yup.string().max(1000, 'Máximo 1000 caracteres'),
-		value: Yup.string().required('O valor é obrigatório'),
+		//value: Yup.string().required('O valor é obrigatório'),
 		speciality_type_id: Yup.string().required('O tipo é obrigatório'),
 		street: Yup.string().optional().max(250, 'Máximo 250 caracteres'),
 		zip_code: Yup.string().optional().max(10, 'Máximo 10 caracteres'),

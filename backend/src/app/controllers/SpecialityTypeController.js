@@ -13,9 +13,12 @@ class SpecialityTypeController {
       orderBy,
       sorting,
       limit,
+      segment_id,
     } = req.query;
 
     let whereStatement = {};
+
+    if (segment_id) whereStatement.segment_id = segment_id;
 
     if (name)
       whereStatement.name = {
@@ -61,8 +64,6 @@ class SpecialityTypeController {
   async find(req, res) {
     const { id } = req.params;
 
-    const { roules } = req;
-
     const speciality = await SpecialityType.findByPk(id);
 
     if (!speciality) {
@@ -74,7 +75,6 @@ class SpecialityTypeController {
 
   async store(req, res) {
     try {
-
       const specialityExist = await SpecialityType.findOne({
         where: { name: req.body.name },
       });
@@ -168,19 +168,22 @@ class SpecialityTypeController {
   }
 
   async list(req, res) {
-    const { active } = req.query;
+    const { active, segment_id } = req.query;
 
     let whereStatement = {};
+    if (segment_id) whereStatement.segment_id = segment_id;
+
     if (active != undefined)
       whereStatement.active = active === 'true' ? true : false;
 
     const types = await SpecialityType.findAll({
       order: ['name'],
-      attributes: ['id', 'name'],
+      attributes: ['id', 'name', 'value'],
       where: whereStatement,
     });
 
     const typesFormated = types.map(c => ({
+      value_type: c.value,
       id: c.id,
       title: c.name,
       value: c.id,

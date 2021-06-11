@@ -23,7 +23,7 @@ function Item({ item, onDeleteClick, onUpdateClick }) {
 			{item.segment && (
 				<p>
 					<span>{item.segment.name}</span>
-					<span>Porcentagem {item.segment.percentage}%</span>
+					<span>Porcentagem da empresa {item.segment.percentage}% ({item.valueCompany})</span>
 				</p>
 			)}
 			<InfoStatus>

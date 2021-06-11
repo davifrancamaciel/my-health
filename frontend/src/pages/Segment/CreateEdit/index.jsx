@@ -8,11 +8,14 @@ import Container from 'components/_layouts/Container';
 import SubmitButton from 'components/SubmitButton';
 import FormContainer from 'components/_layouts/FormContainer';
 import Input from 'components/Inputs/Input';
+import InputMoney from 'components/Inputs/InputMoney';
+
 import showToast from 'Utils/showToast';
 
 import api from 'services/api';
 import history from 'services/browserhistory';
 import getValidationErrors from 'Utils/getValidationErrors';
+import { priceToNumber } from 'Utils/formatPrice';
 
 import validation from './validation';
 
@@ -48,6 +51,7 @@ const SegmentCreateEdit = function () {
 			const saveSegment = {
 				...data,
 				id: id ? Number(id) : 0,
+				percentage: priceToNumber(data.percentage),
 				active,
 			};
 
@@ -82,7 +86,7 @@ const SegmentCreateEdit = function () {
 								<Input name="name" label="Nome" />
 							</div>
 							<div className="field">
-								<Input name="percentage" label="Porcentagem" />
+								<InputMoney name="percentage" label="Porcentagem para a empresa"/>
 							</div>
 						</div>
 						<FormControlLabel

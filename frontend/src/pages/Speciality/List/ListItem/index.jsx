@@ -17,7 +17,7 @@ function Item({ item, onDeleteClick, onUpdateClick }) {
 			<header>
 				<Info>
 					<strong>{item.type.name}</strong>
-					<span>{item.valueFormated}</span>
+					<span>{item.type.segment.name}</span>
 				</Info>
 				<Actions>
 					<button className="edit" onClick={() => onUpdateClick(item.id)}>
@@ -29,9 +29,17 @@ function Item({ item, onDeleteClick, onUpdateClick }) {
 				</Actions>
 			</header>
 
-			<ResponsiveText>{item.description}</ResponsiveText>
+			<p>
+				<span>Valor cobrado {item.valueFormated}</span>
+			</p>
+			<p>
+				<span>Minha comissão {item.valueProviderFormated}</span>
+				<span>Comissão UPIS {item.valueCompanyFormated}</span>
+			</p>
 			<ResponsiveText>{item.days ? `Dias disponiveis ${item.days}` : 'Nenhum dia disponível'}</ResponsiveText>
-			<ResponsiveText>{item.street} {item.neighborhood} {item.city} {item.complement}</ResponsiveText>
+			<ResponsiveText>
+				{item.street} {item.neighborhood} {item.city} {item.complement}
+			</ResponsiveText>
 			<InfoStatus>
 				<ExpiredStatus>{item.createdAtFormatedDate}</ExpiredStatus>
 				<ActiveStatus active={item.active}>{`${item.active ? 'Disponível' : 'Indisponível'}`}</ActiveStatus>

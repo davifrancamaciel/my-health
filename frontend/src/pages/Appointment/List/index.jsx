@@ -19,27 +19,14 @@ import { Search, ContainerMapSelectProvider, Map, Location } from './styles';
 function Appointment() {
 	const profile = useSelector((state) => state.user.profile);
 	const [types, setTypes] = useState([]);
+	const [allTypes, setAllTypes] = useState([]);
+	const [segments, setSegments] = useState([]);
 	const [isLoadedPosition, setIsLoadedPosition] = useState(false);
 	const [useCurrentLocation, setUseCurrentLocation] = useState(false);
 	const [currentLocation, setCurrentLocation] = useState([0, 0]);
 	const [positionSearchMap, setPositionSearchMap] = useState([profile.latitude || 0, profile.longitude || 0]);
 	const [specialities, setSpecialityies] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const [segments, setSegments] = useState([]);
-
-	useEffect(() => {
-		async function loadSegments() {
-			try {
-				const response = await api.get('segments-list', {
-					params: { active: true },
-				});
-				setSegments(response.data);
-			} catch (error) {
-				getValidationErrors(error);
-			}
-		}
-		loadSegments();
-	}, []);		
 
 	useEffect(() => {
 		if (!!profile.latitude && !!Number(profile.latitude) && !!profile.longitude && !!Number(profile.longitude)) {
@@ -57,6 +44,7 @@ function Appointment() {
 			const { latitude, longitude } = postition.coords;
 			setCurrentLocation([latitude, longitude]);
 		});
+		loadSegmentsAndSpecialitiesTypes();
 	}, []);
 
 	useEffect(() => {
@@ -75,22 +63,23 @@ function Appointment() {
 			}
 		}
 	}, [useCurrentLocation]);
-	
-	
-	async function loadSpecialitiesTypes(segment_id) {
+
+	async function loadSegmentsAndSpecialitiesTypes() {
 		try {
-			setLoading(true);
-			const response = await api.get('specialities-types-list', {
-				params: { active: true , segment_id},
-			});
-
-			setTypes(response.data);
-
-			setLoading(false);
+			const [respSegments, respTypes] = await Promise.all([
+				api.get('segments-list', { params: { active: true } }),
+				api.get('specialities-types-list', { params: { active: true } }),
+			]);
+			setSegments(respSegments.data);
+			setAllTypes(respTypes.data);
 		} catch (error) {
-			setLoading(false);
 			getValidationErrors(error);
 		}
+	}
+
+	function filterSpecialityTypes(segment_id) {
+		const typesFilter = allTypes.filter((x) => x.segment_id === segment_id);
+		setTypes(typesFilter);
 	}
 
 	async function loadSpecialities(id) {
@@ -143,12 +132,12 @@ function Appointment() {
 		<Container loading={loading} full>
 			<ContainerMapSelectProvider>
 				<Search>
-					<h1>Agende uma consulta pertinho de você</h1>
+					<h1>Agende pertinho de você</h1>
 					<Select
 						placeholder="Informe um segmento"
 						name="segment_id"
 						options={segments}
-						onSelected={(e) => loadSpecialitiesTypes(e.value)}
+						onSelected={(e) => filterSpecialityTypes(e.value)}
 						color={PRIMARY_COLOR}
 					/>
 					<Select

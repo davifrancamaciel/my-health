@@ -2,6 +2,8 @@ import User from '../../models/User';
 import Appointment from '../../models/Appointment';
 import Speciality from '../../models/Speciality';
 import SpecialityType from '../../models/SpecialityType';
+import Segment from '../../models/Segment';
+
 const attributesUser = [
   'name',
   'image',
@@ -44,6 +46,13 @@ class AppointmentFindService {
               model: SpecialityType,
               as: 'type',
               attributes: ['name'],
+              include: [
+                {
+                  model: Segment,
+                  as: 'segment',
+                  attributes: ['name'],
+                },
+              ],
             },
           ],
         },

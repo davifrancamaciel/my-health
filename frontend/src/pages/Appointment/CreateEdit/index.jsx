@@ -52,7 +52,7 @@ function CreateEdit() {
 
 				setSpecialityProvider({
 					...response.data,
-					priceFormated: formatPrice(response.data.value),
+					priceFormated: formatPrice(response.data.type.value),
 					urlWhatsapp: urlMessageWhatsapp(response.data.user.whatsapp),
 				});
 

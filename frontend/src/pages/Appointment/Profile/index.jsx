@@ -9,6 +9,7 @@ function Profile({ profile }) {
 		<Container>
 			<img src={profile.user.url} alt={profile.user.name} />
 			<ProfileInfo>
+				<strong>Segmento {profile.type.segment.name}</strong>
 				<strong>Especialidade {profile.type.name}</strong>
 				<strong>{profile.user.name}</strong>
 				<strong>

@@ -1,4 +1,5 @@
 import User from '../models/User';
+import Segment from '../models/Segment';
 import SpecialityType from '../models/SpecialityType';
 import Speciality from '../models/Speciality';
 
@@ -25,7 +26,15 @@ class SpecialityProviderController {
           {
             model: SpecialityType,
             as: 'type',
-            attributes: ['name'],
+            attributes: ['name', 'value'],
+            include: [
+              {
+                model: Segment,
+                as: 'segment',
+                attributes: ['name', 'percentage'],
+                where: { active: true },
+              },
+            ],
             where: { active: true },
           },
           {

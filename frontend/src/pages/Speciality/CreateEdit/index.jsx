@@ -30,6 +30,7 @@ const SpecialityCreateEdit = function () {
 	const [speciality, setSpeciality] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [types, setTypes] = useState([]);
+	const [allTypes, setAllTypes] = useState([]);
 	const [zipCodeChanged, setZipCodeChanged] = useState('');
 	const [selectedLocationLoaded, setSelectedLocationLoaded] = useState([0, 0]);
 	const [selectedLocationClicked, setSelectedLocationClicked] = useState([0, 0]);
@@ -45,21 +46,6 @@ const SpecialityCreateEdit = function () {
 			history.goBack();
 			showToast.error('Para acessar esta as especialidades você precisa ser um Médico');
 		}
-		async function loadSegments() {
-			try {
-				let params = {};
-				if (!id) {
-					params.active = true;
-				}
-				const response = await api.get('segments-list', {
-					params: params,
-				});
-				setSegments(response.data);
-			} catch (error) {
-				getValidationErrors(error);
-			}
-		}
-		loadSegments();
 	}, []);
 
 	useEffect(() => {
@@ -67,10 +53,13 @@ const SpecialityCreateEdit = function () {
 			async function loadSpeciality(id) {
 				try {
 					setLoading(true);
+
+					const [, respTypes] = await loadSegmentsAndSpecialitiesTypes();
+
 					const response = await api.get(`specialities/${id}`);
 					const { type } = response.data;
+					filterSpecialityTypes(respTypes.data, type.segment_id);
 
-					console.log(response.data);
 					const company_value = type.value * (type.segment.percentage / 100);
 					setSpeciality({
 						...response.data,
@@ -80,8 +69,6 @@ const SpecialityCreateEdit = function () {
 						provider_value: type.value - company_value,
 						company_value,
 					});
-
-					loadSpecialitiesTypes(id, type.segment_id);
 
 					setActive(response.data.active);
 					const { scheduleFormated } = response.data;
@@ -99,6 +86,7 @@ const SpecialityCreateEdit = function () {
 			}
 			loadSpeciality(id);
 		} else {
+			loadSegmentsAndSpecialitiesTypes();
 			setShowMap(true);
 		}
 	}, [id]);
@@ -118,20 +106,52 @@ const SpecialityCreateEdit = function () {
 		loadZipCode();
 	}, [zipCodeChanged]);
 
-	async function loadSpecialitiesTypes(id, segment_id) {
+	async function loadSegmentsAndSpecialitiesTypes() {
 		try {
-			let params = { segment_id };
+			let params = {};
 			if (!id) {
 				params.active = true;
 			}
-
-			const response = await api.get('specialities-types-list', {
-				params: params,
-			});
-			setTypes(response.data);
+			const [respSegments, respTypes] = await Promise.all([
+				api.get('segments-list', { params }),
+				api.get('specialities-types-list', { params }),
+			]);
+			setSegments(respSegments.data);
+			setAllTypes(respTypes.data);
+			return [respSegments, respTypes];
 		} catch (error) {
 			getValidationErrors(error);
 		}
+	}
+
+	async function changeSegment(segment) {
+		setSpeciality({
+			...speciality,
+			segment_id: segment.id,
+			speciality_type_id: 0,
+			percentage: segment.percentage,
+			value_type: 0,
+			provider_value: 0,
+			company_value: 0,
+		});
+		filterSpecialityTypes(allTypes, segment.id);
+	}
+
+	function changeType(type) {
+		const company_value = Number(type.value_type) * (Number(speciality.percentage) / 100);
+		const newSpeciality = {
+			...speciality,
+			speciality_type_id: type.id,
+			value_type: Number(type.value_type),
+			provider_value: Number(type.value_type) - company_value,
+			company_value,
+		};
+		setSpeciality(newSpeciality);
+	}
+
+	function filterSpecialityTypes(allTypes, segment_id) {
+		const typesFilter = allTypes.filter((x) => x.segment_id === segment_id);
+		setTypes(typesFilter);
 	}
 
 	async function handleSubmit(data) {
@@ -170,35 +190,6 @@ const SpecialityCreateEdit = function () {
 			getValidationErrors(error);
 			setLoading(false);
 		}
-	}
-
-	async function changeSegment(segment) {
-		setSpeciality({
-			...speciality,
-			segment_id: segment.id,
-			speciality_type_id: 0,
-			percentage: segment.percentage,
-			value_type: 0,
-			provider_value: 0,
-			company_value: 0,
-		});
-
-		setLoading(true);
-		await loadSpecialitiesTypes(id, segment.id);
-		setLoading(false);
-	}
-
-	function changeType(type) {
-		const company_value = Number(type.value_type) * (Number(speciality.percentage) / 100);
-		const newSpeciality = {
-			...speciality,
-			speciality_type_id: type.id,
-			value_type: Number(type.value_type),
-			provider_value: Number(type.value_type) - company_value,
-			company_value,
-		};
-		console.log(newSpeciality)
-		setSpeciality(newSpeciality);
 	}
 
 	return (

@@ -24,6 +24,10 @@ export const Search = styled.div`
 		margin-bottom: 30px;
 	}
 
+	.react-select__control {
+		margin-bottom: 15px;
+	}
+
 	@media (max-width: 720px) {
 		margin-top: 50px;
 		max-width: 100%;

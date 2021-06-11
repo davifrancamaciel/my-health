@@ -178,16 +178,17 @@ class SpecialityTypeController {
 
     const types = await SpecialityType.findAll({
       order: ['name'],
-      attributes: ['id', 'name', 'value'],
+      attributes: ['id', 'name', 'value','segment_id'],
       where: whereStatement,
     });
 
-    const typesFormated = types.map(c => ({
-      value_type: c.value,
-      id: c.id,
-      title: c.name,
-      value: c.id,
-      label: c.name,
+    const typesFormated = types.map(i => ({
+      segment_id: i.segment_id,
+      value_type: i.value,
+      id: i.id,
+      title: i.name,
+      value: i.id,
+      label: i.name,
     }));
 
     return res.json(typesFormated);

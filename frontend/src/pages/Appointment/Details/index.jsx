@@ -53,13 +53,13 @@ function Details() {
 
 			const dataFormated = {
 				...response.data,
-				priceFormated: formatPrice(data.speciality.value),
+				priceFormated: formatPrice(data.value),
 				urlWhatsapp: urlMessageWhatsapp(data[toAppointmentProfile].whatsapp),
 				user: data[toAppointmentProfile],
 				titlePosition,
 				dateFormatedComplete,
 			};
-			
+
 			setAppointment(dataFormated);
 
 			setLoading(false);
@@ -126,7 +126,10 @@ function Details() {
 			{appointment.user && (
 				<ContainerDetail>
 					<header>
-						<h2>Especialidade {appointment.speciality.type.name}</h2>
+						<div>
+							<h2>Especialidade {appointment.speciality.type.name}</h2>
+							<h5>Segmento {appointment.speciality.type.segment.name}</h5>
+						</div>
 						{!appointment.canceled_at && (
 							<Chip
 								icon={<FiCalendar size={20} />}

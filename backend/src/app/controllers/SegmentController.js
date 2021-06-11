@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import Segment from '../models/Segment';
+import SpecialityType from '../models/SpecialityType';
 import { startOfDay, endOfDay, parseISO } from 'date-fns';
 
 class SegmentController {
@@ -128,6 +129,13 @@ class SegmentController {
     try {
       const { id } = req.params;
 
+      const type = await SpecialityType.findOne({ where: { segment_id: id } });
+      if (type) {
+        return res.status(401).json({
+          error:
+            'Não é possivel excluir um registro que já possui itens vinculados',
+        });
+      }
       const segment = await Segment.findByPk(id);
 
       if (!segment) {

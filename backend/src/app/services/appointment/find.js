@@ -32,7 +32,6 @@ class AppointmentFindService {
           as: 'speciality',
           attributes: [
             'id',
-            'value',
             'zip_code',
             'state',
             'city',

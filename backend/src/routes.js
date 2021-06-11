@@ -35,6 +35,7 @@ import SpecialityTypeController from './app/controllers/SpecialityTypeController
 import SegmentController from './app/controllers/SegmentController';
 
 import ForgotController from './app/controllers/ForgotController';
+import ReportController from './app/controllers/ReportController';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -81,6 +82,8 @@ routes.delete('/specialities/:id', SpecialityController.delete);
 
 routes.get('/specialities-types-list', SpecialityTypeController.list);
 routes.get('/segments-list', SegmentController.list);
+
+routes.get('/report', ReportController.index);
 
 routes.use(roulesMiddleware);
 routes.post('/segments', SegmentController.store);

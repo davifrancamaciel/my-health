@@ -20,6 +20,7 @@ import history from 'services/browserhistory';
 import getValidationErrors from 'Utils/getValidationErrors';
 import { priceToNumber } from 'Utils/formatPrice';
 import { schedule, daysWeek } from 'Utils/schedule';
+import { getTypesSegment } from 'Utils/typeSegmentsConstants';
 
 import validation from './validation';
 
@@ -116,7 +117,11 @@ const SpecialityCreateEdit = function () {
 				api.get('segments-list', { params }),
 				api.get('specialities-types-list', { params }),
 			]);
-			setSegments(respSegments.data);
+			const data = respSegments.data.map((item) => {
+				const type = getTypesSegment().find((x) => x.value === item.type).label;
+				return { ...item, label: `${type} ${item.label} (${item.percentage}%)` };
+			});
+			setSegments(data);
 			setAllTypes(respTypes.data);
 			return [respSegments, respTypes];
 		} catch (error) {

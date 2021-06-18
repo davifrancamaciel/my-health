@@ -11,7 +11,7 @@ class AppointmentController {
   async index(req, res) {
     const { userId } = req;
 
-    const { speciality_type_id, latitude, longitude, page = 1 } = req.query;
+    const { speciality_type_id, provider_name, page = 1 } = req.query;
 
     let whereStatement = {
       active: true,
@@ -20,13 +20,20 @@ class AppointmentController {
       },
     };
 
+    let whereStatementProvider = {};
+
     if (speciality_type_id)
       whereStatement.speciality_type_id = speciality_type_id;
 
+    if (provider_name)
+      whereStatementProvider.name = {
+        [Op.iLike]: `%${provider_name}%`,
+      };
+
     const { count, rows } = await Speciality.findAndCountAll({
       where: whereStatement,
-      limit: 20,
-      offset: (page - 1) * 2000,
+      limit: 2000,
+      offset: (page - 1) * 20,
       attributes: ['id', 'latitude', 'longitude'],
       include: [
         {
@@ -39,7 +46,7 @@ class AppointmentController {
           model: User,
           as: 'user',
           attributes: ['id', 'name', 'image', 'url', 'whatsapp', 'email'],
-          where: { provider: true, active: true },
+          where: { provider: true, active: true, ...whereStatementProvider },
         },
       ],
     });

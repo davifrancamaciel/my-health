@@ -6,6 +6,7 @@ class Segment extends Model {
       {
         percentage: Sequelize.NUMBER,
         name: Sequelize.STRING,
+        type: Sequelize.STRING,
         active: Sequelize.BOOLEAN,
       },
       { sequelize }

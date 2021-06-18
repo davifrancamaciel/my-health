@@ -1,77 +1,88 @@
-import React, { useEffect, useState } from 'react'
-import { Form } from '@rocketseat/unform'
-import { isBefore } from 'date-fns'
+import React, { useEffect, useState } from 'react';
+import { Form } from '@rocketseat/unform';
 
-import Input from 'components/Inputs/Input'
-import Datepicker from 'components/Inputs/Datepicker'
-import SubmitButton from 'components/SubmitButton'
-import FormSearchContainer from 'components/_layouts/FormSearchContainer'
+import Input from 'components/Inputs/Input';
+import SubmitButton from 'components/SubmitButton';
+import FormSearchContainer from 'components/_layouts/FormSearchContainer';
 import Select from 'components/Inputs/Select';
 
-import api from 'services/api'
-import getValidationErrors from 'Utils/getValidationErrors'
-import showToast from 'Utils/showToast'
+import api from 'services/api';
+import getValidationErrors from 'Utils/getValidationErrors';
+import { getTypesSegment } from 'Utils/typeSegmentsConstants';
 
-export default function Search ({ onSearch, setPage }) {
-  const [options, setOptions] = useState([])
-  const [startDate, setStartDate] = useState()
-  const [endDate, setEndDate] = useState()
+export default function Search({ onSearch, setPage }) {
+	const [typesSegment] = useState(getTypesSegment());
+	const [segments, setSegments] = useState([]);
+	const [allSegments, setAllSegments] = useState([]);
+	const [typesSpecialities, setTypesSpecialities] = useState([]);
+	const [allTypesSpecialities, setAllTypesSpecialities] = useState([]);
 
-  useEffect(() => {
-    async function loadSpecialitiesTypes () {
-      try {
-        const response = await api.get('specialities-types-list', {
-					params: { active: true },
-				})
-        setOptions(response.data)
-      } catch (error) {
-        getValidationErrors(error)
-      }
-    }
-    loadSpecialitiesTypes()
-  }, [])
+	useEffect(() => {
+		loadSegmentsAndSpecialitiesTypes();
+	}, []);
 
-  function handleSubmit (data) {
-    if (isBefore(endDate, startDate)) {
-      showToast.error('A data inicial não pode ser maior que a final.')
-      return
-    }
-    onSearch(data)
-    setPage(1)
-  }
+	async function loadSegmentsAndSpecialitiesTypes() {
+		try {
+			const [respSegments, respTypes] = await Promise.all([
+				api.get('segments-list', { params: { active: true } }),
+				api.get('specialities-types-list', { params: { active: true } }),
+			]);
+			setAllSegments(respSegments.data);
+			setAllTypesSpecialities(respTypes.data);
+		} catch (error) {
+			getValidationErrors(error);
+		}
+	}
 
-  return (
-    <FormSearchContainer>
-      <Form onSubmit={handleSubmit}>
-        <div className='field-group'>
-          <div className='field'>
-            <Select label="Tipo" name="speciality_type_id" options={options} />
-          </div>
-          <div className='field'>
-            <Datepicker
-              name='start_date'
-              label='Data de'
-              selected={startDate}
-              onChange={setStartDate}
-            />
-          </div>
-          <div className='field'>
-            <Datepicker
-              name='end_date'
-              label='Data ate'
-              selected={endDate}
-              onChange={setEndDate}
-            />
-          </div>
-          <div className='field'>
-            <Input name='description' label='Descrição' />
-          </div>
-          
-          <div className='field'>
-            <SubmitButton text={'Buscar'} />
-          </div>
-        </div>
-      </Form>
-    </FormSearchContainer>
-  )
+	function filterSegments(type_segment) {
+		const typesFilter = allSegments.filter((x) => x.type === type_segment);
+		setSegments(typesFilter);
+		setTypesSpecialities([]);
+	}
+
+	function filterSpecialityTypes(segment_id) {
+		const typesFilter = allTypesSpecialities.filter((x) => x.segment_id === segment_id);
+		setTypesSpecialities(typesFilter);
+	}
+
+	function handleSubmit(data) {
+		onSearch(data);
+		setPage(1);
+	}
+
+	return (
+		<FormSearchContainer>
+			<Form onSubmit={handleSubmit}>
+				<div className="field-group">
+					<div className="field">
+						<Select
+							label="Tipo"
+							name="type"
+							options={typesSegment}
+							onSelected={(e) => filterSegments(e.value)}
+						/>
+					</div>
+					<div className="field">
+						<Select
+							label="Segmento"
+							name="segment_id"
+							options={segments}
+							onSelected={(e) => filterSpecialityTypes(e.value)}
+						/>
+					</div>
+					<div className="field">
+						<Select label="Especialidade" name="speciality_type_id" options={typesSpecialities} />
+					</div>
+
+					<div className="field">
+						<Input name="description" label="Descrição" />
+					</div>
+
+					<div className="field">
+						<SubmitButton text={'Buscar'} />
+					</div>
+				</div>
+			</Form>
+		</FormSearchContainer>
+	);
 }

@@ -15,6 +15,7 @@ import showToast from 'Utils/showToast';
 import getValidationErrors from 'Utils/getValidationErrors';
 import urlMessageWhatsapp from 'Utils/urlMessageWhatsapp';
 import { formatPrice } from 'Utils/formatPrice';
+import { getTypesSegment } from 'Utils/typeSegmentsConstants';
 
 import Container from 'components/_layouts/Container';
 import { ContainerDetail, Appointment, ProfileInfo, Profile } from './styles';
@@ -34,9 +35,7 @@ function Details() {
 	async function loadAppointment(id) {
 		try {
 			setLoading(true);
-			const response = await api.get(`/appointments/${id}`);
-
-			const { data } = response;
+			const { data } = await api.get(`/appointments/${id}`);
 
 			let toAppointmentProfile = 'provider';
 			let titlePosition = 'Médico';
@@ -51,15 +50,29 @@ function Details() {
 				locale: pt,
 			});
 
+			const { speciality } = data;
+			
+			const type = getTypesSegment().find((x) => x.value === speciality.type.segment.type).label;
+
 			const dataFormated = {
-				...response.data,
+				...data,
+				speciality: {
+					...speciality,
+					type: {
+						...speciality.type,
+						segment: {
+							...speciality.type.segment,
+							name: `${type} ${speciality.type.segment.name.toLowerCase()}`,
+						},
+					},
+				},
 				priceFormated: formatPrice(data.value),
 				urlWhatsapp: urlMessageWhatsapp(data[toAppointmentProfile].whatsapp),
 				user: data[toAppointmentProfile],
 				titlePosition,
 				dateFormatedComplete,
 			};
-
+			
 			setAppointment(dataFormated);
 
 			setLoading(false);

@@ -31,7 +31,7 @@ class SpecialityProviderController {
               {
                 model: Segment,
                 as: 'segment',
-                attributes: ['name', 'percentage'],
+                attributes: ['name', 'percentage', 'type'],
                 where: { active: true },
               },
             ],

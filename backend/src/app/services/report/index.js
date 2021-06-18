@@ -1,4 +1,4 @@
-import { startOfDay, endOfDay } from 'date-fns';
+import { startOfDay, endOfDay, parseISO } from 'date-fns';
 import Segment from '../../models/Segment';
 import SpecialityType from '../../models/SpecialityType';
 import Speciality from '../../models/Speciality';
@@ -7,35 +7,64 @@ import User from '../../models/User';
 import { Op } from 'sequelize';
 
 class ReportService {
-  async run({ searchDate, speciality_id, user_id }) {
+  async run({
+    start_date,
+    end_date,
+    speciality_id,
+    speciality_type_id,
+    segment_id,
+    user_id,
+    provider_id,
+    orderBy,
+    sorting,
+  }) {
     const user = await User.findOne({
       where: { id: user_id },
       attributes: ['roules'],
     });
 
-    let whereStatement = {
-      date: {
-        [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
-      },
-    };
+    let whereStatement = {};
+    let whereStatementSpeciality = {};
+    let whereStatementSpecialityType = {};
+
+    if (speciality_type_id)
+      whereStatementSpeciality.speciality_type_id = speciality_type_id;
+
+    if (segment_id) whereStatementSpecialityType.segment_id = segment_id;
+
+    if (provider_id) whereStatement.provider_id = provider_id;
 
     if (user.roules !== 'ADMIN') {
       whereStatement.provider_id = user_id;
     }
+
+    if (speciality_id) whereStatement.speciality_id = speciality_id;
+
+    if (start_date)
+      whereStatement.date = {
+        [Op.gte]: startOfDay(parseISO(start_date)),
+      };
+    if (end_date)
+      whereStatement.date = {
+        [Op.lte]: endOfDay(parseISO(end_date)),
+      };
+    if (start_date && end_date)
+      whereStatement.date = {
+        [Op.between]: [
+          startOfDay(parseISO(start_date)),
+          endOfDay(parseISO(end_date)),
+        ],
+      };
+
+    const orderQuery = orderBy || 'date';
+    const sortngQuery = sorting || 'DESC';
+
     const appointments = await Appointment.findAll({
       where: whereStatement,
       // where: {
-      //   // [Op.or]: [
-      //   //   { provider_id: speciality.user_id },
-      //   //   { user_id: speciality.user_id },
-      //   //   { provider_id: user_id },
-      //   //   { user_id: user_id },
-      //   // ],
-      //   // canceled_at: null,
-      //   // date: {
-      //   //   [Op.between]: [startOfDay(searchDate), endOfDay(searchDate)],
-      //   // },
-      // },
+      //  canceled_at: null,
+
+      order: [[orderQuery, sortngQuery]],
       attributes: [
         'id',
         'date',
@@ -59,11 +88,13 @@ class ReportService {
           model: Speciality,
           as: 'speciality',
           attributes: ['id', 'state', 'city', 'neighborhood', 'street'],
+          where: whereStatementSpeciality,
           include: [
             {
               model: SpecialityType,
               as: 'type',
               attributes: ['name'],
+              where: whereStatementSpecialityType,
               include: [
                 {
                   model: Segment,

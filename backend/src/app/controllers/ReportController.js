@@ -3,19 +3,23 @@ import ReportService from '../services/report/index';
 
 class ReportController {
   async index(req, res) {
-    const { date } = req.query;
-
-    if (!date) {
-      return res.status(400).json({ error: 'A data está inválida' });
-    }
-
-    const searchDate = parseISO(date);
-    //const speciality_id = req.params.specialityId;
+    const {
+      start_date,
+      end_date,
+      speciality_id,
+      speciality_type_id,
+      segment_id,
+      provider_id,
+    } = req.query;
 
     const appointments = await ReportService.run({
-      searchDate,
-      //speciality_id,
+      speciality_id,
+      speciality_type_id,
+      segment_id,
+      start_date,
+      end_date,
       user_id: req.userId,
+      provider_id,
     });
 
     return res.json(appointments);

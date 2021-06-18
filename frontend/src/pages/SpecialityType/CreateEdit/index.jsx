@@ -16,6 +16,7 @@ import { priceToNumber } from 'Utils/formatPrice';
 import api from 'services/api';
 import history from 'services/browserhistory';
 import getValidationErrors from 'Utils/getValidationErrors';
+import { getTypesSegment } from 'Utils/typeSegmentsConstants';
 
 import validation from './validation';
 
@@ -36,7 +37,11 @@ const SpecialityCreateEdit = function () {
 				const response = await api.get('segments-list', {
 					params: params,
 				});
-				setSegments(response.data);
+				const data = response.data.map((item) => {
+					const type = getTypesSegment().find((x) => x.value === item.type).label;
+					return { ...item, label: `${type} ${item.label} (${item.percentage}%)` };
+				});
+				setSegments(data);
 			} catch (error) {
 				getValidationErrors(error);
 			}
@@ -102,11 +107,11 @@ const SpecialityCreateEdit = function () {
 						</legend>
 
 						<div className="field">
-							<Input name="name" label="Nome" />
+							<Select label="Segmento" name="segment_id" options={segments} />
 						</div>
 						<div className="field-group">
 							<div className="field">
-								<Select label="Segmento" name="segment_id" options={segments} />
+								<Input name="name" label="Nome" />
 							</div>
 							<div className="field">
 								<InputMoney name="value" label="Valor" />

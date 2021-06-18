@@ -20,6 +20,7 @@ import SegmentCreateEdit from '../pages/Segment/CreateEdit';
 import SpecialityTypeList from '../pages/SpecialityType/List';
 import SpecialityTypeCreateEdit from '../pages/SpecialityType/CreateEdit';
 
+import Report from '../pages/Report';
 import Schedule from '../pages/Schedule';
 import Appointment from '../pages/Appointment/List';
 import AppointmentCreateEdit from '../pages/Appointment/CreateEdit';
@@ -41,13 +42,16 @@ const Routes = () => {
 			<Route exact path="/dashboard2" component={Dashboard} isPrivate />
 			<Route exact path="/dashboard" component={Appointment} isPrivate />
 
-			<Route exact path="/schedule" component={Schedule} isPrivate />
 
 			<Route exact path="/appointment" component={Appointment} isPrivate />
 			<Route exact path="/appointment/:specialityId/create" component={AppointmentCreateEdit} isPrivate />
 			<Route exact path="/appointment/details/:id" component={AppointmentDatails} isPrivate />
 
+			<Route exact path="/schedule" component={Schedule} isPrivate />
+			
 			<Route exact path="/profile" component={Profile} isPrivate />
+
+			<Route exact path="/report" component={Report} isPrivate />
 
 			<Route exact path="/speciality" component={SpecialityList} isPrivate />
 			<Route exact path="/speciality/create" component={SpecialityCreateEdit} isPrivate />

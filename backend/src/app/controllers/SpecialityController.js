@@ -15,18 +15,19 @@ class SpecialityController {
 
     const {
       description,
-      speciality_type_id,
       start_date,
       end_date,
       page = 1,
       orderBy,
       sorting,
       limit,
+      type,
+      segment_id,
+      speciality_type_id,
     } = req.query;
 
     const { count, rows } = await SpecialityIndexService.run({
       description,
-      speciality_type_id,
       start_date,
       end_date,
       page,
@@ -34,6 +35,9 @@ class SpecialityController {
       sorting,
       limit,
       user_id: userId,
+      type,
+      segment_id,
+      speciality_type_id,
     });
 
     res.header('X-Total-Count', count);

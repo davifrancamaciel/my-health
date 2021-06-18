@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const orderByOptionsDefault = [
-  { value: 'createdAt', label: 'Data de cadastro' }
+  { value: 'createdAt', label: 'Data de cadastro' },
+  { value: 'updatedAt', label: 'Data de atualização' },
 ]
 
 export default function Order ({

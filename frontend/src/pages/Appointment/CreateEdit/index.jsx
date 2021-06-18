@@ -29,6 +29,7 @@ import Container from 'components/_layouts/Container';
 import Profile from '../Profile';
 import showToast from 'Utils/showToast';
 import ShowConfirm from 'components/ShowConfirm';
+import { getTypesSegment } from 'Utils/typeSegmentsConstants';
 import { setNextDate, setPrevtDate, availableDay } from 'Utils/schedule';
 import { SheduleContainer, Time, Shedule } from './styles';
 
@@ -48,16 +49,24 @@ function CreateEdit() {
 			try {
 				setLoading(true);
 
-				const response = await api.get(`speciality-provider/${specialityId}`);
-
+				const { data } = await api.get(`speciality-provider/${specialityId}`);
+				const type = getTypesSegment().find((x) => x.value === data.type.segment.type).label;
+				
 				setSpecialityProvider({
-					...response.data,
-					priceFormated: formatPrice(response.data.type.value),
-					urlWhatsapp: urlMessageWhatsapp(response.data.user.whatsapp),
+					...data,
+					type: {
+						...data.type,
+						segment: {
+							...data.type.segment,
+							name: `${type} ${data.type.segment.name.toLowerCase()}`,
+						},
+					},
+					priceFormated: formatPrice(data.type.value),
+					urlWhatsapp: urlMessageWhatsapp(data.user.whatsapp),
 				});
 
-				if (!availableDay(date, response.data.schedule)) {
-					setDate(setNextDate(date, response.data.schedule));
+				if (!availableDay(date, data.schedule)) {
+					setDate(setNextDate(date, data.schedule));
 				} else {
 					loadSchedule(date);
 				}

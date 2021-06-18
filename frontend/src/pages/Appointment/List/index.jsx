@@ -6,6 +6,7 @@ import Switch from '@material-ui/core/Switch';
 
 import Container from 'components/_layouts/Container';
 import Select from 'components/Inputs/Select';
+import Input from 'components/Inputs/Input';
 import MapPositionList from 'components/MapPositionList';
 
 import api from 'services/api';
@@ -13,20 +14,25 @@ import getValidationErrors from 'Utils/getValidationErrors';
 import urlMessageWhatsapp from 'Utils/urlMessageWhatsapp';
 import showToast from 'Utils/showToast';
 import { PRIMARY_COLOR } from 'constants/colors';
+import { getTypesSegment } from 'Utils/typeSegmentsConstants';
 
 import { Search, ContainerMapSelectProvider, Map, Location } from './styles';
 
 function Appointment() {
 	const profile = useSelector((state) => state.user.profile);
-	const [types, setTypes] = useState([]);
-	const [allTypes, setAllTypes] = useState([]);
+	const [typesSegment] = useState(getTypesSegment());
 	const [segments, setSegments] = useState([]);
+	const [allSegments, setAllSegments] = useState([]);
+	const [typesSpecialities, setTypesSpecialities] = useState([]);
+	const [allTypesSpecialities, setAllTypesSpecialities] = useState([]);
 	const [isLoadedPosition, setIsLoadedPosition] = useState(false);
 	const [useCurrentLocation, setUseCurrentLocation] = useState(false);
 	const [currentLocation, setCurrentLocation] = useState([0, 0]);
 	const [positionSearchMap, setPositionSearchMap] = useState([profile.latitude || 0, profile.longitude || 0]);
 	const [specialities, setSpecialityies] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [provider_name, setProvider_name] = useState('');
+	const [selectedSpeciality, setSelectedSpeciality] = useState(0);
 
 	useEffect(() => {
 		if (!!profile.latitude && !!Number(profile.latitude) && !!profile.longitude && !!Number(profile.longitude)) {
@@ -67,19 +73,25 @@ function Appointment() {
 	async function loadSegmentsAndSpecialitiesTypes() {
 		try {
 			const [respSegments, respTypes] = await Promise.all([
-				api.get('segments-list', { params: { active: true } }),
+				api.get('segments-list', { params: { active: true, order: 'name' } }),
 				api.get('specialities-types-list', { params: { active: true } }),
 			]);
-			setSegments(respSegments.data);
-			setAllTypes(respTypes.data);
+			setAllSegments(respSegments.data);
+			setAllTypesSpecialities(respTypes.data);
 		} catch (error) {
 			getValidationErrors(error);
 		}
 	}
 
 	function filterSpecialityTypes(segment_id) {
-		const typesFilter = allTypes.filter((x) => x.segment_id === segment_id);
-		setTypes(typesFilter);
+		const typesFilter = allTypesSpecialities.filter((x) => x.segment_id === segment_id);
+		setTypesSpecialities(typesFilter);
+	}
+
+	function filterSegments(type_segment) {
+		const typesFilter = allSegments.filter((x) => x.type === type_segment);
+		setSegments(typesFilter);
+		setTypesSpecialities([]);
 	}
 
 	async function loadSpecialities(id) {
@@ -134,18 +146,34 @@ function Appointment() {
 				<Search>
 					<h1>Agende pertinho de você</h1>
 					<Select
-						placeholder="Informe um segmento"
+						placeholder="Selecione um tipo"
+						name="type"
+						options={typesSegment}
+						onSelected={(e) => filterSegments(e.value)}
+						color={PRIMARY_COLOR}
+					/>
+					<Select
+						placeholder="Selecione um segmento"
 						name="segment_id"
 						options={segments}
 						onSelected={(e) => filterSpecialityTypes(e.value)}
 						color={PRIMARY_COLOR}
 					/>
 					<Select
-						placeholder="Informe uma especialidade"
+						placeholder="Selecione uma especialidade"
 						name="speciality_type_id"
-						options={types}
-						onSelected={(e) => loadSpecialities(e.value)}
+						options={typesSpecialities}
+						onSelected={(e) => {
+							setSelectedSpeciality(e.value);
+							loadSpecialities(e.value);
+						}}
 						color={PRIMARY_COLOR}
+					/>
+					<Input
+						name="provider_name"
+						placeholder="Médico"
+						color={PRIMARY_COLOR}
+						onChange={(e) => console.log(e.target.value)}
 					/>
 					<Location>
 						<FormControlLabel

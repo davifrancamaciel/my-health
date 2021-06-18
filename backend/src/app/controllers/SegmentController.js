@@ -7,6 +7,7 @@ class SegmentController {
   async index(req, res) {
     const {
       name,
+      type,
       start_date,
       end_date,
       page = 1,
@@ -16,6 +17,8 @@ class SegmentController {
     } = req.query;
 
     let whereStatement = {};
+
+    if (type) whereStatement.type = type;
 
     if (name)
       whereStatement.name = {
@@ -65,13 +68,15 @@ class SegmentController {
 
   async store(req, res) {
     try {
+      const { name, type } = req.body;
+
       const segmentExist = await Segment.findOne({
-        where: { name: req.body.name },
+        where: { name, type },
       });
 
       if (segmentExist) {
         return res.status(400).json({
-          error: `Já existe uma segmento com este nome`,
+          error: `Já existe uma segmento com este nome e este tipo`,
         });
       }
 
@@ -91,15 +96,15 @@ class SegmentController {
 
   async update(req, res) {
     try {
-      const { id } = req.body;
+      const { id, name, type } = req.body;
 
       const segmentExist = await Segment.findOne({
-        where: { name: req.body.name },
+        where: { name, type },
       });
 
       if (segmentExist && segmentExist.id !== id) {
         return res.status(400).json({
-          error: `Já existe uma outro segmento com este nome`,
+          error: `Já existe uma outro segmento com este nome e este tipo`,
         });
       }
 
@@ -165,19 +170,22 @@ class SegmentController {
   }
 
   async list(req, res) {
-    const { active } = req.query;
+    const { active, order } = req.query;
 
     let whereStatement = {};
     if (active != undefined)
       whereStatement.active = active === 'true' ? true : false;
 
+    const orderBy = order ? order : 'type';
+
     const types = await Segment.findAll({
-      order: ['name'],
-      attributes: ['id', 'name', 'percentage'],
+      order: [orderBy],
+      attributes: ['id', 'name', 'percentage', 'type'],
       where: whereStatement,
     });
 
     const typesFormated = types.map(item => ({
+      type: item.type,
       percentage: item.percentage,
       id: item.id,
       title: item.name,

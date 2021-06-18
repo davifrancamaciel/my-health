@@ -17,49 +17,54 @@ import api from 'services/api';
 import history from 'services/browserhistory';
 import getValidationErrors from 'Utils/getValidationErrors';
 import showToast from 'Utils/showToast';
-import { getTypesSegment } from 'Utils/typeSegmentsConstants';
+import { formatPrice } from 'Utils/formatPrice';
 
 import { Main, Ul } from 'components/_layouts/ListContainer/styles';
 
-const orderByOptions = [
-	{ value: 'name', label: 'Nome' },
-	{ value: 'percentage', label: 'Porcentagem' },
-];
+const orderByOptions = [{ value: 'name', label: 'Nome' }];
 
-const SegmentList = function () {
+const SpecialityList = function () {
 	const [loading, setLoading] = useState(false);
 	const [search, setSearch] = useState();
 	const [noData, setNoData] = useState(false);
-	const [segments, setSegments] = useState([]);
+	const [itens, setItens] = useState([]);
 	const [total, setTotal] = useState(0);
 	const [page, setPage] = useState(1);
 	const [onChangeOrder, setOnChangeOrder] = useState();
 
 	useEffect(() => {
-		async function loadSpecialities() {
+		async function load() {
 			try {
 				setLoading(true);
 
-				const response = await api.get('segments', {
+				const response = await api.get('report', {
 					params: { ...search, page, ...onChangeOrder },
 				});
+				console.log(response.data)
+				// const data = response.data.map((appointment) => {
+				// 	const { percentage } = appointment.segment;
+				// 	const valueCompany = appointment.value * (percentage / 100);
 
-				const data = response.data.rows.map((segment) => {
-					const type = getTypesSegment().find((x) => x.value === segment.type).label;
-					return {
-						...segment,
-						name: `${type} ${segment.name}`,
-						createdAtFormatedDate: `Cadastrado no dia ${format(parseISO(segment.createdAt), "d 'de' MMMM", {
-							locale: pt,
-						})}`,
-					};
-				});
+				// 	return {
+				// 		...appointment,
+				// 		priceFormated: formatPrice(appointment.value),
+				// 		valueCompany: formatPrice(valueCompany),
+				// 		createdAtFormatedDate: `Cadastrada no dia ${format(
+				// 			parseISO(appointment.createdAt),
+				// 			"d 'de' MMMM",
+				// 			{
+				// 				locale: pt,
+				// 			}
+				// 		)}`,
+				// 	};
+				// });
 
-				if (page > 1) setSegments([...segments, ...data]);
-				else setSegments(data);
+				// if (page > 1) setItens([...itens, ...data]);
+				// else setItens(data);
 
 				setTotal(response.data.count);
-				setNoData(data.length == 0);
+				// setNoData(data.length == 0);
+				setNoData(false);
 				setLoading(false);
 			} catch (error) {
 				setLoading(false);
@@ -67,22 +72,22 @@ const SegmentList = function () {
 			}
 		}
 
-		loadSpecialities();
+		load();
 	}, [search, page, onChangeOrder]);
 
 	async function handleDelete(item) {
-		ShowConfirm('Atenção', `Confirma a remoção do segmento ${item.name}?`, () => handleDeleteConfirm(item.id));
+		ShowConfirm('Atenção', `Confirma a remoção da especialidade ${item.name}?`, () => handleDeleteConfirm(item.id));
 	}
 
 	async function handleDeleteConfirm(id) {
 		try {
 			setLoading(true);
-			await api.delete(`segments/${id}`);
+			await api.delete(`specialities-types/${id}`);
 
-			showToast.success('Segmento excluído com sucesso!');
-			const updateSpecialities = segments.filter((c) => c.id !== id);
+			showToast.success('Especialidade excluída com sucesso!');
+			const updateSpecialities = itens.filter((c) => c.id !== id);
 			setTotal(total - 1);
-			setSegments(updateSpecialities);
+			setItens(updateSpecialities);
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
@@ -91,15 +96,15 @@ const SegmentList = function () {
 	}
 
 	function handleUpdate(id) {
-		history.push(`/segment/edit/${id}`);
+		history.push(`/speciality-type/edit/${id}`);
 	}
 
 	return (
-		<Container title="Segmentos do sistema" loading={loading ? Boolean(loading) : undefined} showBack>
+		<Container title="Especialidades do sistema" loading={loading ? Boolean(loading) : undefined} showBack>
 			<Search onSearch={setSearch} setPage={setPage} />
 			<span>
 				<span>{total > 0 && <span>Total {total}</span>}</span>
-				<Link to="/segment/create">
+				<Link to="/speciality-type/create">
 					<FiPlus size={20} /> Cadastrar
 				</Link>
 			</span>
@@ -107,7 +112,7 @@ const SegmentList = function () {
 			{noData && <NoData text={`Não há dados para exibir :(`} />}
 			<Main>
 				<Ul>
-					{segments.map((speciality) => (
+					{itens.map((speciality) => (
 						<ListItem
 							item={speciality}
 							key={speciality.id}
@@ -118,9 +123,9 @@ const SegmentList = function () {
 				</Ul>
 			</Main>
 
-			<LoadMore onClick={() => setPage(page + 1)} total={total} loadedItens={segments.length} />
+			<LoadMore onClick={() => setPage(page + 1)} total={total} loadedItens={itens.length} />
 		</Container>
 	);
 };
 
-export default SegmentList;
+export default SpecialityList;

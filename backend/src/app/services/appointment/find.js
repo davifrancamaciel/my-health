@@ -49,7 +49,7 @@ class AppointmentFindService {
                 {
                   model: Segment,
                   as: 'segment',
-                  attributes: ['name'],
+                  attributes: ['name', 'type'],
                 },
               ],
             },

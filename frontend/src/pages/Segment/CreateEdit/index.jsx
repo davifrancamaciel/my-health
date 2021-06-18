@@ -9,8 +9,10 @@ import SubmitButton from 'components/SubmitButton';
 import FormContainer from 'components/_layouts/FormContainer';
 import Input from 'components/Inputs/Input';
 import InputMoney from 'components/Inputs/InputMoney';
+import Select from 'components/Inputs/Select';
 
 import showToast from 'Utils/showToast';
+import { getTypesSegment } from 'Utils/typeSegmentsConstants';
 
 import api from 'services/api';
 import history from 'services/browserhistory';
@@ -24,6 +26,7 @@ const SegmentCreateEdit = function () {
 	const [segment, setSegment] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [active, setActive] = useState(true);
+	const [types] = useState(getTypesSegment());
 
 	useEffect(() => {
 		if (id) {
@@ -81,12 +84,15 @@ const SegmentCreateEdit = function () {
 						<legend>
 							<h2>Dados</h2>
 						</legend>
+						<div className="field">
+							<Select label="Tipo" name="type" options={types} />
+						</div>
 						<div className="field-group">
 							<div className="field">
 								<Input name="name" label="Nome" />
 							</div>
 							<div className="field">
-								<InputMoney name="percentage" label="Porcentagem para a empresa"/>
+								<InputMoney name="percentage" label="Porcentagem para a empresa" />
 							</div>
 						</div>
 						<FormControlLabel

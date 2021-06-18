@@ -8,7 +8,6 @@ import { startOfDay, endOfDay, parseISO } from 'date-fns';
 class SpecialityIndexService {
   async run({
     description,
-    speciality_type_id,
     start_date,
     end_date,
     page,
@@ -16,10 +15,19 @@ class SpecialityIndexService {
     sorting,
     limit,
     user_id,
+    type,
+    segment_id,
+    speciality_type_id,
   }) {
     let whereStatement = {
       user_id,
     };
+    let whereStatementSegmentType = {};
+    let whereStatementSpecialityType = {};
+
+    if (type) whereStatementSegmentType.type = type;
+
+    if (segment_id) whereStatementSpecialityType.segment_id = segment_id;
 
     if (speciality_type_id)
       whereStatement.speciality_type_id = speciality_type_id;
@@ -33,6 +41,7 @@ class SpecialityIndexService {
       whereStatement.createdAt = {
         [Op.gte]: startOfDay(parseISO(start_date)),
       };
+
     if (end_date)
       whereStatement.createdAt = {
         [Op.lte]: endOfDay(parseISO(end_date)),
@@ -58,11 +67,13 @@ class SpecialityIndexService {
           model: SpecialityType,
           as: 'type',
           attributes: ['name', 'value'],
+          where: whereStatementSpecialityType,
           include: [
             {
               model: Segment,
               as: 'segment',
-              attributes: ['name', 'percentage'],
+              attributes: ['name', 'percentage', 'type'],
+              where: whereStatementSegmentType,
             },
           ],
         },

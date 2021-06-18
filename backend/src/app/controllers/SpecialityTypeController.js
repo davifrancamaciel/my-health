@@ -53,7 +53,7 @@ class SpecialityTypeController {
         {
           model: Segment,
           as: 'segment',
-          attributes: ['name', 'percentage'],
+          attributes: ['name', 'percentage', 'type'],
         },
       ],
     });
@@ -178,7 +178,7 @@ class SpecialityTypeController {
 
     const types = await SpecialityType.findAll({
       order: ['name'],
-      attributes: ['id', 'name', 'value','segment_id'],
+      attributes: ['id', 'name', 'value', 'segment_id'],
       where: whereStatement,
     });
 

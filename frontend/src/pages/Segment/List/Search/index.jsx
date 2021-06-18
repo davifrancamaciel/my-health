@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
 import { Form } from '@rocketseat/unform';
-import { isBefore } from 'date-fns';
 
 import Input from 'components/Inputs/Input';
-import Datepicker from 'components/Inputs/Datepicker';
 import SubmitButton from 'components/SubmitButton';
+import Select from 'components/Inputs/Select';
 import FormSearchContainer from 'components/_layouts/FormSearchContainer';
-
-import showToast from 'Utils/showToast';
+import { getTypesSegment } from 'Utils/typeSegmentsConstants';
 
 export default function Search({ onSearch, setPage }) {
-	const [startDate, setStartDate] = useState();
-	const [endDate, setEndDate] = useState();
+	const [types] = useState(getTypesSegment());
 
 	function handleSubmit(data) {
-		if (isBefore(endDate, startDate)) {
-			showToast.error('A data inicial não pode ser maior que a final.');
-			return;
-		}
 		setPage(1);
 		onSearch(data);
 	}
@@ -27,15 +20,14 @@ export default function Search({ onSearch, setPage }) {
 			<Form onSubmit={handleSubmit}>
 				<div className="field-group">
 					<div className="field">
+						<div className="field">
+							<Select label="Tipo" name="type" options={types} />
+						</div>
+					</div>
+					<div className="field">
 						<Input name="name" label="Nome" />
 					</div>
-					<div className="field">
-						<Datepicker name="start_date" label="Data de" selected={startDate} onChange={setStartDate} />
-					</div>
-					<div className="field">
-						<Datepicker name="end_date" label="Data ate" selected={endDate} onChange={setEndDate} />
-					</div>
-
+					
 					<div className="field">
 						<SubmitButton text={'Buscar'} />
 					</div>

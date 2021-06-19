@@ -24,10 +24,22 @@ export const Search = styled.div`
 		margin-bottom: 30px;
 	}
 
+	.input-search,
 	.react-select__control {
-		margin-bottom: 15px;
+		margin-top: 15px !important;
 	}
 
+	input,
+	input::placeholder {
+		color: ${PRIMARY_COLOR} !important;
+	}
+
+	form > span {
+		color: var(--secondary-color);
+		align-self: flex-start;
+		margin: 0 0 10px;
+		font-weight: bold;
+	}
 	@media (max-width: 720px) {
 		margin-top: 50px;
 		max-width: 100%;

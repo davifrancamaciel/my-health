@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import SpecialityType from '../models/SpecialityType';
 import Speciality from '../models/Speciality';
 import User from '../models/User';
+import Segment from '../models/Segment';
 import AppointmentCreateService from '../services/appointment/create';
 import AppointmentCancelService from '../services/appointment/cancel';
 import AppointmentFindService from '../services/appointment/find';
@@ -11,7 +12,13 @@ class AppointmentController {
   async index(req, res) {
     const { userId } = req;
 
-    const { speciality_type_id, provider_name, page = 1 } = req.query;
+    const {
+      type,
+      segment_id,
+      speciality_type_id,
+      provider_name,
+      page = 1,
+    } = req.query;
 
     let whereStatement = {
       active: true,
@@ -21,6 +28,12 @@ class AppointmentController {
     };
 
     let whereStatementProvider = {};
+    let whereStatementSegmentType = { active: true };
+    let whereStatementSpecialityType = { active: true };
+
+    if (type) whereStatementSegmentType.type = type;
+
+    if (segment_id) whereStatementSpecialityType.segment_id = segment_id;
 
     if (speciality_type_id)
       whereStatement.speciality_type_id = speciality_type_id;
@@ -40,7 +53,15 @@ class AppointmentController {
           model: SpecialityType,
           as: 'type',
           attributes: ['name'],
-          where: { active: true },
+          where: whereStatementSpecialityType,
+          include: [
+            {
+              model: Segment,
+              as: 'segment',
+              attributes: ['name', 'type'],
+              where: whereStatementSegmentType,
+            },
+          ],
         },
         {
           model: User,

@@ -17,6 +17,9 @@ class ReportService {
     provider_id,
     orderBy,
     sorting,
+    type,
+    provider_name,
+    user_name,
   }) {
     const user = await User.findOne({
       where: { id: user_id },
@@ -24,8 +27,13 @@ class ReportService {
     });
 
     let whereStatement = {};
+    let whereStatementProvider = {};
+    let whereStatementUser = {};
     let whereStatementSpeciality = {};
     let whereStatementSpecialityType = {};
+    let whereStatementSegmentType = {};
+
+    if (type) whereStatementSegmentType.type = type;
 
     if (speciality_type_id)
       whereStatementSpeciality.speciality_type_id = speciality_type_id;
@@ -37,6 +45,16 @@ class ReportService {
     if (user.roules !== 'ADMIN') {
       whereStatement.provider_id = user_id;
     }
+
+    if (provider_name)
+      whereStatementProvider.name = {
+        [Op.iLike]: `%${provider_name}%`,
+      };
+
+    if (user_name)
+      whereStatementUser.name = {
+        [Op.iLike]: `%${user_name}%`,
+      };
 
     if (speciality_id) whereStatement.speciality_id = speciality_id;
 
@@ -78,11 +96,13 @@ class ReportService {
           model: User,
           as: 'provider',
           attributes: ['name'],
+          where: whereStatementProvider,
         },
         {
           model: User,
           as: 'user',
           attributes: ['name'],
+          where: whereStatementUser,
         },
         {
           model: Speciality,
@@ -99,7 +119,8 @@ class ReportService {
                 {
                   model: Segment,
                   as: 'segment',
-                  attributes: ['name'],
+                  attributes: ['name', 'type'],
+                  where: whereStatementSegmentType,
                 },
               ],
             },

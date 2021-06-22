@@ -10,6 +10,9 @@ class ReportController {
       speciality_type_id,
       segment_id,
       provider_id,
+      type,
+      provider_name,
+      user_name
     } = req.query;
 
     const appointments = await ReportService.run({
@@ -20,6 +23,9 @@ class ReportController {
       end_date,
       user_id: req.userId,
       provider_id,
+      type,
+      provider_name,
+      user_name
     });
 
     return res.json(appointments);

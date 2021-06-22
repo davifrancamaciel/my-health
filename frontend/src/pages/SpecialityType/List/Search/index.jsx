@@ -6,9 +6,9 @@ import SubmitButton from 'components/SubmitButton';
 import FormSearchContainer from 'components/_layouts/FormSearchContainer';
 import Select from 'components/Inputs/Select';
 
-import api from 'services/api'
-import getValidationErrors from 'Utils/getValidationErrors'
-import { getTypesSegment } from 'Utils/typeSegmentsConstants';
+import api from 'services/api';
+import getValidationErrors from 'Utils/getValidationErrors';
+import { getType } from 'Utils/typeSegmentsConstants';
 
 export default function Search({ onSearch, setPage }) {
 	const [options, setOptions] = useState([]);
@@ -20,8 +20,7 @@ export default function Search({ onSearch, setPage }) {
 					params: { active: true },
 				});
 				const data = response.data.map((item) => {
-					const type = getTypesSegment().find((x) => x.value === item.type).label;
-					return { ...item, label: `${type} ${item.label} (${item.percentage}%)` };
+					return { ...item, label: `${getType(item.type)} ${item.label} (${item.percentage}%)` };
 				});
 				setOptions(data);
 			} catch (error) {
@@ -46,7 +45,7 @@ export default function Search({ onSearch, setPage }) {
 					<div className="field">
 						<Input name="name" label="Nome" />
 					</div>
-					
+
 					<div className="field">
 						<SubmitButton text={'Buscar'} />
 					</div>

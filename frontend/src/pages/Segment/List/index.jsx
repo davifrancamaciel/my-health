@@ -17,7 +17,7 @@ import api from 'services/api';
 import history from 'services/browserhistory';
 import getValidationErrors from 'Utils/getValidationErrors';
 import showToast from 'Utils/showToast';
-import { getTypesSegment } from 'Utils/typeSegmentsConstants';
+import { getType } from 'Utils/typeSegmentsConstants';
 
 import { Main, Ul } from 'components/_layouts/ListContainer/styles';
 
@@ -45,10 +45,9 @@ const SegmentList = function () {
 				});
 
 				const data = response.data.rows.map((segment) => {
-					const type = getTypesSegment().find((x) => x.value === segment.type).label;
 					return {
 						...segment,
-						name: `${type} ${segment.name}`,
+						name: `${getType(segment.type)} ${segment.name}`,
 						createdAtFormatedDate: `Cadastrado no dia ${format(parseISO(segment.createdAt), "d 'de' MMMM", {
 							locale: pt,
 						})}`,

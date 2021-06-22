@@ -19,7 +19,7 @@ import history from 'services/browserhistory';
 import getValidationErrors from 'Utils/getValidationErrors';
 import showToast from 'Utils/showToast';
 import { formatPrice } from 'Utils/formatPrice';
-import { getTypesSegment } from 'Utils/typeSegmentsConstants';
+import { getType } from 'Utils/typeSegmentsConstants';
 
 import { Main, Ul } from 'components/_layouts/ListContainer/styles';
 
@@ -57,12 +57,14 @@ const SpecialityList = function () {
 
 					const { percentage } = speciality.type.segment;
 					const valueCompany = speciality.type.value * (percentage / 100);
-					const type = getTypesSegment().find((x) => x.value === speciality.type.segment.type).label;
 					return {
 						...speciality,
 						type: {
 							...speciality.type,
-							segment: { ...speciality.type.segment, name: `${type} ${speciality.type.segment.name}` },
+							segment: {
+								...speciality.type.segment,
+								name: `${getType(speciality.type.segment.type)} ${speciality.type.segment.name}`,
+							},
 						},
 						valueFormated: formatPrice(speciality.type.value),
 						valueCompanyFormated: formatPrice(valueCompany),

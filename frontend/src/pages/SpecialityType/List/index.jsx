@@ -18,7 +18,7 @@ import history from 'services/browserhistory';
 import getValidationErrors from 'Utils/getValidationErrors';
 import showToast from 'Utils/showToast';
 import { formatPrice } from 'Utils/formatPrice';
-import { getTypesSegment } from 'Utils/typeSegmentsConstants';
+import { getType } from 'Utils/typeSegmentsConstants';
 
 import { Main, Ul } from 'components/_layouts/ListContainer/styles';
 
@@ -45,11 +45,13 @@ const SpecialityList = function () {
 				const data = response.data.rows.map((speciality) => {
 					const { percentage } = speciality.segment;
 					const valueCompany = speciality.value * (percentage / 100);
-					const type = getTypesSegment().find((x) => x.value === speciality.segment.type).label;
 
 					return {
 						...speciality,
-						segment: { ...speciality.segment, name: `${type} ${speciality.segment.name}` },
+						segment: {
+							...speciality.segment,
+							name: `${getType(speciality.segment.type)} ${speciality.segment.name}`,
+						},
 						priceFormated: formatPrice(speciality.value),
 						valueCompany: formatPrice(valueCompany),
 						createdAtFormatedDate: `Cadastrada no dia ${format(

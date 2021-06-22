@@ -5,3 +5,9 @@ export function getTypesSegment() {
 		{ value: 'VETERINARIA', label: 'Veterinária' },
 	];
 }
+
+export function getType(type) {
+	const item = getTypesSegment().find((x) => x.value === type);
+	if (item) return item.label;
+	return '';
+}

@@ -29,7 +29,7 @@ import Container from 'components/_layouts/Container';
 import Profile from '../Profile';
 import showToast from 'Utils/showToast';
 import ShowConfirm from 'components/ShowConfirm';
-import { getTypesSegment } from 'Utils/typeSegmentsConstants';
+import { getTypesSegment, getType } from 'Utils/typeSegmentsConstants';
 import { setNextDate, setPrevtDate, availableDay } from 'Utils/schedule';
 import { SheduleContainer, Time, Shedule } from './styles';
 
@@ -50,15 +50,14 @@ function CreateEdit() {
 				setLoading(true);
 
 				const { data } = await api.get(`speciality-provider/${specialityId}`);
-				const type = getTypesSegment().find((x) => x.value === data.type.segment.type).label;
-				
+
 				setSpecialityProvider({
 					...data,
 					type: {
 						...data.type,
 						segment: {
 							...data.type.segment,
-							name: `${type} ${data.type.segment.name.toLowerCase()}`,
+							name: `${getType(data.type.segment.type)} ${data.type.segment.name.toLowerCase()}`,
 						},
 					},
 					priceFormated: formatPrice(data.type.value),

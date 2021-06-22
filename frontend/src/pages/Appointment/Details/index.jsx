@@ -15,7 +15,7 @@ import showToast from 'Utils/showToast';
 import getValidationErrors from 'Utils/getValidationErrors';
 import urlMessageWhatsapp from 'Utils/urlMessageWhatsapp';
 import { formatPrice } from 'Utils/formatPrice';
-import { getTypesSegment } from 'Utils/typeSegmentsConstants';
+import { getType } from 'Utils/typeSegmentsConstants';
 
 import Container from 'components/_layouts/Container';
 import { ContainerDetail, Appointment, ProfileInfo, Profile } from './styles';
@@ -51,8 +51,6 @@ function Details() {
 			});
 
 			const { speciality } = data;
-			
-			const type = getTypesSegment().find((x) => x.value === speciality.type.segment.type).label;
 
 			const dataFormated = {
 				...data,
@@ -62,7 +60,9 @@ function Details() {
 						...speciality.type,
 						segment: {
 							...speciality.type.segment,
-							name: `${type} ${speciality.type.segment.name.toLowerCase()}`,
+							name: `${getType(
+								speciality.type.segment.type
+							)} ${speciality.type.segment.name.toLowerCase()}`,
 						},
 					},
 				},
@@ -72,7 +72,7 @@ function Details() {
 				titlePosition,
 				dateFormatedComplete,
 			};
-			
+
 			setAppointment(dataFormated);
 
 			setLoading(false);

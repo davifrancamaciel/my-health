@@ -16,7 +16,7 @@ import { priceToNumber } from 'Utils/formatPrice';
 import api from 'services/api';
 import history from 'services/browserhistory';
 import getValidationErrors from 'Utils/getValidationErrors';
-import { getTypesSegment } from 'Utils/typeSegmentsConstants';
+import { getType } from 'Utils/typeSegmentsConstants';
 
 import validation from './validation';
 
@@ -38,8 +38,7 @@ const SpecialityCreateEdit = function () {
 					params: params,
 				});
 				const data = response.data.map((item) => {
-					const type = getTypesSegment().find((x) => x.value === item.type).label;
-					return { ...item, label: `${type} ${item.label} (${item.percentage}%)` };
+					return { ...item, label: `${getType(item.type)} ${item.label} (${item.percentage}%)` };
 				});
 				setSegments(data);
 			} catch (error) {

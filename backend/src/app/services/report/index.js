@@ -26,7 +26,7 @@ class ReportService {
       attributes: ['roules'],
     });
 
-    let whereStatement = {};
+    let whereStatement = { canceled_at: null };
     let whereStatementProvider = {};
     let whereStatementUser = {};
     let whereStatementSpeciality = {};
@@ -79,9 +79,6 @@ class ReportService {
 
     const appointments = await Appointment.findAll({
       where: whereStatement,
-      // where: {
-      //  canceled_at: null,
-
       order: [[orderQuery, sortngQuery]],
       attributes: [
         'id',
@@ -95,13 +92,13 @@ class ReportService {
         {
           model: User,
           as: 'provider',
-          attributes: ['name'],
+          attributes: ['name','email'],
           where: whereStatementProvider,
         },
         {
           model: User,
           as: 'user',
-          attributes: ['name'],
+          attributes: ['name','email'],
           where: whereStatementUser,
         },
         {

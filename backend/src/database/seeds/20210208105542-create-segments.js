@@ -22,15 +22,4 @@ function load() {
   return list;
 }
 
-var data_array = [
-  'Medicina humana',
-  'Medicina alternativa',
-  'Exame Humano',
-  'Cirurgia Humana',
-  'Cirurgia',
-  'Odontologia',
-  'Exame Odontologia',
-  'Consulta Veterinária',
-  'Cirurgia Veterinária',
-  'Exame veterinário',
-];
+var data_array = [];

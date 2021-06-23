@@ -4,14 +4,14 @@ import logo from 'assets/logoupish.png';
 
 import { Container } from './styles';
 
-function TableReport({ dadosGeraisHospital, title, headerList, children, assinatura, assinatura2 }) {
+function TableReport({ title, headerList, children }) {
 	const [headerListItens, setHeaderListItens] = useState([]);
 
 	useEffect(() => {
 		if (headerList) {
 			setHeaderListItens(headerList);
 		}
-	}, [headerList]);	
+	}, [headerList]);
 
 	return (
 		<div>
@@ -36,11 +36,6 @@ function TableReport({ dadosGeraisHospital, title, headerList, children, assinat
 					</table>
 				</div>
 			</Container>
-			{/* <AssinaturaRodape
-        assinatura={assinatura}
-        assinatura2={assinatura2}
-        localAndData={dadosGeraisHospital.localAndData}
-      /> */}
 		</div>
 	);
 }

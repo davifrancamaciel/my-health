@@ -85,13 +85,11 @@ export default function Search({ onSearch }) {
 					<div className="field">
 						<Input name="provider_name" label="Médico" />
 					</div>
-
+				</div>
+				<div className="field-group">
 					<div className="field">
 						<Input name="user_name" label="Paciente" />
 					</div>
-
-				</div>
-				<div className="field-group">
 					<div className="field">
 						<Datepicker name="start_date" label="Data de" selected={startDate} onChange={setStartDate} />
 					</div>

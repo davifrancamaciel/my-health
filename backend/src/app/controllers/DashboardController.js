@@ -14,7 +14,7 @@ import User from '../models/User'
 import Vehicle from '../models/Vehicle'
 import Speciality from '../models/Speciality'
 import Appointment from '../models/Appointment'
-import Sale from '../models/Sale'
+
 
 class DashboardController {
   async index (req, res) {
@@ -165,26 +165,26 @@ class DashboardController {
     return res.json(result)
   }
 
-  async getSales (company_id) {
-    const { count, rows } = await Sale.findAndCountAll({
-      attributes: ['value'],
-      where: {
-        company_id,
-        createdAt: {
-          [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
-        },
-      },
-    })
+  // async getSales (company_id) {
+  //   const { count, rows } = await Sale.findAndCountAll({
+  //     attributes: ['value'],
+  //     where: {
+  //       company_id,
+  //       createdAt: {
+  //         [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
+  //       },
+  //     },
+  //   })
 
-    const total = rows.reduce((totalSum, speciality) => {
-      return Number(totalSum) + Number(speciality.value)
-    }, 0)
+  //   const total = rows.reduce((totalSum, speciality) => {
+  //     return Number(totalSum) + Number(speciality.value)
+  //   }, 0)
 
-    const sales = {
-      principal_text: count,
-      secondary_text: total,
-    }
-    return sales
-  }
+  //   const sales = {
+  //     principal_text: count,
+  //     secondary_text: total,
+  //   }
+  //   return sales
+  // }
 }
 export default new DashboardController()

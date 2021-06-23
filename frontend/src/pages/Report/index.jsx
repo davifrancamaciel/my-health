@@ -1,40 +1,34 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useReactToPrint } from 'react-to-print';
+import React, { useEffect, useState } from 'react';
+
 import { parseISO, format, startOfMonth, endOfMonth } from 'date-fns';
 
 import Container from 'components/_layouts/Container';
 import NoData from 'components/NoData';
-import Order from 'components/Order';
 import Search from './Search';
 
 import api from 'services/api';
 import getValidationErrors from 'Utils/getValidationErrors';
 import { formatPrice } from 'Utils/formatPrice';
 import { getType } from 'Utils/typeSegmentsConstants';
-import TableReport from './TableReport';
-import { FiPrinter } from 'react-icons/fi';
+import TableReport from 'components/Report/TableReport';
+import PrintContainer from 'components/Report/PrintContainer';
 
-import { Main } from 'components/_layouts/ListContainer/styles';
 import { Footer, Summary } from './styles';
-
-const orderByOptions = [{ value: 'name', label: 'Nome' }];
 
 const headerList = ['Procedimento', 'Medico', 'Paciente', 'Data', 'Valor', 'Comissão médico', 'Comissão UPIS'];
 
 const SpecialityList = function () {
-	const componentRef = useRef();
 	const [loading, setLoading] = useState(false);
 	const [search, setSearch] = useState({ end_date: endOfMonth(new Date()), start_date: startOfMonth(new Date()) });
 	const [noData, setNoData] = useState(false);
 	const [itens, setItens] = useState([]);
-	const [onChangeOrder, setOnChangeOrder] = useState();
 	const [totalSummary, setTotalSummary] = useState({});
 	const [filteredPeriod, setFilteredPeriod] = useState('');
 
 	useEffect(() => {
 		load();
 		setFilteredPeriod(`${format(search.start_date, 'dd/MM/yyyy')} à ${format(search.end_date, 'dd/MM/yyyy')}`);
-	}, [search, onChangeOrder]);
+	}, [search]);
 
 	useEffect(() => {
 		const summary = itens.reduce(
@@ -60,7 +54,7 @@ const SpecialityList = function () {
 			setLoading(true);
 
 			const response = await api.get('report', {
-				params: { ...search, ...onChangeOrder },
+				params: { ...search },
 			});
 			console.log(response.data);
 			const data = response.data.map((appointment) => {
@@ -86,23 +80,12 @@ const SpecialityList = function () {
 		}
 	}
 
-	const handlePrint = useReactToPrint({
-		content: () => componentRef.current,
-		documentTitle: 'UPIS SAÚDE',
-	});
 	return (
 		<Container title="Relatório de agendamentos" loading={loading ? Boolean(loading) : undefined} showBack>
 			<Search onSearch={setSearch} />
-			<span>
-				<span>{!!itens.length && <span>Total {itens.length}</span>}</span>
-				<button onClick={handlePrint}>
-					<FiPrinter /> <span>Imprimir contrato</span>
-				</button>
-			</span>
-			<Order onChangeOrder={setOnChangeOrder} orderOptions={orderByOptions} setPage={() => {}} />
 			{noData && <NoData text={`Não há dados para exibir :(`} />}
 			{!!itens.length && (
-				<Main ref={componentRef}>
+				<PrintContainer total={itens.length}>
 					<TableReport title={'RELATÓRIO DE AGENDAMENTOS'} headerList={headerList}>
 						{itens.map((item, i) => (
 							<tr key={i}>
@@ -113,8 +96,16 @@ const SpecialityList = function () {
 									{' - '}
 									{item.speciality.type.name}
 								</td>
-								<td>{item.provider.name}</td>
-								<td>{item.user.name}</td>
+								<td>
+									{item.provider.name}
+									<br />
+									{item.provider.email}
+								</td>
+								<td>
+									{item.user.name}
+									<br />
+									{item.user.email}
+								</td>
 								<td>{item.date}</td>
 								<td>{item.valueFormated}</td>
 								<td>{item.providerValueFormated}</td>
@@ -133,7 +124,7 @@ const SpecialityList = function () {
 							<span>Total de comissões UPIS {totalSummary.company_value}</span>
 						</Summary>
 					</Footer>
-				</Main>
+				</PrintContainer>
 			)}
 		</Container>
 	);

@@ -16,8 +16,8 @@ export const Container = styled.div`
 			margin-bottom: 15px;
 			display: flex;
 			align-items: center;
-            font-weight: bold;
-            color: var(--text-color);
+			font-weight: bold;
+			color: var(--text-color);
 			> span {
 				cursor: pointer;
 				transition: color 0.2s;
@@ -36,8 +36,9 @@ export const Container = styled.div`
 export const PdfContainer = styled.div`
 	display: flex;
 	justify-content: center;
-    flex-direction: column;
+	flex-direction: column;
 	overflow-x: auto;
+
 	@media (max-width: 800px) {
 		display: block;
 	}

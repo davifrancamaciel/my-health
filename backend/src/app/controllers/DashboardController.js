@@ -23,7 +23,7 @@ class DashboardController {
       });
       let whereStatement = {
         canceled_at: null,
-        createdAt: {
+        date: {
           [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
         },
       };
@@ -36,6 +36,7 @@ class DashboardController {
 
         schedule = await Appointment.count({
           where: {
+            provider_id: userId,
             canceled_at: null,
             date: {
               [Op.between]: [startOfDay(new Date()), endOfDay(new Date())],

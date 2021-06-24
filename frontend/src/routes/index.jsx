@@ -39,10 +39,8 @@ const Routes = () => {
 			<Route exact path="/forgot" component={Forgot} />
 			<Route exact path="/reset" component={Reset} />
 
-			<Route exact path="/dashboard2" component={Dashboard} isPrivate />
-			<Route exact path="/dashboard" component={Appointment} isPrivate />
-
-
+			<Route exact path="/dashboard" component={Dashboard} isPrivate />
+			
 			<Route exact path="/appointment" component={Appointment} isPrivate />
 			<Route exact path="/appointment/:specialityId/create" component={AppointmentCreateEdit} isPrivate />
 			<Route exact path="/appointment/details/:id" component={AppointmentDatails} isPrivate />

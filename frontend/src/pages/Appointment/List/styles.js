@@ -7,13 +7,14 @@ export const ContainerMapSelectProvider = styled.div`
 	display: flex;
 	justify-content: space-between;
 	@media (max-width: 720px) {
+		height: 100%;
 		padding-top: 30px;
-		flex-direction: column;
+		flex-direction: column-reverse;
 	}
 `;
 
 export const Search = styled.div`
-	margin-top: 100px;
+	margin-top: 50px;
 	display: flex;
 	flex-direction: column;
 	padding: 0px 20px;
@@ -41,6 +42,9 @@ export const Search = styled.div`
 		font-weight: bold;
 	}
 	@media (max-width: 720px) {
+		> h1 {
+			display: none;
+		}
 		margin-top: 50px;
 		max-width: 100%;
 	}

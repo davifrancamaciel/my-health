@@ -71,8 +71,8 @@ function LineGraph({ ...props }) {
 	return (
 		<div>
 			{data?.length > 0 && (
-				<div>
-					<h3 style={{ color: `${SECONDARY_COLOR}` }}>Receita de agendamentos no ultimo ano</h3>
+				<div className={props.className}>
+					<h3>Receita de agendamentos no ultimo ano</h3>
 					<Line
 						data={{
 							datasets: [

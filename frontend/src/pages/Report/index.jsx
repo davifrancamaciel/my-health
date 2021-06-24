@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import { useSelector } from 'react-redux';
 import { parseISO, format, startOfMonth, endOfMonth } from 'date-fns';
 
 import Container from 'components/_layouts/Container';
@@ -12,20 +12,30 @@ import { formatPrice } from 'Utils/formatPrice';
 import { getType } from 'Utils/typeSegmentsConstants';
 import TableReport from 'components/Report/TableReport';
 import PrintContainer from 'components/Report/PrintContainer';
+import BankData from './BankData';
+import roulesEnum from 'enums/roulesEnum';
 
 import { Footer, Summary } from './styles';
 
 const headerList = ['Procedimento', 'Medico', 'Paciente', 'Data', 'Valor', 'Comissão médico', 'Comissão UPIS'];
 
-const SpecialityList = function () {
+const Report = function () {
+	const profile = useSelector((state) => state.user.profile);
+
+	const [showItensAdmin, setShowItensAdmin] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [search, setSearch] = useState({ end_date: endOfMonth(new Date()), start_date: startOfMonth(new Date()) });
 	const [noData, setNoData] = useState(false);
 	const [itens, setItens] = useState([]);
 	const [totalSummary, setTotalSummary] = useState({});
 	const [filteredPeriod, setFilteredPeriod] = useState('');
+	const [headerListThead, setHeaderListThead] = useState(headerList);
 
 	useEffect(() => {
+		setShowItensAdmin(profile.roules === roulesEnum.ADMIN);
+		if (profile.roules !== roulesEnum.ADMIN) {
+			setHeaderListThead(['Procedimento', 'Paciente', 'Data', 'Valor', 'Minha comissão']);
+		}
 		load();
 		setFilteredPeriod(`${format(search.start_date, 'dd/MM/yyyy')} à ${format(search.end_date, 'dd/MM/yyyy')}`);
 	}, [search]);
@@ -56,7 +66,6 @@ const SpecialityList = function () {
 			const response = await api.get('report', {
 				params: { ...search },
 			});
-			console.log(response.data);
 			const data = response.data.map((appointment) => {
 				const company_value = appointment.value - appointment.provider_value;
 
@@ -82,11 +91,11 @@ const SpecialityList = function () {
 
 	return (
 		<Container title="Relatório de agendamentos" loading={loading ? Boolean(loading) : undefined} showBack>
-			<Search onSearch={setSearch} />
+			<Search showItensAdmin={showItensAdmin} onSearch={setSearch} />
 			{noData && <NoData text={`Não há dados para exibir :(`} />}
 			{!!itens.length && (
 				<PrintContainer total={itens.length}>
-					<TableReport title={'RELATÓRIO DE AGENDAMENTOS'} headerList={headerList}>
+					<TableReport title={'RELATÓRIO DE AGENDAMENTOS'} headerList={headerListThead}>
 						{itens.map((item, i) => (
 							<tr key={i}>
 								<td>
@@ -96,11 +105,16 @@ const SpecialityList = function () {
 									{' - '}
 									{item.speciality.type.name}
 								</td>
-								<td>
-									{item.provider.name}
-									<br />
-									{item.provider.email}
-								</td>
+								{showItensAdmin && (
+									<td>
+										{item.provider.name}
+										<br />
+										{item.provider.email}
+										<BankData title={'Pix'} text={item.provider.bank_pix} />
+										<BankData title={'Agência'} text={item.provider.bank_agency} />
+										<BankData title={'Conta'} text={item.provider.bank_account} />
+									</td>
+								)}
 								<td>
 									{item.user.name}
 									<br />
@@ -109,7 +123,7 @@ const SpecialityList = function () {
 								<td>{item.date}</td>
 								<td>{item.valueFormated}</td>
 								<td>{item.providerValueFormated}</td>
-								<td>{item.companyValueFormated}</td>
+								{showItensAdmin && <td>{item.companyValueFormated}</td>}
 							</tr>
 						))}
 					</TableReport>
@@ -121,7 +135,7 @@ const SpecialityList = function () {
 						<Summary>
 							<span>Total arrecadado {totalSummary.value}</span>
 							<span>Total de comissões médicas {totalSummary.provider_value}</span>
-							<span>Total de comissões UPIS {totalSummary.company_value}</span>
+							{showItensAdmin && <span>Total de comissões UPIS {totalSummary.company_value}</span>}
 						</Summary>
 					</Footer>
 				</PrintContainer>
@@ -130,4 +144,4 @@ const SpecialityList = function () {
 	);
 };
 
-export default SpecialityList;
+export default Report;

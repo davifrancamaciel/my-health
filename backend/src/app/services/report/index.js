@@ -92,13 +92,19 @@ class ReportService {
         {
           model: User,
           as: 'provider',
-          attributes: ['name','email'],
+          attributes: [
+            'name',
+            'email',
+            'bank_pix',
+            'bank_account',
+            'bank_agency',
+          ],
           where: whereStatementProvider,
         },
         {
           model: User,
           as: 'user',
-          attributes: ['name','email'],
+          attributes: ['name', 'email'],
           where: whereStatementUser,
         },
         {

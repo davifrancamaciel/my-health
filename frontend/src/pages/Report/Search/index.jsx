@@ -13,7 +13,7 @@ import getValidationErrors from 'Utils/getValidationErrors';
 import showToast from 'Utils/showToast';
 import { getTypesSegment } from 'Utils/typeSegmentsConstants';
 
-export default function Search({ onSearch }) {
+export default function Search({ onSearch, showItensAdmin }) {
 	const [startDate, setStartDate] = useState(startOfMonth(new Date()));
 	const [endDate, setEndDate] = useState(endOfMonth(new Date()));
 	const [typesSegment] = useState(getTypesSegment());
@@ -82,9 +82,11 @@ export default function Search({ onSearch }) {
 					<div className="field">
 						<Select label="Especialidade" name="speciality_type_id" options={typesSpecialities} />
 					</div>
-					<div className="field">
-						<Input name="provider_name" label="Médico" />
-					</div>
+					{showItensAdmin && (
+						<div className="field">
+							<Input name="provider_name" label="Médico" />
+						</div>
+					)}
 				</div>
 				<div className="field-group">
 					<div className="field">

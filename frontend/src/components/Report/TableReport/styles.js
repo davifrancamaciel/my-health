@@ -75,7 +75,6 @@ export const Container = styled.div`
 
 		@media print {
 			.page-break {
-				/* margin-top: 1rem; */
 				display: block;
 				page-break-before: auto;
 			}

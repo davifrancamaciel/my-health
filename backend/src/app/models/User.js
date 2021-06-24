@@ -33,6 +33,9 @@ class User extends Model {
         validated: Sequelize.BOOLEAN,
         i_accept_term: Sequelize.BOOLEAN,
         roules: Sequelize.STRING,
+        bank_agency: Sequelize.STRING,
+        bank_account: Sequelize.STRING,
+        bank_pix: Sequelize.STRING,
         url: {
           type: Sequelize.VIRTUAL,
           get() {

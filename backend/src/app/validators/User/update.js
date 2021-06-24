@@ -57,6 +57,15 @@ export default async (req, res, next) => {
       confirmPassword: Yup.string().when('password', (password, field) => {
         password ? field.required().oneOf([Yup.ref('password')]) : field;
       }),
+      bank_agency: Yup.string()
+        .nullable()
+        .max(10, 'Máximo 10 caracteres'),
+      bank_account: Yup.string()
+        .nullable()
+        .max(10, 'Máximo 10 caracteres'),
+      bank_pix: Yup.string()
+        .nullable()
+        .max(50, 'Máximo 50 caracteres'),
     });
 
     await schema.validate(req.body, {

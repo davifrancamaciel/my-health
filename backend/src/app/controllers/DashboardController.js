@@ -1,5 +1,7 @@
-import sequelize, { Op } from 'sequelize'
+import { Op } from 'sequelize';
 import {
+  startOfDay,
+  endOfDay,
   startOfMonth,
   endOfMonth,
   subYears,
@@ -7,184 +9,126 @@ import {
   setSeconds,
   setMinutes,
   setHours,
-} from 'date-fns'
+} from 'date-fns';
 
-import Company from '../models/Company'
-import User from '../models/User'
-import Vehicle from '../models/Vehicle'
-import Speciality from '../models/Speciality'
-import Appointment from '../models/Appointment'
-
-
+import User from '../models/User';
+import Appointment from '../models/Appointment';
 class DashboardController {
-  async index (req, res) {
-    const { userCompanyProvider, userProvider, userCompanyId } = req
-
+  async index(req, res) {
     try {
-      let whereStatement = {}
-      let companiesInactive = 0
-      let companiesActive = 0
-      let company = null
-      let specialities = null
-      let sales = null
+      const { userId } = req;
+      const user = await User.findOne({
+        where: { id: userId },
+        attributes: ['roules'],
+      });
+      let whereStatement = {
+        canceled_at: null,
+        createdAt: {
+          [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
+        },
+      };
 
-      if (!userCompanyProvider) whereStatement.company_id = userCompanyId
+      let appointments = null;
+      let schedule = 0;
 
-      if (userCompanyProvider) {
-        companiesActive = await Company.count({
+      if (user.roules !== 'ADMIN') {
+        whereStatement.provider_id = userId;
+
+        schedule = await Appointment.count({
           where: {
-            provider: false,
-            expires_at: {
-              [Op.gte]: new Date(),
+            canceled_at: null,
+            date: {
+              [Op.between]: [startOfDay(new Date()), endOfDay(new Date())],
             },
           },
-        })
-        companiesInactive = await Company.count({
-          where: {
-            provider: false,
-            expires_at: {
-              [Op.lte]: new Date(),
-            },
-          },
-        })
-      } else {
-        company = await Company.findOne({
-          where: { id: userCompanyId },
-          attributes: ['name', 'expires_at'],
-        })
-        const { count, rows } = await Speciality.findAndCountAll({
-          attributes: ['value'],
-          where: {
-            company_id: userCompanyId,
-            // speciality_type_id: {
-            //   [Op.notIn]: [
-            //     SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
-            //     SpecialityTypeEnum.MULTA_NAO_PAGA,
-            //   ],
-            // },
-            createdAt: {
-              [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
-            },
-          },
-        })
-
-        const total = rows.reduce((totalSum, speciality) => {
-          return Number(totalSum) + Number(speciality.value)
-        }, 0)
-
-        specialities = {
-          principal_text: count,
-          secondary_text: total,
-        }
-        // sales = await getSales(userCompanyId)
+        });
       }
 
-      const clientsActive = await User.count({
-        where: { ...whereStatement, provider: false, active: true },
-      })
-      const clientsInactive = await User.count({
-        where: { ...whereStatement, provider: false, active: false },
-      })
+      const { count, rows } = await Appointment.findAndCountAll({
+        attributes: ['value', 'provider_value'],
+        where: whereStatement,
+      });
 
-      const vehiclesActive = await Vehicle.count({
-        where: { ...whereStatement, active: true },
-      })
-      const vehiclesInactive = await Vehicle.count({
-        where: { ...whereStatement, active: false },
-      })
+      const total = rows.reduce((totalSum, appointment) => {
+        return Number(totalSum) + Number(appointment.value);
+      }, 0);
+      const expense = rows.reduce((totalSum, appointment) => {
+        return Number(totalSum) + Number(appointment.provider_value);
+      }, 0);
+
+      appointments = {
+        quantity: count,
+        schedule: {
+          text: schedule,
+        },
+        total: {
+          text: total,
+        },
+        expense: {
+          text: expense,
+        },
+        profit: {
+          text: total - expense,
+        },
+      };
 
       const model = {
-        specialities,
-        company,
-        companies: {
-          principal_text: companiesActive + companiesInactive,
-          secondary_text: `${companiesActive} com acesso e ${companiesInactive} sem acesso (expirado)`,
-        },
-        clients: {
-          principal_text: clientsActive + clientsInactive,
-          secondary_text: `${clientsActive} ativos e ${clientsInactive} inativos`,
-        },
-        vehicles: {
-          principal_text: vehiclesActive + vehiclesInactive,
-          secondary_text: `${vehiclesActive} ativos e ${vehiclesInactive} inativos`,
-        },
-      }
+        appointments,
+      };
 
-      return res.json(model)
+      return res.json(model);
     } catch (error) {
-      return res.status(500).json({ error: 'Erro interno', error })
+      return res.status(500).json({ error: 'Erro interno', error });
     }
   }
 
-  async getAppointmentsGraph (req, res) {
-    const { userId } = req
+  async getAppointmentsGraph(req, res) {
+    const { userId } = req;
+    const user = await User.findOne({
+      where: { id: userId },
+      attributes: ['roules'],
+    });
+    let whereStatement = {
+      canceled_at: null,
+      createdAt: {
+        [Op.between]: [subYears(new Date(), 1), endOfMonth(new Date())],
+      },
+    };
+
+    if (user.roules !== 'ADMIN') {
+      whereStatement.provider_id = userId;
+    }
 
     const rows = await Appointment.findAll({
-      attributes: [//'value',
-      'canceled_at',
-       'createdAt'],
-      order: [['createdAt', 'ASC']],
-      where: {
-        provider_id: userId,
-        // speciality_type_id: {
-        //   [Op.notIn]: [
-        //     SpecialityTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
-        //     SpecialityTypeEnum.MULTA_NAO_PAGA,
-        //   ],
-        // },
-        createdAt: {
-          [Op.between]: [subYears(new Date(), 1), endOfMonth(new Date())],
-        },
-      },
-    })
+      attributes: ['value', 'provider_value', 'date'],
+      order: [['date', 'ASC']],
+      where: whereStatement,
+    });
 
-    return res.json(rows)
+    //return res.json(rows);
 
-    const specialities = rows.map(speciality => {
+    const appoitments = rows.map(appointment => {
       const date = setMilliseconds(
-        setSeconds(setMinutes(setHours(speciality.createdAt, 0), 0), 0),
+        setSeconds(setMinutes(setHours(appointment.date, 0), 0), 0),
         0
-      )
+      );
       return {
-        value: speciality.value,
+        value: appointment.value,
         date,
-      }
-    })
+      };
+    });
 
-    var result = []
-    specialities.reduce(function (res, value) {
+    var result = [];
+    appoitments.reduce(function(res, value) {
       if (!res[value.date]) {
-        res[value.date] = { date: value.date, value: 0 }
-        result.push(res[value.date])
+        res[value.date] = { date: value.date, value: 0 };
+        result.push(res[value.date]);
       }
-      res[value.date].value += Number(value.value)
-      return res
-    }, {})
+      res[value.date].value += Number(value.value);
+      return res;
+    }, {});
 
-
-    return res.json(result)
+    return res.json(result);
   }
-
-  // async getSales (company_id) {
-  //   const { count, rows } = await Sale.findAndCountAll({
-  //     attributes: ['value'],
-  //     where: {
-  //       company_id,
-  //       createdAt: {
-  //         [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
-  //       },
-  //     },
-  //   })
-
-  //   const total = rows.reduce((totalSum, speciality) => {
-  //     return Number(totalSum) + Number(speciality.value)
-  //   }, 0)
-
-  //   const sales = {
-  //     principal_text: count,
-  //     secondary_text: total,
-  //   }
-  //   return sales
-  // }
 }
-export default new DashboardController()
+export default new DashboardController();

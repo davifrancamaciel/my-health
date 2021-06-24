@@ -26,6 +26,9 @@ export function* updateProfile({ payload }) {
 			formData.append('crm', profile.crm);
 			formData.append('profession', profile.profession);
 			formData.append('birth_date', profile.birth_date);
+			formData.append('bank_agency', profile.bank_agency);
+			formData.append('bank_account', profile.bank_account);
+			formData.append('bank_pix', profile.bank_pix);
 		}
 
 		if (profile.latitude) {

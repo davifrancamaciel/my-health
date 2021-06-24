@@ -1,61 +1,61 @@
-import React from 'react'
-import {
-  AiOutlineShop,
-  AiOutlineCar,
-  AiOutlineUsergroupDelete
-} from 'react-icons/ai'
-import { MdAttachMoney } from 'react-icons/md'
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { MdAttachMoney } from 'react-icons/md';
+import { FiCalendar } from 'react-icons/fi';
 
-import Card from './Card'
-import { formatPrice } from 'Utils/formatPrice'
+import Card from './Card';
+import { formatPrice } from 'Utils/formatPrice';
+import roulesEnum from 'enums/roulesEnum';
 
-import { Container } from './styles'
+import { Container } from './styles';
 
-function CardContainer ({ loaded, dashboard, company_provider }) {
-  return (
-    <Container>
-      {company_provider && (
-        <Card
-          route={'company'}
-          loaded={loaded}
-          title={'Lojas'}
-          icon={<AiOutlineShop size={26} />}
-          principal_text={loaded && dashboard.companies.principal_text}
-          secondary_text={loaded && dashboard.companies.secondary_text}
-        />
-      )}
-      <Card
-        route={!company_provider ? 'vehicle' : 'dashboard'}
-        loaded={loaded}
-        principal_text={loaded && dashboard.vehicles.principal_text}
-        secondary_text={loaded && dashboard.vehicles.secondary_text}
-        title={'Consultas'}
-        icon={<AiOutlineCar size={26} />}
-      />
-      <Card
-        route={!company_provider ? 'client' : 'dashboard'}
-        loaded={loaded}
-        principal_text={loaded && dashboard.clients.principal_text}
-        secondary_text={loaded && dashboard.clients.secondary_text}
-        title={'Consultas'}
-        icon={<AiOutlineUsergroupDelete size={26} />}
-        total={!!company_provider}
-      />
-      {!company_provider && (
-        <Card
-          route={'speciality'}
-          loaded={loaded}
-          principal_text={loaded && dashboard.specialities.principal_text}
-          secondary_text={
-            loaded && formatPrice(dashboard.specialities.secondary_text)
-          }
-          title={'Consultas'}
-          icon={<MdAttachMoney size={26} />}
-          total
-        />
-      )}
-    </Container>
-  )
+function CardContainer({ loaded, dashboard, company_provider }) {
+	const profile = useSelector((state) => state.user.profile);
+
+	const [isAdmin, setIsAdmin] = useState(false);
+
+	useEffect(() => {
+		setIsAdmin(profile.roules === roulesEnum.ADMIN);
+	}, [profile]);
+
+	return (
+		<Container>
+			{!isAdmin && (
+				<Card
+					route={'schedule'}
+					loaded={loaded}
+					text={loaded && dashboard.appointments.schedule.text}
+					title={'Agendamentos para hoje'}
+					icon={<FiCalendar size={26} />}					
+				/>
+			)}
+			<Card
+				route={'report'}
+				loaded={loaded}
+				title={isAdmin ? 'Receita' : 'Agendamentos deste mês'}
+				icon={<MdAttachMoney size={26} />}
+				text={loaded && formatPrice(dashboard.appointments.total.text)}
+			/>
+			<Card
+				route={'report'}
+				loaded={loaded}
+				text={loaded && formatPrice(dashboard.appointments.expense.text)}
+				title={isAdmin ? 'Despesa' : 'Comissão deste mês'}
+				icon={<MdAttachMoney size={26} />}
+				total={!isAdmin}
+			/>
+			{isAdmin && (
+				<Card
+					route={'report'}
+					loaded={loaded}
+					text={loaded && formatPrice(dashboard.appointments.profit.text)}
+					title={'Lucro'}
+					icon={<MdAttachMoney size={26} />}
+					total
+				/>
+			)}
+		</Container>
+	);
 }
 
-export default CardContainer
+export default CardContainer;

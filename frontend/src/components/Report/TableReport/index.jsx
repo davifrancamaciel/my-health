@@ -14,29 +14,27 @@ function TableReport({ title, headerList, children }) {
 	}, [headerList]);
 
 	return (
-		<div>
-			<Container>
-				<div className="page">
-					<table style={{ fontSize: '12px' }} cellSpacing="0">
-						<thead>
-							<tr>
-								<th colSpan={`${headerListItens.length}`}>
-									<header>
-										<img alt={''} src={logo} />
-										<h2>{title}</h2>
-									</header>
-								</th>
-							</tr>
+		<Container>
+			<div className="page">
+				<table style={{ fontSize: '12px' }} cellSpacing="0">
+					<thead>
+						<tr>
+							<th colSpan={`${headerListItens.length}`}>
+								<header>
+									<img alt={''} src={logo} />
+									<h2>{title}</h2>
+								</header>
+							</th>
+						</tr>
 
-							<tr>
-								{headerListItens.map((titleHeader, i) => titleHeader && <th key={i}>{titleHeader}</th>)}
-							</tr>
-						</thead>
-						<tbody>{children}</tbody>
-					</table>
-				</div>
-			</Container>
-		</div>
+						<tr>
+							{headerListItens.map((titleHeader, i) => titleHeader && <th key={i}>{titleHeader}</th>)}
+						</tr>
+					</thead>
+					<tbody>{children}</tbody>
+				</table>
+			</div>
+		</Container>
 	);
 }
 

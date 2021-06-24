@@ -6,7 +6,7 @@ import api from 'services/api'
 import Container from 'components/_layouts/Container'
 import SignatureControl from './SignatureControl'
 import CardContainer from './CardContainer'
-import SpecialityLineGraph from './SpecialityLineGraph'
+import AppointmentsLineGraph from './AppointmentsLineGraph'
 
 import { HeaderContainer, DashboardContainer } from './styles'
 import getValidationErrors from 'Utils/getValidationErrors'
@@ -27,7 +27,7 @@ const Dashboard = () => {
         getValidationErrors(error)
       }
     }
-    // loadDashboard()
+     loadDashboard()
   }, [])
 
   return (
@@ -38,9 +38,9 @@ const Dashboard = () => {
             <h1>Dashboard</h1>
           </span>
 
-          {!profile.company_provider && loaded && (
+          {/* {!profile.company_provider && loaded && (
             <SignatureControl company={dashboard.company} />
-          )}
+          )} */}
         </div>
       </HeaderContainer>
       <Container>
@@ -51,7 +51,7 @@ const Dashboard = () => {
             loaded={loaded}
           />
 
-          {/* <SpecialityLineGraph className='speciality-graph'/> */}
+          <AppointmentsLineGraph className='appointments-graph'/>
           
 
         </DashboardContainer>

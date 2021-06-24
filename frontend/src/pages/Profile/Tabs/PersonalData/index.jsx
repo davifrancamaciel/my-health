@@ -63,16 +63,27 @@ function PersonalData() {
 					<legend>
 						<h2>Dados</h2>
 					</legend>
-					<div className="field">
-						<Input name="name" type="text" label="Nome" />
+					<div className="field-group">
+						<div className="field">
+							<Input name="name" type="text" label="Nome" />
+						</div>
+						<div className="field">
+							<Input name="email" type="email" label="Email" />
+						</div>
 					</div>
 
 					<div className="field-group">
 						<div className="field">
-							<Input name="email" type="email" label="Email" />
+							<Input name="profession" type="text" label="Profissão" />
 						</div>
 						<div className="field">
-							<Input name="profession" type="text" label="Profissão" />
+							<Input name="bank_agency" type="text" label="Agência" />
+						</div>
+						<div className="field">
+							<Input name="bank_account" type="text" label="Conta" />
+						</div>
+						<div className="field">
+							<Input name="bank_pix" type="text" label="PIX" />
 						</div>
 					</div>
 					<div className="field-group">

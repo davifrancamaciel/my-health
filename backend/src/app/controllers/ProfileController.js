@@ -49,7 +49,6 @@ class ProfileController {
         longitude: propertyValidate(userUpdate.longitude),
       };
 
-
       await user.update({ ...userUpdateFormated, image });
 
       const {
@@ -74,6 +73,9 @@ class ProfileController {
         longitude,
         roules,
         type,
+        bank_agency,
+        bank_account,
+        bank_pix,
       } = await User.findByPk(req.userId);
 
       return res.json({
@@ -100,6 +102,9 @@ class ProfileController {
         longitude,
         roules,
         type,
+        bank_agency,
+        bank_account,
+        bank_pix,
         token: jwt.sign({ id, provider, roules, type }, authConfig.secret, {
           expiresIn: authConfig.expiresIn,
         }),

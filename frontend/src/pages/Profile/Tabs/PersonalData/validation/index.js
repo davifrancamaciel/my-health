@@ -15,6 +15,9 @@ export default function validation() {
 		crm: Yup.string().max(20, 'Máximo 20 caracteres'),
 		rg: Yup.string().max(20, 'Máximo 20 caracteres'),
 		birth_date: Yup.date().nullable(),
+		bank_agency: Yup.string().max(10, 'Máximo 10 caracteres'),
+		bank_account: Yup.string().max(10, 'Máximo 10 caracteres'),
+		bank_pix: Yup.string().max(50, 'Máximo 50 caracteres'),
 	});
 
 	return schema;

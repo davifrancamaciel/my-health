@@ -36,6 +36,9 @@ class SessionController {
         'longitude',
         'validated',
         'roules',
+        'bank_agency',
+        'bank_account',
+        'bank_pix',
       ],
     });
     console.log('passou aqui');
@@ -72,6 +75,9 @@ class SessionController {
       validated,
       roules,
       type,
+      bank_agency,
+      bank_account,
+      bank_pix,
     } = user;
 
     if (!validated) {
@@ -110,6 +116,9 @@ class SessionController {
         longitude,
         roules,
         type,
+        bank_agency,
+        bank_account,
+        bank_pix,
       },
 
       token: jwt.sign({ id, provider, roules, type }, authConfig.secret, {

@@ -11,16 +11,19 @@ import Routes from './routes'
 
 import history from './services/browserhistory'
 
+import BackToTop from 'components/BackToTop'
+import ScrollToTop from 'components/ScrollToTop'
 import { store, persistor } from './store'
-
 
 function App () {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Router history={history}>
+          <ScrollToTop />
           <Routes />
           <ToastContainer autoClose={10000} />
+          <BackToTop />
           <GlobalStyle />
         </Router>
       </PersistGate>

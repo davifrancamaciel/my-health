@@ -6,7 +6,7 @@ import authConfig from '../../config/auth';
 class SessionController {
   async store(req, res) {
     const { email, password } = req.body;
-    console.log('bateu aqui');
+
     const user = await User.findOne({
       where: { email },
       attributes: [
@@ -41,7 +41,7 @@ class SessionController {
         'bank_pix',
       ],
     });
-    console.log('passou aqui');
+
     if (!user) {
       return res.status(401).json({ error: 'Usuário não encontrado' });
     }

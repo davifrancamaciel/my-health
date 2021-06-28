@@ -13,7 +13,6 @@ class ForgotController {
         attributes: ['id', 'name', 'email', 'active'],
       });
 
-
       if (!user) {
         return res.status(401).json({ error: 'Usuário não encontrado' });
       }

@@ -4,33 +4,22 @@ import User from '../../models/User';
 import Appointment from '../../models/Appointment';
 import Speciality from '../../models/Speciality';
 import SpecialityType from '../../models/SpecialityType';
+import CreatePurseService from '../purse/create';
 
 import Mail from '../../../lib/Mail';
 
 class AppointmentCancelService {
   async run({ id, user_id, dateFormatedComplete }) {
-    let appointment = await Appointment.findByPk(id, {
+    const appointment = await Appointment.findByPk(id, {
       include: [
-        {
-          model: User,
-          as: 'provider',
-          attributes: ['name', 'email'],
-        },
-        {
-          model: User,
-          as: 'user',
-          attributes: ['name', 'email'],
-        },
+        { model: User, as: 'provider', attributes: ['name', 'email'] },
+        { model: User, as: 'user', attributes: ['name', 'email'] },
         {
           model: Speciality,
           as: 'speciality',
           attributes: ['id', 'value'],
           include: [
-            {
-              model: SpecialityType,
-              as: 'type',
-              attributes: ['name'],
-            },
+            { model: SpecialityType, as: 'type', attributes: ['name'] },
           ],
         },
       ],
@@ -53,6 +42,14 @@ class AppointmentCancelService {
 
     appointment.canceled_at = new Date();
     await appointment.save();
+
+    const description = `Crédito referente ao cancelamento do agendamento (${appointment.id}) de ${appointment.speciality.type.name} no ${dateFormatedComplete} com o médico ${appointment.provider.name}`;
+    CreatePurseService.run({
+      user_id,
+      description,
+      value: appointment.value,
+      appointment_id: appointment.id,
+    });
 
     // INICIO notificações aos envolvidos
 

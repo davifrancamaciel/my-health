@@ -1,6 +1,6 @@
 import * as Yup from 'yup'
 
-export default function validation (provider) {
+export default function validation () {
   const schema = Yup.object().shape({
     active: Yup.boolean().optional(),
     reset: Yup.boolean().optional(),
@@ -13,10 +13,7 @@ export default function validation (provider) {
       .max(100, 'Máximo 100 caracteres'),
     whatsapp: Yup.string()
       .required('O whatsapp é obrigatório')
-      .max(20, 'Máximo 20 caracteres'),
-    company_id: provider
-      ? Yup.string().required('A loja é obrigatória')
-      : Yup.string().optional()
+      .max(20, 'Máximo 20 caracteres'),    
   })
 
   return schema

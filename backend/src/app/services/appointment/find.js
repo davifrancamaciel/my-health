@@ -17,16 +17,8 @@ class AppointmentFindService {
   async run({ id, userId }) {
     const appointment = await Appointment.findByPk(id, {
       include: [
-        {
-          model: User,
-          as: 'provider',
-          attributes: attributesUser,
-        },
-        {
-          model: User,
-          as: 'user',
-          attributes: attributesUser,
-        },
+        { model: User, as: 'provider', attributes: attributesUser },
+        { model: User, as: 'user', attributes: attributesUser },
         {
           model: Speciality,
           as: 'speciality',

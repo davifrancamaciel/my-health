@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import AppointmentController from './app/controllers/AppointmentController';
+import AppointmentController from '../app/controllers/AppointmentController';
 
 const appointmentsRouter = Router();
 

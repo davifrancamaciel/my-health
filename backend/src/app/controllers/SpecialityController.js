@@ -48,14 +48,14 @@ class SpecialityController {
   async find(req, res) {
     const { id } = req.params;
 
-    const { userCompanyId, userCompanyProvider } = req;
+    const { userId } = req;
 
     const speciality = await Speciality.findByPk(id, {
       include: [
         {
           model: SpecialityType,
           as: 'type',
-          attributes: ['name', 'value','segment_id'],
+          attributes: ['name', 'value', 'segment_id'],
           include: [
             {
               model: Segment,
@@ -70,12 +70,10 @@ class SpecialityController {
       return res.status(400).json({ error: 'Especialidade não encontrada' });
     }
 
-    if (!userCompanyProvider) {
-      if (speciality.company_id != userCompanyId) {
-        return res
-          .status(401)
-          .json({ error: 'Usuário não permissão ver esta especialidade' });
-      }
+    if (speciality.user_id !== userId) {
+      return res
+        .status(401)
+        .json({ error: 'Usuário não permissão ver esta especialidade' });
     }
 
     return res.json(speciality);
@@ -144,7 +142,7 @@ class SpecialityController {
 
   async delete(req, res) {
     try {
-      const { userCompanyProvider, userProvider, userCompanyId } = req;
+      const { userProvider, userId } = req;
 
       if (!userProvider) {
         return res.status(401).json({
@@ -160,9 +158,9 @@ class SpecialityController {
         return res.status(400).json({ error: 'especialidade não encontrada' });
       }
 
-      if (!userCompanyProvider && userCompanyId !== speciality.company_id) {
+      if (userId !== speciality.user_id) {
         return res.status(401).json({
-          error: 'Não é possivel excluir um registro de outra loja',
+          error: 'Não é possivel excluir um registro de outro medico',
         });
       }
 
@@ -179,6 +177,11 @@ class SpecialityController {
           serveError: error,
         });
       }
+      return res.status(500).json({
+        error: 'Ocoreu um erro interno',
+        messages: error,
+        serverError: error,
+      });
     }
   }
 }

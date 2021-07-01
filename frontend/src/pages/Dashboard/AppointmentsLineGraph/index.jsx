@@ -61,7 +61,7 @@ function LineGraph({ ...props }) {
 
 	useEffect(() => {
 		async function load() {
-			const response = await api.get('dashboard-appointments-graph');
+			const response = await api.get('dashboard/appointments-graph');
 			let dataFormated = buildChartData(response.data);
 			setData(dataFormated);
 		}

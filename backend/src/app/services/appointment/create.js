@@ -37,16 +37,16 @@ class CreateAppontmentService {
     if (isBefore(hourStart, new Date())) {
       throw new Error('Não é permitido marcar para datas passadas');
     }
-    //Checando se a data esta disponivel
+    // Checando se a data esta disponivel
     const checkAvailability = await Appointment.findOne({
       where: {
         date: hourStart,
         canceled_at: null,
         [Op.or]: [
-          { provider_id: provider_id },
+          { provider_id },
           { user_id: provider_id },
           { provider_id: user_id },
-          { user_id: user_id },
+          { user_id },
         ],
       },
     });

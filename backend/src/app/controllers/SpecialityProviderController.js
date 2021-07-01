@@ -59,7 +59,7 @@ class SpecialityProviderController {
       }
 
       const scheduleConfig = JSON.parse(user.schedule);
-      let userFormated = user;
+      const userFormated = user;
       userFormated.schedule = scheduleConfig.daysWeekConfig;
 
       return res.json(userFormated);

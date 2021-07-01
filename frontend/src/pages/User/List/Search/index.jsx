@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Form } from '@rocketseat/unform'
-import { useSelector } from 'react-redux'
 import Input from 'components/Inputs/Input'
 import SubmitButton from 'components/SubmitButton'
 import FormSearchContainer from 'components/_layouts/FormSearchContainer'
 
-export default function Search ({ onSearch, provider, setPage }) {
-  const profile = useSelector(state => state.user.profile)
-
+export default function Search ({ onSearch, setPage }) {
+  
   function handleSubmit (data) {
     onSearch(data)
     setPage(1)
@@ -17,12 +15,6 @@ export default function Search ({ onSearch, provider, setPage }) {
     <FormSearchContainer>
       <Form onSubmit={handleSubmit}>
         <div className='field-group'>
-          {profile.company_provider && (
-            <div className='field'>
-              <Input name='company_name' label='Loja' />
-            </div>
-          )}
-
           <div className='field'>
             <Input name='name' label='Nome' />
           </div>

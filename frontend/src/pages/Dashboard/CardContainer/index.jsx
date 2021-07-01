@@ -9,7 +9,7 @@ import roulesEnum from 'enums/roulesEnum';
 
 import { Container } from './styles';
 
-function CardContainer({ loaded, dashboard, company_provider }) {
+function CardContainer({ loaded, dashboard }) {
 	const profile = useSelector((state) => state.user.profile);
 
 	const [isAdmin, setIsAdmin] = useState(false);

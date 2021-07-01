@@ -75,7 +75,7 @@ const UserCreateEdit = () => {
 	return (
 		<Container title={`Cadastro de usuários do sistema`} showBack>
 			<FormContainer loading={loading}>
-				<Form onSubmit={handleSubmit} initialData={user} schema={validation(profile.company_provider)}>
+				<Form onSubmit={handleSubmit} initialData={user} schema={validation()}>
 					<fieldset>
 						<legend>
 							<h2>Dados</h2>

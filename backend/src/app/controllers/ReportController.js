@@ -1,4 +1,3 @@
-import { parseISO } from 'date-fns';
 import ReportService from '../services/report/index';
 
 class ReportController {
@@ -12,7 +11,7 @@ class ReportController {
       provider_id,
       type,
       provider_name,
-      user_name
+      user_name,
     } = req.query;
 
     const appointments = await ReportService.run({
@@ -25,7 +24,7 @@ class ReportController {
       provider_id,
       type,
       provider_name,
-      user_name
+      user_name,
     });
 
     return res.json(appointments);

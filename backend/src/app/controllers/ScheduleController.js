@@ -22,7 +22,7 @@ class ScheduleController {
     const { date } = req.query;
     const parsedDate = parseISO(date);
 
-    let whereStatement = {
+    const whereStatement = {
       canceled_at: null,
       date: {
         [Op.between]: [startOfDay(parsedDate), endOfDay(parsedDate)],

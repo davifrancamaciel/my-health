@@ -9,7 +9,7 @@ module.exports = {
 };
 
 function load() {
-  var list = [];
+  const list = [];
   for (let i = 1; i < data_array.length; i++) {
     list.push({
       name: data_array[i],
@@ -22,4 +22,4 @@ function load() {
   return list;
 }
 
-var data_array = [];
+const data_array = ['teste'];

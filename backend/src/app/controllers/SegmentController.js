@@ -1,7 +1,7 @@
 import { Op } from 'sequelize';
+import { startOfDay, endOfDay, parseISO } from 'date-fns';
 import Segment from '../models/Segment';
 import SpecialityType from '../models/SpecialityType';
-import { startOfDay, endOfDay, parseISO } from 'date-fns';
 
 class SegmentController {
   async index(req, res) {
@@ -16,7 +16,7 @@ class SegmentController {
       limit,
     } = req.query;
 
-    let whereStatement = {};
+    const whereStatement = {};
 
     if (type) whereStatement.type = type;
 
@@ -46,7 +46,7 @@ class SegmentController {
 
     const { count, rows } = await Segment.findAndCountAll({
       where: whereStatement,
-      limit: limit ? limit : 20,
+      limit: limit || 20,
       order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
     });
@@ -172,11 +172,10 @@ class SegmentController {
   async list(req, res) {
     const { active, order } = req.query;
 
-    let whereStatement = {};
-    if (active != undefined)
-      whereStatement.active = active === 'true' ? true : false;
+    const whereStatement = {};
+    if (active !== undefined) whereStatement.active = active === 'true';
 
-    const orderBy = order ? order : 'type';
+    const orderBy = order || 'type';
 
     const types = await Segment.findAll({
       order: [orderBy],

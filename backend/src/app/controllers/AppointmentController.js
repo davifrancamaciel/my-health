@@ -20,16 +20,11 @@ class AppointmentController {
       page = 1,
     } = req.query;
 
-    let whereStatement = {
-      active: true,
-      user_id: {
-        [Op.ne]: userId,
-      },
-    };
+    const whereStatement = { active: true, user_id: { [Op.ne]: userId } };
 
-    let whereStatementProvider = {};
-    let whereStatementSegmentType = { active: true };
-    let whereStatementSpecialityType = { active: true };
+    const whereStatementProvider = {};
+    const whereStatementSegmentType = { active: true };
+    const whereStatementSpecialityType = { active: true };
 
     if (type) whereStatementSegmentType.type = type;
 

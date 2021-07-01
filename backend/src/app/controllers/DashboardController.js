@@ -13,6 +13,7 @@ import {
 
 import User from '../models/User';
 import Appointment from '../models/Appointment';
+
 class DashboardController {
   async index(req, res) {
     try {
@@ -21,7 +22,7 @@ class DashboardController {
         where: { id: userId },
         attributes: ['roules'],
       });
-      let whereStatement = {
+      const whereStatement = {
         canceled_at: null,
         date: {
           [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
@@ -79,7 +80,7 @@ class DashboardController {
 
       return res.json(model);
     } catch (error) {
-      return res.status(500).json({ error: 'Erro interno', error });
+      return res.status(500).json({ error: 'Erro interno' });
     }
   }
 
@@ -89,7 +90,7 @@ class DashboardController {
       where: { id: userId },
       attributes: ['roules'],
     });
-    let whereStatement = {
+    const whereStatement = {
       canceled_at: null,
       createdAt: {
         [Op.between]: [subYears(new Date(), 1), endOfMonth(new Date())],
@@ -106,8 +107,6 @@ class DashboardController {
       where: whereStatement,
     });
 
-    //return res.json(rows);
-
     const appoitments = rows.map(appointment => {
       const date = setMilliseconds(
         setSeconds(setMinutes(setHours(appointment.date, 0), 0), 0),
@@ -119,14 +118,14 @@ class DashboardController {
       };
     });
 
-    var result = [];
-    appoitments.reduce(function(res, value) {
-      if (!res[value.date]) {
-        res[value.date] = { date: value.date, value: 0 };
-        result.push(res[value.date]);
+    const result = [];
+    appoitments.reduce((acc, value) => {
+      if (!acc[value.date]) {
+        acc[value.date] = { date: value.date, value: 0 };
+        result.push(acc[value.date]);
       }
-      res[value.date].value += Number(value.value);
-      return res;
+      acc[value.date].value += Number(value.value);
+      return acc;
     }, {});
 
     return res.json(result);

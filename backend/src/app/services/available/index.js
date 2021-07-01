@@ -1,8 +1,8 @@
 import { startOfDay, endOfDay } from 'date-fns';
+import { Op } from 'sequelize';
 import Appointment from '../../models/Appointment';
 import Speciality from '../../models/Speciality';
 import User from '../../models/User';
-import { Op } from 'sequelize';
 
 class AvailableService {
   async run({ searchDate, speciality_id, user_id }) {
@@ -18,7 +18,7 @@ class AvailableService {
           { provider_id: speciality.user_id },
           { user_id: speciality.user_id },
           { provider_id: user_id },
-          { user_id: user_id },
+          { user_id },
         ],
         canceled_at: null,
         date: {
@@ -26,13 +26,7 @@ class AvailableService {
         },
       },
       attributes: ['id', 'user_id', 'date', 'cancelable'],
-      include: [
-        {
-          model: User,
-          as: 'provider',
-          attributes: ['name'],
-        },
-      ],
+      include: [{ model: User, as: 'provider', attributes: ['name'] }],
     });
 
     const available = speciality.scheduleFormated.scheduleConfig

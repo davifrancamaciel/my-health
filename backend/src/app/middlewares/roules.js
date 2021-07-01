@@ -1,6 +1,6 @@
 import roulesEnum from '../enums/roulesEnum';
 
-export default async (req, res, next) => {
+export default (req, res, next) => {
   const { roules } = req;
 
   try {
@@ -12,6 +12,6 @@ export default async (req, res, next) => {
 
     return next();
   } catch (error) {
-    res.status(401).json({ error: 'Token inválido' });
+    return res.status(401).json({ error: 'Token inválido' });
   }
 };

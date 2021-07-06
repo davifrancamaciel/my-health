@@ -1,9 +1,9 @@
 import { Op } from 'sequelize';
 
+import { startOfDay, endOfDay, parseISO } from 'date-fns';
 import Speciality from '../../models/Speciality';
 import SpecialityType from '../../models/SpecialityType';
 import Segment from '../../models/Segment';
-import { startOfDay, endOfDay, parseISO } from 'date-fns';
 
 class SpecialityIndexService {
   async run({
@@ -19,11 +19,11 @@ class SpecialityIndexService {
     segment_id,
     speciality_type_id,
   }) {
-    let whereStatement = {
+    const whereStatement = {
       user_id,
     };
-    let whereStatementSegmentType = {};
-    let whereStatementSpecialityType = {};
+    const whereStatementSegmentType = {};
+    const whereStatementSpecialityType = {};
 
     if (type) whereStatementSegmentType.type = type;
 
@@ -59,7 +59,7 @@ class SpecialityIndexService {
 
     const { count, rows } = await Speciality.findAndCountAll({
       where: whereStatement,
-      limit: limit ? limit : 20,
+      limit: limit || 20,
       order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
       include: [

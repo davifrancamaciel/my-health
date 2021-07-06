@@ -19,7 +19,7 @@ export const Badge = styled.button`
 				top: 0;
 				width: 8px;
 				height: 8px;
-				background: #ff892e;
+				background: var(--warning-color);
 				content: '';
 				border-radius: 50px;
 			}

@@ -19,24 +19,27 @@ function Purse () {
   async function load () {
     try {
       setLoading(true)
-      const response = await api.get('purses')
+      const response = await api.get('purses/me')
 
       const data = response.data.map(item => {
         const url = item.appointment_id
           ? `/appointment/details/${item.appointment_id}`
           : '#'
-        let title = ''
+        let title = '',
+          classTitle = ''
         if ((item.active && item.used) || (!item.active && item.used)) {
           title = 'já utilizado'
+          classTitle = 'used'
         }
         if (!item.active && !item.used) {
           title = 'pendente de aprovação'
+          classTitle = 'inactive'
         }
         if (item.active && !item.used) {
           title = 'disponível para procedimentos'
         }
         const value = formatPrice(item.value)
-        return { ...item, url, title, value }
+        return { ...item, url, title, value, classTitle }
       })
 
       console.log(data)
@@ -54,7 +57,7 @@ function Purse () {
           {purses.map(item => (
             <Link key={item.id} to={item.url}>
               <div>
-                <strong>
+                <strong className={item.classTitle}>
                   Credito de {item.value} {item.title}
                 </strong>
                 <p>{item.description}</p>

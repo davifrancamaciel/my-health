@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import PurseController from '../app/controllers/PurseController';
+import PurseProfileController from '../app/controllers/PurseProfileController';
 
 const pursesRouter = Router();
 
-pursesRouter.get('/', PurseController.index);
+pursesRouter.get('/me', PurseProfileController.index);
 
 export default pursesRouter;

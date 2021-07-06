@@ -4,7 +4,7 @@ import User from '../../models/User';
 
 class UserIndexService {
   async run({ name, email, provider, page, orderBy, sorting }) {
-    let whereStatement = {};
+    const whereStatement = {};
 
     if (provider != undefined) whereStatement.provider = provider;
 
@@ -45,7 +45,7 @@ class UserIndexService {
         'url',
         'createdAt',
         'latitude',
-        'longitude'
+        'longitude',
       ],
     });
 

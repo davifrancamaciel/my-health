@@ -14,6 +14,7 @@ export default createGlobalStyle`
         --secondary-color: ${SECONDARY_COLOR} ;
         --text-color: #6c6c80;
         --danger-color: #f04d5a;        
+        --warning-color: #ff892e;        
     }
     * {
         margin: 0;

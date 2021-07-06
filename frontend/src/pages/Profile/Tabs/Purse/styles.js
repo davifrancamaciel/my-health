@@ -1,5 +1,4 @@
-import styled, { css } from "styled-components";
-import { shade } from "polished";
+import styled, { css } from 'styled-components'
 
 export const Itens = styled.div`
   a {
@@ -18,14 +17,20 @@ export const Itens = styled.div`
     &:hover {
       transform: translateX(28px);
     }
-     div {
+    div {
       margin: 0 16px;
       flex: 1;
       strong {
         font-size: 20px;
-        color: #3d3d4d;
+        color: var(--primary-color);
+        &.used {
+          color: var(--danger-color);
+        }
+        &.inactive {
+          color: var(--warning-color);
+        }
       }
-      P {
+      p {
         font-size: 18px;
         color: #a8a8b3;
         margin-top: 4px;
@@ -36,4 +41,4 @@ export const Itens = styled.div`
       color: #a8a8b3;
     }
   }
-`;
+`

@@ -1,7 +1,9 @@
-import CreditIndexService from '../services/credit/index';
-import CreateCreditService from '../services/credit/create';
 import Credit from '../models/Credit';
 import User from '../models/User';
+
+import CreditIndexService from '../services/credit/index';
+import CreateCreditService from '../services/credit/create';
+import UpdateCreditService from '../services/credit/update';
 
 class CreditController {
   async index(req, res) {
@@ -85,33 +87,12 @@ class CreditController {
 
   async update(req, res) {
     try {
-      const { id } = req.body;
       const { userProvider } = req;
 
-      const credit = await Credit.findByPk(id);
-
-      if (!credit) {
-        return res.status(400).json({ error: 'Crédito não encontrado' });
-      }
-
-      if (credit.used) {
-        return res.status(400).json({
-          error:
-            'Este crédito ja foi utilizado pelo usuario e não poderá ser alterado',
-        });
-      }
-
-      if (!userProvider) {
-        return res.status(401).json({
-          error: 'Você não possui permissão para alterar este crédito',
-        });
-      }
-
-      await credit.update({
+      const creditEdited = await UpdateCreditService.run({
         ...req.body,
+        userProvider,
       });
-
-      const creditEdited = await Credit.findByPk(id);
 
       return res.json(creditEdited);
     } catch (error) {

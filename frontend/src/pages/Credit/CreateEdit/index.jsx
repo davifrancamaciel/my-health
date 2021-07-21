@@ -25,6 +25,7 @@ const CreditCreateEdit = function () {
   const [credit, setCredit] = useState({})
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
+  const [sendMail, setSendMail] = useState(false)
   const [users, setUsers] = useState([])
 
   useEffect(() => {
@@ -65,7 +66,8 @@ const CreditCreateEdit = function () {
         ...data,
         id: id ? Number(id) : 0,
         value: priceToNumber(data.value),
-        active
+        active,
+        sendMail
       }
 
       setLoading(true)
@@ -134,6 +136,19 @@ const CreditCreateEdit = function () {
                   />
                 }
                 label={`Disponível para uso`}
+              />
+            )}
+            {!credit.used && (
+              <FormControlLabel
+                control={
+                  <Switch
+                    color='primary'
+                    checked={sendMail}
+                    onChange={() => setSendMail(!active)}
+                    name={`sendMail`}
+                  />
+                }
+                label={`Desejo enviar um e-mail de notificação`}
               />
             )}
             {credit.used && (

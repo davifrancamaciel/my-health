@@ -91,7 +91,7 @@ function Profile () {
             <Tab icon={<FiLock size={26} />} label='Senha' {...tabsProps(2)} />
             <Tab
               icon={<FaMoneyBillWave size={26} />}
-              label='Crédito'
+              label='Créditos'
               {...tabsProps(3)}
             />
           </Tabs>

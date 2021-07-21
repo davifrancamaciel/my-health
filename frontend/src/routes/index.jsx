@@ -17,6 +17,9 @@ import SpecialityCreateEdit from '../pages/Speciality/CreateEdit';
 import SegmentList from '../pages/Segment/List';
 import SegmentCreateEdit from '../pages/Segment/CreateEdit';
 
+import CreditList from '../pages/Credit/List';
+import CreditCreateEdit from '../pages/Credit/CreateEdit';
+
 import SpecialityTypeList from '../pages/SpecialityType/List';
 import SpecialityTypeCreateEdit from '../pages/SpecialityType/CreateEdit';
 
@@ -60,25 +63,15 @@ const Routes = () => {
 			<Route exact path="/segment/edit/:id" component={SegmentCreateEdit} isPrivate roules={'ADMIN'} />
 
 			<Route exact path="/speciality-type" component={SpecialityTypeList} isPrivate roules={'ADMIN'} />
-			<Route
-				exact
-				path="/speciality-type/create"
-				component={SpecialityTypeCreateEdit}
-				isPrivate
-				roules={'ADMIN'}
-			/>
-			<Route
-				exact
-				path="/speciality-type/edit/:id"
-				component={SpecialityTypeCreateEdit}
-				isPrivate
-				roules={'ADMIN'}
-			/>
+			<Route exact path="/speciality-type/create"	component={SpecialityTypeCreateEdit} isPrivate roules={'ADMIN'}	/>
+			<Route exact path="/speciality-type/edit/:id" component={SpecialityTypeCreateEdit} isPrivate roules={'ADMIN'} />
+			
 			<Route exact path="/user" component={UserList} isPrivate roules={'ADMIN'} />
 			<Route exact path="/user/edit/:id" component={UserCreateEdit} isPrivate roules={'ADMIN'} />
 
-			<Route exact path="/user" component={UserList} isPrivate roules={'ADMIN'} />
-			<Route exact path="/user/edit/:id" component={UserCreateEdit} isPrivate roules={'ADMIN'} />
+			<Route exact path="/credit" component={CreditList} isPrivate roules={'ADMIN'} />
+			<Route exact path="/credit/create" component={CreditCreateEdit} isPrivate roules={'ADMIN'} />
+			<Route exact path="/credit/edit/:id" component={CreditCreateEdit} isPrivate roules={'ADMIN'} />
 
 			<Redirect from="*" to="/?r=true" />
 		</Switch>

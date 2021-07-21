@@ -108,6 +108,31 @@ class UserController {
       });
     }
   }
+
+  async list(req, res) {
+    const { active } = req.query;
+
+    const whereStatement = {
+      validated: true,
+    };
+
+    if (active !== undefined) whereStatement.active = active === 'true';
+
+    const users = await User.findAll({
+      order: ['name'],
+      attributes: ['id', 'name', 'email'],
+      where: whereStatement,
+    });
+
+    const usersFormated = users.map(i => ({
+      id: i.id,
+      title: `${i.name} - ${i.email}`,
+      value: i.id,
+      label: `${i.name} - ${i.email}`,
+    }));
+
+    return res.json(usersFormated);
+  }
 }
 
 export default new UserController();

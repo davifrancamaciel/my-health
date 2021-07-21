@@ -35,7 +35,7 @@
 
 // import ForgotController from './app/controllers/ForgotController';
 // import ReportController from './app/controllers/ReportController';
-// import PurseController from './app/controllers/PurseController';
+// import CreditController from './app/controllers/CreditController';
 
 // const routes = new Router();
 // const upload = multer(multerConfig);
@@ -95,7 +95,7 @@
 // routes.get('/segments-list', SegmentController.list);
 
 // routes.get('/report', ReportController.index);
-// routes.get('/purses', PurseController.index);
+// routes.get('/credits', CreditController.index);
 
 // routes.use(roulesMiddleware);
 // routes.post('/segments', SegmentController.store);

@@ -10,16 +10,16 @@ import Container from 'components/_layouts/Container'
 import { Main } from 'components/_layouts/ListContainer/styles'
 import { Itens } from './styles'
 
-function Purse () {
+function Credit () {
   const [loading, setLoading] = useState(false)
-  const [purses, setPurses] = useState([])
+  const [credits, setCredits] = useState([])
   useEffect(() => {
     load()
   }, [])
   async function load () {
     try {
       setLoading(true)
-      const response = await api.get('purses/me')
+      const response = await api.get('credits/me')
 
       const data = response.data.map(item => {
         const url = item.appointment_id
@@ -43,7 +43,7 @@ function Purse () {
       })
 
       console.log(data)
-      setPurses(data)
+      setCredits(data)
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -54,7 +54,7 @@ function Purse () {
     <Container loading={loading ? Boolean(loading) : undefined}>
       <Main>
         <Itens>
-          {purses.map(item => (
+          {credits.map(item => (
             <Link key={item.id} to={item.url}>
               <div>
                 <strong className={item.classTitle}>
@@ -71,4 +71,4 @@ function Purse () {
   )
 }
 
-export default Purse
+export default Credit

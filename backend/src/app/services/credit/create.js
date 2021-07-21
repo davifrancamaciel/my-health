@@ -1,8 +1,8 @@
-import Purse from '../../models/Purse';
+import Credit from '../../models/Credit';
 
-class CreatePurseService {
+class CreateCreditService {
   async run({ user_id, description, value, active, used, appointment_id }) {
-    const purse = await Purse.create({
+    const credit = await Credit.create({
       user_id,
       description,
       value,
@@ -11,8 +11,8 @@ class CreatePurseService {
       appointment_id,
     });
 
-    return purse;
+    return credit;
   }
 }
 
-export default new CreatePurseService();
+export default new CreateCreditService();

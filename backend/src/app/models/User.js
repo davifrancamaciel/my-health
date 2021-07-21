@@ -1,4 +1,4 @@
-import Sequelize, { Model, DataTypes } from 'sequelize';
+import Sequelize, { Model } from 'sequelize';
 import bcrypty from 'bcryptjs';
 
 class User extends Model {

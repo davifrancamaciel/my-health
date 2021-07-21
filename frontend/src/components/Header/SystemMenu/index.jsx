@@ -81,6 +81,7 @@ export default function MenuListComposition() {
 										Tipos de especialidades
 									</MenuItem>
 									<MenuItem onClick={() => handleRedirect('user')}>Usuários</MenuItem>
+									<MenuItem onClick={() => handleRedirect('credit')}>Créditos</MenuItem>
 								</MenuList>
 							</ClickAwayListener>
 						</Paper>

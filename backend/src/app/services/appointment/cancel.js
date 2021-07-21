@@ -4,7 +4,7 @@ import User from '../../models/User';
 import Appointment from '../../models/Appointment';
 import Speciality from '../../models/Speciality';
 import SpecialityType from '../../models/SpecialityType';
-import CreatePurseService from '../purse/create';
+import CreateCreditService from '../credit/create';
 
 import Mail from '../../../lib/Mail';
 
@@ -44,7 +44,7 @@ class AppointmentCancelService {
     await appointment.save();
 
     const description = `Crédito referente ao cancelamento do agendamento (${appointment.id}) de ${appointment.speciality.type.name} no ${dateFormatedComplete} com o médico ${appointment.provider.name}`;
-    CreatePurseService.run({
+    CreateCreditService.run({
       user_id,
       description,
       value: appointment.value,

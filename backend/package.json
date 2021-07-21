@@ -10,7 +10,7 @@
         "seeds": "yarn sequelize db:seed:all",
         "dev": "nodemon src/server.js",
         "dev:prod": "env-cmd -f.env.production nodemon src/server.js",
-        "build": "env-cmd -f.env.production sucrase ./src -d ./dist --transforms imports",
+        "build": "env-cmd -f.env.production sucrase ./src -d ./dist --transforms imports --copy-files",
         "start": "env-cmd -f.env.production node dist/server.js"
     },
     "dependencies": {

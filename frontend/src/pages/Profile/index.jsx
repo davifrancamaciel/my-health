@@ -13,7 +13,7 @@ import BackPage from 'components/BackPage'
 import Adress from './Tabs/Adress'
 import Password from './Tabs/Password'
 import PersonalData from './Tabs/PersonalData'
-import Purse from './Tabs/Purse'
+import Credit from './Tabs/Credit'
 
 import { Container, TabsContainer } from './styles'
 
@@ -91,7 +91,7 @@ function Profile () {
             <Tab icon={<FiLock size={26} />} label='Senha' {...tabsProps(2)} />
             <Tab
               icon={<FaMoneyBillWave size={26} />}
-              label='Carteira'
+              label='Crédito'
               {...tabsProps(3)}
             />
           </Tabs>
@@ -107,7 +107,7 @@ function Profile () {
             <Password />
           </TabPanel>
           <TabPanel value={value} index={3}>
-            <Purse />
+            <Credit />
           </TabPanel>
         </div>
       </TabsContainer>

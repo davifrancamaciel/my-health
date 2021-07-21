@@ -103,6 +103,9 @@ export default function TemporaryDrawer({ itensMenuUser }) {
 							<ListItem button className={classes.nested} onClick={() => history.push(`/user`)}>
 								<ListItemText primary="Usuários" />
 							</ListItem>
+							<ListItem button className={classes.nested} onClick={() => history.push(`/credit`)}>
+								<ListItemText primary="Créditos" />
+							</ListItem>
 						</List>
 					</Collapse>
 				</List>

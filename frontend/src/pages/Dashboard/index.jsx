@@ -21,6 +21,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (!profile.provider) {
       history.push('/appointment')
+      window.location.href = `${window.location.origin}/appointment`
     } else {
       loadDashboard()
     }
@@ -29,7 +30,7 @@ const Dashboard = () => {
   useEffect(() => {
     const [notification] = notificationsList
     if (notification.provider_id === profile.id && !notification.read) {
-      loadDashboard();
+      loadDashboard()
     }
   }, [notificationsList])
 

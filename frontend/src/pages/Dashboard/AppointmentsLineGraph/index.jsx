@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { Line } from 'react-chartjs-2'
-import numeral from 'numeral'
-import { formatPrice } from 'Utils/formatPrice'
-import api from 'services/api'
-import { PRIMARY_COLOR, SECONDARY_COLOR } from 'constants/colors'
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Line } from 'react-chartjs-2';
+import numeral from 'numeral';
+import { formatPrice } from 'Utils/formatPrice';
+import api from 'services/api';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from 'constants/colors';
 
 const options = {
   legend: {
@@ -20,8 +20,8 @@ const options = {
     mode: 'index',
     intersect: false,
     callbacks: {
-      label: function (tooltipItem, data) {
-        return formatPrice(tooltipItem.value)
+      label: function(tooltipItem, data) {
+        return formatPrice(tooltipItem.value);
       }
     }
   },
@@ -41,46 +41,50 @@ const options = {
         },
         ticks: {
           // Include a dollar sign in the ticks
-          callback: function (value, index, values) {
-            return numeral(value).format('0a')
+          callback: function(value, index, values) {
+            return numeral(value).format('0a');
           }
         }
       }
     ]
   }
-}
+};
 
 const buildChartData = data => {
   return data.map(item => ({
     y: Number(item.value),
     x: item.date
-  }))
-}
+  }));
+};
 
-function LineGraph ({ ...props }) {
-  const notificationsList = useSelector(state => state.notification.list)
-  const profile = useSelector(state => state.user.profile)
-  const [data, setData] = useState({})
-
-  useEffect(() => {
-    load()
-  }, [])
+function LineGraph({ ...props }) {
+  const notificationsList = useSelector(state => state.notification.list);
+  const profile = useSelector(state => state.user.profile);
+  const [data, setData] = useState({});
 
   useEffect(() => {
-    const [notification] = notificationsList
-    if (notification.provider_id === profile.id && !notification.read) {
-      load()
+    load();
+  }, []);
+
+  useEffect(() => {
+    const [notification] = notificationsList;
+    if (
+      notification &&
+      notification.provider_id === profile.id &&
+      !notification.read
+    ) {
+      load();
     }
-  }, [notificationsList])
+  }, [notificationsList]);
 
-  async function load () {
-    const response = await api.get('dashboard/appointments-graph')
-    let dataFormated = buildChartData(response.data)
-    setData(dataFormated)
+  async function load() {
+    const response = await api.get('dashboard/appointments-graph');
+    let dataFormated = buildChartData(response.data);
+    setData(dataFormated);
   }
   return (
     <div>
-      {data?.length > 0 && (
+      {data.length > 0 && (
         <div className={props.className}>
           <h3>Receita de agendamentos no ultimo ano</h3>
           <Line
@@ -98,7 +102,7 @@ function LineGraph ({ ...props }) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default LineGraph
+export default LineGraph;

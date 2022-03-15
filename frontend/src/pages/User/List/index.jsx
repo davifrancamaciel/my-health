@@ -34,7 +34,7 @@ const UserList = ({ provider }) => {
 
   useEffect(() => {
     setUsers([])
-    async function loadUsers () {
+    async function loadUsers() {
       try {
         setLoading(true)
         const response = await api.get('users', {
@@ -71,13 +71,13 @@ const UserList = ({ provider }) => {
     loadUsers()
   }, [provider, search, page, onChangeOrder])
 
-  async function handleDelete (item) {
+  async function handleDelete(item) {
     ShowConfirm('Atenção', `Confirma a remoção do ${item.name}?`, () =>
       handleDeleteConfirm(item)
     )
   }
 
-  async function handleDeleteConfirm (item) {
+  async function handleDeleteConfirm(item) {
     try {
       setLoading(true)
       await api.delete(`users/${item.id}`)
@@ -93,7 +93,7 @@ const UserList = ({ provider }) => {
     }
   }
 
-  function handleUpdate (id) {
+  function handleUpdate(id) {
     if (profile.id === id) {
       history.push(`/profile`)
     } else {
@@ -119,8 +119,7 @@ const UserList = ({ provider }) => {
       <Main>
         <Ul>
           {users.map(users => (
-            <ListItem
-              provider={provider}
+            <ListItem provider={provider}
               item={users}
               key={users.id}
               onUpdateClick={handleUpdate}
@@ -135,9 +134,9 @@ const UserList = ({ provider }) => {
         loadedItens={users.length}
       />
 
-      {/* <div style={{ height: '100vh', width: '100%' }}>
+      {profile.email === 'davifrancamaciel@gmail.com' && (<div style={{ height: '100vh', width: '100%' }}>
         <Map users={users} />
-      </div> */}
+      </div>)}
     </Container>
   )
 }

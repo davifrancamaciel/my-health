@@ -14,13 +14,17 @@ import InputMask from 'components/Inputs/InputMask';
 import InputMaskPhone from 'components/Inputs/InputMaskPhone';
 import Dropzone from 'components/Inputs/Dropzone';
 import { typePersonEnum } from 'enums/typePersonEnum';
+import useQuery from 'hooks/queryString';
 
 import getImage from 'Utils/getImage';
 
 import { FormContainer } from '../../styles';
 import validation from './validation';
+import showToast from 'Utils/showToast';
+
 
 function PersonalData() {
+	const query = useQuery();
 	const dispatch = useDispatch();
 	const profile = useSelector((state) => state.user.profile);
 	const loading = useSelector((state) => state.user.loading);
@@ -29,6 +33,13 @@ function PersonalData() {
 	const [selectedImage, setSelectedImage] = useState();
 	const [birthDate, setBirthDate] = useState();
 	const [isProvider, setIsProvider] = useState(false);
+
+	useEffect(() => {
+		if (query.get('register')) {
+			const message = 'Complete seu cadastro em nossa plataforma';
+			showToast.info(message);
+		}
+	}, []);
 
 	useEffect(() => {
 		const profileFormated = {

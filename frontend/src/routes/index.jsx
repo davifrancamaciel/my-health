@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 import Route from './Route';
 
+import Home from '../pages/Home';
 import SignUp from '../pages/SignUp';
 import SignIn from '../pages/SignIn';
 import Forgot from '../pages/Forgot';
@@ -34,7 +35,8 @@ import Profile from '../pages/Profile';
 const Routes = () => {
 	return (
 		<Switch>
-			<Route exact path="/" component={SignIn} />
+			<Route exact path="/" component={Home} />
+			<Route exact path="/login" component={SignIn} />
 
 			<Route exact path="/register" component={SignUp} />
 			<Route exact path="/register-provider" component={SignUp} />
@@ -43,13 +45,13 @@ const Routes = () => {
 			<Route exact path="/reset" component={Reset} />
 
 			<Route exact path="/dashboard" component={Dashboard} isPrivate />
-			
+
 			<Route exact path="/appointment" component={Appointment} isPrivate />
 			<Route exact path="/appointment/:specialityId/create" component={AppointmentCreateEdit} isPrivate />
 			<Route exact path="/appointment/details/:id" component={AppointmentDatails} isPrivate />
 
 			<Route exact path="/schedule" component={Schedule} isPrivate />
-			
+
 			<Route exact path="/profile" component={Profile} isPrivate />
 
 			<Route exact path="/report" component={Report} isPrivate />
@@ -63,9 +65,9 @@ const Routes = () => {
 			<Route exact path="/segment/edit/:id" component={SegmentCreateEdit} isPrivate roules={'ADMIN'} />
 
 			<Route exact path="/speciality-type" component={SpecialityTypeList} isPrivate roules={'ADMIN'} />
-			<Route exact path="/speciality-type/create"	component={SpecialityTypeCreateEdit} isPrivate roules={'ADMIN'}	/>
+			<Route exact path="/speciality-type/create" component={SpecialityTypeCreateEdit} isPrivate roules={'ADMIN'} />
 			<Route exact path="/speciality-type/edit/:id" component={SpecialityTypeCreateEdit} isPrivate roules={'ADMIN'} />
-			
+
 			<Route exact path="/user" component={UserList} isPrivate roules={'ADMIN'} />
 			<Route exact path="/user/edit/:id" component={UserCreateEdit} isPrivate roules={'ADMIN'} />
 

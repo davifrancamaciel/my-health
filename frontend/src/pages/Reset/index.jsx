@@ -64,8 +64,8 @@ const Reset = () => {
               placeholder="Confirme a nova senha"
             />
             <SubmitButton loading={loading} text={'Redefinir'} />
-            <Link to="/">Já tenho conta</Link>
-            <Link to="/register">Criar conta</Link>
+            <Link to="/login">Já tenho conta</Link>
+            <Link to="/">Inicio</Link>
           </Form>
         </AnimationContainerLeft>
       </Content>

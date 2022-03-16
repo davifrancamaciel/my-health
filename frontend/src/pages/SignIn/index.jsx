@@ -65,7 +65,7 @@ const SignIn = () => {
             <Input name="email" type="email" placeholder="Seu e-mail" />
             <Input name="password" type="password" placeholder="Sua senha" />
             <SubmitButton loading={loading} text={'Acessar'} />
-            <Link to="/register">Criar conta </Link>
+            <Link to="/">Inicio</Link>
             <Link to="/forgot">Esqueci minha senha</Link>
           </Form>
         </AnimationContainerLeft>

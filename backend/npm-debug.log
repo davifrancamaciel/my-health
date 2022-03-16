@@ -1,0 +1,51 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'view',
+1 verbose cli   '--json',
+1 verbose cli   'cors',
+1 verbose cli   'description',
+1 verbose cli   'dist-tags.latest',
+1 verbose cli   'homepage',
+1 verbose cli   'version' ]
+2 info using npm@3.10.8
+3 info using node@v6.9.1
+4 silly mapToRegistry name cors
+5 silly mapToRegistry using default registry
+6 silly mapToRegistry registry https://registry.npmjs.org/
+7 silly mapToRegistry data Result {
+7 silly mapToRegistry   raw: 'cors',
+7 silly mapToRegistry   scope: null,
+7 silly mapToRegistry   escapedName: 'cors',
+7 silly mapToRegistry   name: 'cors',
+7 silly mapToRegistry   rawSpec: '',
+7 silly mapToRegistry   spec: 'latest',
+7 silly mapToRegistry   type: 'tag' }
+8 silly mapToRegistry uri https://registry.npmjs.org/cors
+9 verbose request uri https://registry.npmjs.org/cors
+10 verbose request no auth needed
+11 info attempt registry request try #1 at 11:57:36
+12 verbose request id 77d1a0592a9fd7c1
+13 http request GET https://registry.npmjs.org/cors
+14 info retry will retry, error on last attempt: Error: write EPROTO 101057795:error:1408D07B:SSL routines:ssl3_get_key_exchange:bad signature:openssl\ssl\s3_clnt.c:2010:
+15 info attempt registry request try #2 at 11:57:47
+16 http request GET https://registry.npmjs.org/cors
+17 info retry will retry, error on last attempt: Error: write EPROTO 101057795:error:1408D07B:SSL routines:ssl3_get_key_exchange:bad signature:openssl\ssl\s3_clnt.c:2010:
+18 info attempt registry request try #3 at 11:58:47
+19 http request GET https://registry.npmjs.org/cors
+20 verbose stack Error: write EPROTO 101057795:error:1408D07B:SSL routines:ssl3_get_key_exchange:bad signature:openssl\ssl\s3_clnt.c:2010:
+20 verbose stack
+20 verbose stack     at exports._errnoException (util.js:1026:11)
+20 verbose stack     at WriteWrap.afterWrite (net.js:799:14)
+21 verbose cwd d:\DAVI\BKP-PC\Documents\DESENVOLVIMENTO\react\roket-seat\upis-saude\backend
+22 error Windows_NT 10.0.19041
+23 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "view" "--json" "cors" "description" "dist-tags.latest" "homepage" "version"
+24 error node v6.9.1
+25 error npm  v3.10.8
+26 error code EPROTO
+27 error errno EPROTO
+28 error syscall write
+29 error write EPROTO 101057795:error:1408D07B:SSL routines:ssl3_get_key_exchange:bad signature:openssl\ssl\s3_clnt.c:2010:
+30 error If you need help, you may report this error at:
+30 error     <https://github.com/npm/npm/issues>
+31 verbose exit [ 1, true ]

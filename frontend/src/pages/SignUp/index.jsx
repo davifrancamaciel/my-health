@@ -113,8 +113,9 @@ const SignUp = () => {
 							</a>
 						</div>
 						<SubmitButton loading={loading} text={'Criar conta'} />
-						<Link to="/">Já tenho conta</Link>
+						<Link to="/login">Já tenho conta</Link>
 						<Link to="/forgot">Esqueci minha senha</Link>
+						<Link to="/">Inicio</Link>
 					</Form>
 				</AnimationContainerRight>
 			</Content>

@@ -36,8 +36,8 @@ const Forgot = () => {
 					<Form schema={validation()} onSubmit={handleSubmit}>
 						<Input name="email" type="email" placeholder="Seu e-mail" />
 						<SubmitButton loading={loading} text={'Esqueci a senha'} />
-						<Link to="/">Já tenho conta</Link>
-						<Link to="/register">Criar conta</Link>
+						<Link to="/login">Já tenho conta</Link>
+						<Link to="/">Inicio</Link>
 					</Form>
 				</AnimationContainerLeft>
 			</Content>
